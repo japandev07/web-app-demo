@@ -11,7 +11,7 @@
         based on the recommendations of the Application Developer's Guide.
     </description>
 
-    <servlet>
+    <!-- <servlet>
         <servlet-name>MainServlet</servlet-name>
         <servlet-class>Main</servlet-class>
     </servlet>
@@ -19,6 +19,6 @@
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/test</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping> -->
 
 </web-app>
