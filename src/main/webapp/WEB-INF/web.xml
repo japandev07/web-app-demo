@@ -16,7 +16,7 @@
 		<servlet-class>com.wffwebdemo.wffwebdemoproject.server.servlet.IndexPageServlet</servlet-class>
 	</servlet>
 	
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>JettyWSServerForIndexPageServlet</servlet-name>
 		<servlet-class>com.wffwebdemo.wffwebdemoproject.server.ws.servlet.JettyWSServerForIndexPageServlet</servlet-class>
 	</servlet>
@@ -24,7 +24,7 @@
 	<servlet-mapping>
 		<servlet-name>JettyWSServerForIndexPageServlet</servlet-name>
 		<url-pattern>/ws-for-index-page</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 
 	<servlet-mapping>
 		<servlet-name>MainServlet</servlet-name>
