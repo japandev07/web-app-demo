@@ -14,7 +14,7 @@ public class IndexPage extends BrowserPage {
     @Override
     public String webSocketUrl() {
         try {
-            return "wss://"+InetAddress.getLocalHost().getHostAddress()+"/wffwebdemoproject/ws-for-index-page";
+            return "ws://"+InetAddress.getLocalHost().getHostAddress()+"/wffwebdemoproject/ws-for-index-page";
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
