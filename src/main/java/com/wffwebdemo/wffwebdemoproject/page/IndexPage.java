@@ -12,7 +12,8 @@ public class IndexPage extends BrowserPage {
     public String webSocketUrl() {
         try {
 //            return "wss://"+InetAddress.getLocalHost().getHostAddress()+"/ws-for-index-page";
-            return "wss://wffweb.herokuapp.com:"+System.getenv("PORT")+"/ws-for-index-page";
+//            return "wss://wffweb.herokuapp.com:"+System.getenv("PORT")+"/ws-for-index-page";
+            return "wss://wffweb.herokuapp.com/ws-for-index-page";
         } catch (Exception e) {
             e.printStackTrace();
         }
