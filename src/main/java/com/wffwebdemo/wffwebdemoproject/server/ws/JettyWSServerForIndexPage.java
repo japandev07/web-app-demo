@@ -55,9 +55,10 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         this.wffInstanceId = session.getUpgradeRequest().getParameterMap()
                 .get("wffInstanceId").get(0);
         
-        // never to close the session on inactivity
-        httpSession.setMaxInactiveInterval(-1);
-
+        if (httpSession != null) {
+            // never to close the session on inactivity
+            httpSession.setMaxInactiveInterval(-1);
+        }
         browserPage = BrowserPageContext.INSTANCE.getBrowserPage(wffInstanceId);
 
         if (browserPage == null) {
@@ -133,8 +134,9 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         // TODO Auto-generated method stub
         super.onWebSocketClose(statusCode, reason);
 
-        httpSession.setMaxInactiveInterval(60 * 30);
-
+        if (httpSession != null) {
+            httpSession.setMaxInactiveInterval(60 * 30);
+        }
         BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId);
     }
 
