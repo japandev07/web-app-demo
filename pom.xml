@@ -48,6 +48,7 @@
 						<include>target/dependency/jetty-runner.jar</include>
 						<include>target/dependency/wffweb.jar</include>
 						<include>target/dependency/servlet.jar</include>
+						<include>target/dependency/websocket.jar</include>
 					</includes>
 				</configuration>
 			</plugin>
@@ -80,6 +81,12 @@
 									<artifactId>javax.servlet-api</artifactId>
 									<version>3.1.0</version>
 									<destFileName>servlet.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>javax.websocket</groupId>
+									<artifactId>javax.websocket-api</artifactId>
+									<version>1.1</version>
+									<destFileName>websocket.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
