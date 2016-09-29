@@ -10,7 +10,7 @@ public class IndexPage extends BrowserPage {
 
     @Override
     public String webSocketUrl() {
-        return "ws://wffweb.herokuapp.com/wffwebdemoproject/ws-for-index-page";
+        return "wss://wffweb.herokuapp.com/wffwebdemoproject/ws-for-index-page";
     }
 
     @Override
