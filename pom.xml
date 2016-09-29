@@ -13,7 +13,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<jetty-version>9.3.2.v20150730</jetty-version>
+		<jetty-version>9.2.7.v20150116</jetty-version>
 	</properties>
 
 	<dependencies>
@@ -58,8 +58,6 @@
 					<includes>
 						<include>target/dependency/jetty-runner.jar</include>
 					</includes>
-					<source>1.8</source>
-					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
