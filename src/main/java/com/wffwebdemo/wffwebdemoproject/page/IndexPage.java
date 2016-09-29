@@ -1,8 +1,5 @@
 package com.wffwebdemo.wffwebdemoproject.page;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
 import com.wffwebdemo.wffwebdemoproject.page.layout.IndexPageLayout;
@@ -15,7 +12,7 @@ public class IndexPage extends BrowserPage {
     public String webSocketUrl() {
         try {
 //            return "wss://"+InetAddress.getLocalHost().getHostAddress()+"/ws-for-index-page";
-            return "ws://wffweb.herokuapp.com/ws-for-index-page";
+            return "wss://wffweb.herokuapp.com/ws-for-index-page";
         } catch (Exception e) {
             e.printStackTrace();
         }
