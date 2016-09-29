@@ -47,6 +47,7 @@
 					<includes>
 						<include>target/dependency/jetty-runner.jar</include>
 						<include>target/dependency/wffweb.jar</include>
+						<include>target/dependency/servlet.jar</include>
 					</includes>
 				</configuration>
 			</plugin>
@@ -73,6 +74,12 @@
 									<artifactId>wffweb</artifactId>
 									<version>2.0.2</version>
 									<destFileName>wffweb.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>javax.servlet</groupId>
+									<artifactId>javax.servlet-api</artifactId>
+									<version>3.1.0</version>
+									<destFileName>servlet.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
