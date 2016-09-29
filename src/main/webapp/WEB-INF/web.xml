@@ -6,15 +6,15 @@
 
 	<display-name>webfirmframework-wffweb</display-name>
 	<welcome-file-list>
-		<welcome-file>/</welcome-file>
+		<welcome-file>index</welcome-file>
 <!-- 		<welcome-file>index.html</welcome-file> -->
 	</welcome-file-list>
 
 
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>MainServlet</servlet-name>
 		<servlet-class>com.wffwebdemo.wffwebdemoproject.server.servlet.IndexPageServlet</servlet-class>
-	</servlet>
+	</servlet> -->
 	
 	<!-- <servlet>
 		<servlet-name>JettyWSServerForIndexPageServlet</servlet-name>
@@ -26,10 +26,10 @@
 		<url-pattern>/ws-for-index-page</url-pattern>
 	</servlet-mapping> -->
 
-	<servlet-mapping>
+	<!-- <servlet-mapping>
 		<servlet-name>MainServlet</servlet-name>
 		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 	
 	<session-config>
 		<session-timeout>30</session-timeout>
