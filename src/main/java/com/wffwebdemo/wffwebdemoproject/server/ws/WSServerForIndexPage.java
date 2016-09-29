@@ -2,6 +2,7 @@ package com.wffwebdemo.wffwebdemoproject.server.ws;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -38,6 +39,8 @@ public class WSServerForIndexPage extends Configurator {
     public void modifyHandshake(ServerEndpointConfig config,
             HandshakeRequest request, HandshakeResponse response) {
 
+        response.getHeaders().put("Access-Control-Allow-Origin", Arrays.asList("*"));
+        
         super.modifyHandshake(config, request, response);
 
         HttpSession httpSession = (HttpSession) request.getHttpSession();
@@ -45,6 +48,8 @@ public class WSServerForIndexPage extends Configurator {
 
         httpSession = (HttpSession) request.getHttpSession();
         System.out.println("modifyHandshake " + httpSession.getId());
+        
+        
 
     }
 
