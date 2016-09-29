@@ -5,11 +5,15 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     version="2.4">
 
-    <display-name>HelloWorld Application</display-name>
-    <description>
-        This is a simple web application with a source code organization
-        based on the recommendations of the Application Developer's Guide.
-    </description>
+   <display-name>webfirmframework-wffweb</display-name>
+	<welcome-file-list>
+		<welcome-file>index</welcome-file>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
 
     <!-- <servlet>
         <servlet-name>MainServlet</servlet-name>
