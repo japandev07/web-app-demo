@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-	version="2.4">
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
 
 	<display-name>webfirmframework-wffweb</display-name>
 	<welcome-file-list>
@@ -10,18 +10,29 @@
 <!-- 		<welcome-file>index.html</welcome-file> -->
 	</welcome-file-list>
 
-	<session-config>
-		<session-timeout>30</session-timeout>
-	</session-config>
 
 	<servlet>
 		<servlet-name>MainServlet</servlet-name>
 		<servlet-class>com.wffwebdemo.wffwebdemoproject.server.servlet.IndexPageServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>JettyWSServerForIndexPageServlet</servlet-name>
+		<servlet-class>com.wffwebdemo.wffwebdemoproject.server.ws.servlet.JettyWSServerForIndexPageServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>JettyWSServerForIndexPageServlet</servlet-name>
+		<url-pattern>/ws-for-index-page</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>MainServlet</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
 
 </web-app>
