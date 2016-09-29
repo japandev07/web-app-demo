@@ -1,1 +1,1 @@
-web: java $JAVA_TOOL_OPTIONS -jar target/dependency/newrelic-agent.jar --port $PORT target/*.war
+web: java -jar target/dependency/newrelic-agent.jar --port $PORT target/*.war
