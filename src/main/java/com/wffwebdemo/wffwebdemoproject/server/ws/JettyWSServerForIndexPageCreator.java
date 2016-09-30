@@ -25,12 +25,15 @@ public class JettyWSServerForIndexPageCreator implements WebSocketCreator {
     public Object createWebSocket(ServletUpgradeRequest request,
             ServletUpgradeResponse response) {
 
-//        for (String subprotocol : request.getSubProtocols()) {
-//            if ("binary".equals(subprotocol)) {
-//                response.setAcceptedSubProtocol(subprotocol);
-//                return binaryEcho;
-//            }
-//        }
+        System.out
+                .println("JettyWSServerForIndexPageCreator.createWebSocket()");
+
+        for (String subprotocol : request.getSubProtocols()) {
+            if ("binary".equals(subprotocol)) {
+                System.out.println("binary equals subprotocol");
+                response.setAcceptedSubProtocol(subprotocol);
+            }
+        }
 
         return new JettyWSServerForIndexPage(
                 request.getHttpServletRequest().getSession());
