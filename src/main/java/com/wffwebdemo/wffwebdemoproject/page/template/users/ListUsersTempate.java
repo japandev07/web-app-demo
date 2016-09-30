@@ -32,7 +32,6 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
     
     private TBody tBody;
 
-    @SuppressWarnings("unused")
     private DocumentModel documentModel;
 
     private List<AbstractHtml> previousRows;
@@ -195,6 +194,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
 
         if (nextRowsButton.equals(event.getSourceTag())) {
             addRows();
+            countryColumnStyle.addCssProperties("nextRowsButton");
         } else if (markGreenButton.equals(event.getSourceTag())) {
             LOGGER.info("Mark column green");
             countryColumnStyle.addCssProperties("background:green");
