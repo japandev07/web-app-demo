@@ -58,11 +58,13 @@ public class IndexPageLayout extends Html {
                 DocumentModel documentModel = new DocumentModel();
                 
                 Div bodyDiv = new Div(this);
-                bodyDiv.appendChild(new LoginTemplate(documentModel));
-                
                 documentModel.setBodyDiv(bodyDiv);
+                
                 documentModel.setPageTitle(pageTitle);
                 documentModel.setHttpSession(httpSession);
+                
+                
+                bodyDiv.appendChild(new LoginTemplate(documentModel));
                 
             }
 
