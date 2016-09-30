@@ -126,7 +126,6 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
                     // https://bz.apache.org/bugzilla/show_bug.cgi?id=56026
                     // session.getAsyncRemote().sendBinary(ByteBuffer.wrap(message));
                 } catch (Exception e) {
-                    e.printStackTrace();
                     throw new PushFailedException(e.getMessage(), e);
                 }
             }
