@@ -8,9 +8,8 @@ import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 
+@SuppressWarnings("serial")
 public class ServerLogPageLayout extends Html {
-
-    private static final long serialVersionUID = 1L;
 
     private Body body;
 
@@ -20,7 +19,6 @@ public class ServerLogPageLayout extends Html {
         develop();
     }
 
-    @SuppressWarnings("serial")
     private void develop() {
 
         new Head(this) {
@@ -37,6 +35,7 @@ public class ServerLogPageLayout extends Html {
 
     }
 
+    
     public void log(final String msg) {
         Div logDiv = new Div(null) {
             {

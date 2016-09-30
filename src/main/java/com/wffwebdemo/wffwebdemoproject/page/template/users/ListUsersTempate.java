@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
 import com.webfirmframework.wffweb.tag.html.Br;
 import com.webfirmframework.wffweb.tag.html.attribute.event.ServerAsyncMethod;
@@ -20,6 +21,7 @@ import com.webfirmframework.wffweb.tag.html.tables.Th;
 import com.webfirmframework.wffweb.tag.html.tables.Tr;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.webfirmframework.wffweb.wffbm.data.WffBMObject;
+import com.wffwebdemo.wffwebdemoproject.page.ServerLogPage;
 import com.wffwebdemo.wffwebdemoproject.page.model.DocumentModel;
 
 @SuppressWarnings("serial")
@@ -196,12 +198,14 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
         } else if (markGreenButton.equals(event.getSourceTag())) {
             LOGGER.info("Mark column green");
             countryColumnStyle.addCssProperties("background:green");
+            displayInServerLogPage("Mark column green");
         } else if (markVioletButton.equals(event.getSourceTag())) {
             LOGGER.info("Mark column violet");
             countryColumnStyle.addCssProperties("background:violet");
+            displayInServerLogPage("Mark column violet");
         } else if (removeColoumnStyleButton.equals(event.getSourceTag())) {
             LOGGER.info("remove style");
-            
+            displayInServerLogPage("remove style");
             AbstractHtml[] ownerTags = countryColumnStyle.getOwnerTags();
             
             for (AbstractHtml ownerTag : ownerTags) {
@@ -210,6 +214,16 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
         }
 
         return null;
+    }
+    
+    private void displayInServerLogPage(String msg) {
+        Object serverLogPageInstanceId = documentModel.getHttpSession()
+                .getAttribute("serverLogPageInstanceId");
+        if (serverLogPageInstanceId != null) {
+            ServerLogPage serverLogPage = (ServerLogPage) BrowserPageContext.INSTANCE
+                    .getBrowserPage(serverLogPageInstanceId.toString());
+            serverLogPage.log(msg);
+        }
     }
 
 }
