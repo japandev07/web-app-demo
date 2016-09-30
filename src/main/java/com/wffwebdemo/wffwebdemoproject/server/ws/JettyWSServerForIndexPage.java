@@ -17,6 +17,7 @@ package com.wffwebdemo.wffwebdemoproject.server.ws;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,35 +30,33 @@ import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.server.page.WebSocketPushListener;
 
 public class JettyWSServerForIndexPage extends WebSocketAdapter {
+    
+    private static final Logger LOGGER = Logger
+            .getLogger(JettyWSServerForIndexPage.class.getName());
 
     private BrowserPage browserPage;
     private HttpSession httpSession;
     private String wffInstanceId;
 
     public JettyWSServerForIndexPage() {
-        // TODO Auto-generated constructor stub
-        
     }
 
     public JettyWSServerForIndexPage(HttpSession httpSession) {
-        
-        
         this.httpSession = httpSession;
-
     }
-    
 
     @Override
     public void onWebSocketConnect(final Session session) {
         // TODO Auto-generated method stub
         super.onWebSocketConnect(session);
-        
+
         this.wffInstanceId = session.getUpgradeRequest().getParameterMap()
                 .get("wffInstanceId").get(0);
-        
+
         if (httpSession != null) {
             // never to close the session on inactivity
             httpSession.setMaxInactiveInterval(-1);
+            LOGGER.info("httpSession.setMaxInactiveInterval(-1)");
         }
         browserPage = BrowserPageContext.INSTANCE.getBrowserPage(wffInstanceId);
 
@@ -136,14 +135,16 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
 
         if (httpSession != null) {
             httpSession.setMaxInactiveInterval(60 * 30);
+            LOGGER.info("httpSession.setMaxInactiveInterval(60 * 30)");
         }
         BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId);
     }
 
     @Override
     public void onWebSocketError(Throwable cause) {
-        // TODO Auto-generated method stub
         super.onWebSocketError(cause);
-        cause.printStackTrace(System.err);
+        
+        LOGGER.severe(cause.getMessage());
+//        cause.printStackTrace(System.err);
     }
 }
