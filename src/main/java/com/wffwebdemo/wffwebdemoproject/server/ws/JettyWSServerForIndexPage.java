@@ -90,13 +90,13 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             // e.printStackTrace();
             // }
 
-         // or refresh the browser
-            try {
-                session.getRemote().sendBytes(
-                        BrowserPageAction.RELOAD.getActionByteBuffer());
-            } catch (Exception e) {
-                LOGGER.severe(e.toString());
-            }
+         // or refresh the browser in later version
+//            try {
+//                session.getRemote().sendBytes(
+//                        BrowserPageAction.RELOAD.getActionByteBuffer());
+//            } catch (Exception e) {
+//                LOGGER.severe(e.toString());
+//            }
             session.close();
             return;
 
