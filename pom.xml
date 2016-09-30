@@ -22,27 +22,19 @@
 			<artifactId>jetty-runner</artifactId>
 			<version>${jetty-version}</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-plus</artifactId>
-			<version>${jetty-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-jndi</artifactId>
-			<version>${jetty-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-annotations</artifactId>
-			<version>${jetty-version}</version>
-		</dependency>
 
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-servlet</artifactId>
-			<version>${jetty-version}</version>
-		</dependency> -->
+		
+
+		<!-- <dependency> <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-distribution</artifactId> 
+			<version>9.2.9.v20150224</version> </dependency> -->
+
+		<!-- <dependency> <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-plus</artifactId> 
+			<version>${jetty-version}</version> </dependency> <dependency> <groupId>org.eclipse.jetty</groupId> 
+			<artifactId>jetty-jndi</artifactId> <version>${jetty-version}</version> </dependency> 
+			<dependency> <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-annotations</artifactId> 
+			<version>${jetty-version}</version> </dependency> <dependency> <groupId>org.eclipse.jetty</groupId> 
+			<artifactId>jetty-servlet</artifactId> <version>${jetty-version}</version> 
+			</dependency> -->
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -50,12 +42,12 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>javax.websocket</groupId>
 			<artifactId>javax.websocket-api</artifactId>
 			<version>1.1</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.webfirmframework</groupId>
 			<artifactId>wffweb</artifactId>
