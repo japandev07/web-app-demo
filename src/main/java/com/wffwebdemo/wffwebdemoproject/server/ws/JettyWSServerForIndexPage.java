@@ -15,7 +15,6 @@
  */
 package com.wffwebdemo.wffwebdemoproject.server.ws;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.logging.Logger;
 
@@ -126,7 +125,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
                     // times
                     // https://bz.apache.org/bugzilla/show_bug.cgi?id=56026
                     // session.getAsyncRemote().sendBinary(ByteBuffer.wrap(message));
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     throw new PushFailedException(e.getMessage(), e);
                 }
