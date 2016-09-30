@@ -11,6 +11,7 @@ import com.webfirmframework.wffweb.tag.html.attribute.Target;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
 import com.webfirmframework.wffweb.tag.html.links.A;
 import com.webfirmframework.wffweb.tag.html.metainfo.Head;
+import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.wffwebdemo.wffwebdemoproject.page.model.DocumentModel;
 import com.wffwebdemo.wffwebdemoproject.page.template.LoginTemplate;
@@ -55,7 +56,10 @@ public class IndexPageLayout extends Html {
                 new Br(this);
                 
                 DocumentModel documentModel = new DocumentModel();
-                documentModel.setBody(this);
+                
+                Div bodyDiv = new Div(this);
+                
+                documentModel.setBodyDiv(bodyDiv);
                 documentModel.setPageTitle(pageTitle);
                 documentModel.setHttpSession(httpSession);
                 appendChild(new LoginTemplate(documentModel));

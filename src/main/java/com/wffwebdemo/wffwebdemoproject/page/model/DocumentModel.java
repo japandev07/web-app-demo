@@ -4,10 +4,11 @@ import javax.servlet.http.HttpSession;
 
 import com.webfirmframework.wffweb.tag.html.Body;
 import com.webfirmframework.wffweb.tag.html.TitleTag;
+import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 
 public class DocumentModel {
 
-    private Body body;
+    private Div bodyDiv;
 
     private TitleTag pageTitle;
 
@@ -16,12 +17,12 @@ public class DocumentModel {
     public DocumentModel() {
     }
 
-    public Body getBody() {
-        return body;
+    public Div getBodyDiv() {
+        return bodyDiv;
     }
 
-    public void setBody(Body body) {
-        this.body = body;
+    public void setBodyDiv(Div bodyDiv) {
+        this.bodyDiv = bodyDiv;
     }
 
     public TitleTag getPageTitle() {

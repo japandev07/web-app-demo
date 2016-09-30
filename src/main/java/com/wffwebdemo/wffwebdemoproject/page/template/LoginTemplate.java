@@ -173,7 +173,7 @@ public class LoginTemplate extends Div implements ServerAsyncMethod {
                     // parent.addInnerHtml(new NoTag(null, "login success"));
                     DashboardLayout dashboard = new DashboardLayout(
                             documentModel);
-                    documentModel.getBody().addInnerHtml(dashboard);
+                    documentModel.getBodyDiv().addInnerHtml(dashboard);
 
                 } else {
 

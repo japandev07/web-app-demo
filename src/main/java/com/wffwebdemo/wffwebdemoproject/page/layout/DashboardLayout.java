@@ -71,7 +71,7 @@ public class DashboardLayout extends Div implements ServerAsyncMethod {
         if (event.getSourceTag().equals(logoutButton)) {
 
             LoginTemplate loginTemplate = new LoginTemplate(documentModel);
-            documentModel.getBody().addInnerHtml(loginTemplate);
+            documentModel.getBodyDiv().addInnerHtml(loginTemplate);
             
         } else if (event.getSourceTag().equals(listUsersButton)) {
 
