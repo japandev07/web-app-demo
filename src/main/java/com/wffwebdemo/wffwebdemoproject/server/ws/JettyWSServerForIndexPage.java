@@ -91,8 +91,12 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             // }
 
          // or refresh the browser
-            session.getRemote().sendBytes(
-                    BrowserPageAction.RELOAD.getActionByteBuffer());
+            try {
+                session.getRemote().sendBytes(
+                        BrowserPageAction.RELOAD.getActionByteBuffer());
+            } catch (Exception e) {
+                LOGGER.severe(e.toString());
+            }
             session.close();
             return;
 
