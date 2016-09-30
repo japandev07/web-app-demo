@@ -206,13 +206,12 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             displayInServerLogPage("Mark column violet");
         } else if (removeColoumnStyleButton.equals(event.getSourceTag())) {
             LOGGER.info("remove style");
-            //to remove all styles at a time
-            countryColumnStyle.getCssProperties().clear();
-//            AbstractHtml[] ownerTags = countryColumnStyle.getOwnerTags();
-//            
-//            for (AbstractHtml ownerTag : ownerTags) {
-//                ownerTag.removeAttributes(countryColumnStyle.getAttributeName());
-//            }
+            
+            AbstractHtml[] ownerTags = countryColumnStyle.getOwnerTags();
+            
+            for (AbstractHtml ownerTag : ownerTags) {
+                ownerTag.removeAttributes(countryColumnStyle.getAttributeName());
+            }
             displayInServerLogPage("remove style");
         }
 
