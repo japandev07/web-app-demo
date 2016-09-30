@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
-import com.wffwebdemo.wffwebdemoproject.server.ws.JettyWSServerForIndexPage;
+import com.wffwebdemo.wffwebdemoproject.server.ws.JettyWSServerForIndexPageCreator;
 
 @WebServlet(name = "Index page WebSocket Servlet", urlPatterns = {
         "/ws-for-index-page" })
@@ -20,9 +20,9 @@ public class JettyWSServerForIndexPageServlet extends WebSocketServlet {
 
         // in milliseconds
         servletFactory.getPolicy().setIdleTimeout(1000 * 60 * 30);
-        servletFactory.register(JettyWSServerForIndexPage.class);
+//        servletFactory.register(JettyWSServerForIndexPage.class);
 
-        // servletFactory.setCreator(new JettyWSServerForIndexPageCreator());
+         servletFactory.setCreator(new JettyWSServerForIndexPageCreator());
 
     }
 
