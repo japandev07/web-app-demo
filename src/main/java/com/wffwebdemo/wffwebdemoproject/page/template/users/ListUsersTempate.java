@@ -201,11 +201,13 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             countryColumnStyle.addCssProperties("background:violet");
         } else if (removeColoumnStyleButton.equals(event.getSourceTag())) {
             LOGGER.info("remove style");
-            AbstractHtml[] ownerTags = countryColumnStyle.getOwnerTags();
             
-            for (AbstractHtml ownerTag : ownerTags) {
-                ownerTag.removeAttributes(countryColumnStyle.getAttributeName());
-            }
+            countryColumnStyle.removeCssProperty("background");
+//            AbstractHtml[] ownerTags = countryColumnStyle.getOwnerTags();
+//            
+//            for (AbstractHtml ownerTag : ownerTags) {
+//                ownerTag.removeAttributes(countryColumnStyle.getAttributeName());
+//            }
         }
 
         return null;
