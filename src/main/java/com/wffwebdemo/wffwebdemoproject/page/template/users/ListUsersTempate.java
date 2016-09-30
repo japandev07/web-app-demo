@@ -2,6 +2,7 @@ package com.wffwebdemo.wffwebdemoproject.page.template.users;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
 import com.webfirmframework.wffweb.tag.html.Br;
@@ -24,6 +25,9 @@ import com.wffwebdemo.wffwebdemoproject.page.model.DocumentModel;
 @SuppressWarnings("serial")
 public class ListUsersTempate extends Div implements ServerAsyncMethod {
 
+    private static final Logger LOGGER = Logger
+            .getLogger(ListUsersTempate.class.getName());
+    
     private TBody tBody;
 
     @SuppressWarnings("unused")
@@ -190,13 +194,13 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
         if (nextRowsButton.equals(event.getSourceTag())) {
             addRows();
         } else if (markGreenButton.equals(event.getSourceTag())) {
-            System.out.println("Mark column green");
+            LOGGER.info("Mark column green");
             countryColumnStyle.addCssProperties("background:green");
         } else if (markVioletButton.equals(event.getSourceTag())) {
-            System.out.println("Mark column violet");
+            LOGGER.info("Mark column violet");
             countryColumnStyle.addCssProperties("background:violet");
         } else if (removeColoumnStyleButton.equals(event.getSourceTag())) {
-            System.out.println("remove style");
+            LOGGER.info("remove style");
             AbstractHtml[] ownerTags = countryColumnStyle.getOwnerTags();
             
             for (AbstractHtml ownerTag : ownerTags) {
