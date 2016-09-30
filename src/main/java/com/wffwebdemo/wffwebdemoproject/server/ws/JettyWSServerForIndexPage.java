@@ -30,13 +30,15 @@ import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.server.page.WebSocketPushListener;
 
 public class JettyWSServerForIndexPage extends WebSocketAdapter {
-    
+
     private static final Logger LOGGER = Logger
             .getLogger(JettyWSServerForIndexPage.class.getName());
 
     private BrowserPage browserPage;
     private HttpSession httpSession;
     private String wffInstanceId;
+
+    private static int totalConnections;
 
     public JettyWSServerForIndexPage() {
     }
@@ -49,6 +51,9 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
     public void onWebSocketConnect(final Session session) {
         // TODO Auto-generated method stub
         super.onWebSocketConnect(session);
+
+        totalConnections++;
+        LOGGER.info("onWebSocketConnect");
 
         this.wffInstanceId = session.getUpgradeRequest().getParameterMap()
                 .get("wffInstanceId").get(0);
@@ -133,7 +138,10 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         // TODO Auto-generated method stub
         super.onWebSocketClose(statusCode, reason);
 
-        if (httpSession != null) {
+        totalConnections--;
+        LOGGER.info("onWebSocketClose");
+
+        if (httpSession != null && totalConnections == 0) {
             httpSession.setMaxInactiveInterval(60 * 30);
             LOGGER.info("httpSession.setMaxInactiveInterval(60 * 30)");
         }
@@ -143,8 +151,8 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
     @Override
     public void onWebSocketError(Throwable cause) {
         super.onWebSocketError(cause);
-        
+
         LOGGER.severe(cause.getMessage());
-//        cause.printStackTrace(System.err);
+        // cause.printStackTrace(System.err);
     }
 }

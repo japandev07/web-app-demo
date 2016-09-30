@@ -1,5 +1,7 @@
 package com.wffwebdemo.wffwebdemoproject.page.layout;
 
+import javax.servlet.http.HttpSession;
+
 import com.webfirmframework.wffweb.tag.html.Body;
 import com.webfirmframework.wffweb.tag.html.Html;
 import com.webfirmframework.wffweb.tag.html.TitleTag;
@@ -15,8 +17,11 @@ public class IndexPageLayout extends Html {
 
     private TitleTag pageTitle;
 
-    public IndexPageLayout() {
+    private HttpSession httpSession;
+
+    public IndexPageLayout(HttpSession httpSession) {
         super(null);
+        this.httpSession = httpSession;
         super.setPrependDocType(true);
         develop();
     }
@@ -40,6 +45,7 @@ public class IndexPageLayout extends Html {
                 DocumentModel documentModel = new DocumentModel();
                 documentModel.setBody(this);
                 documentModel.setPageTitle(pageTitle);
+                documentModel.setHttpSession(httpSession);
                 appendChild(new LoginTemplate(documentModel));
             }
 
