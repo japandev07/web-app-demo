@@ -38,8 +38,6 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
     private HttpSession httpSession;
     private String wffInstanceId;
 
-    private static int totalConnections;
-
     public JettyWSServerForIndexPage() {
     }
 
@@ -52,13 +50,24 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         // TODO Auto-generated method stub
         super.onWebSocketConnect(session);
 
-        totalConnections++;
         LOGGER.info("onWebSocketConnect");
 
         this.wffInstanceId = session.getUpgradeRequest().getParameterMap()
                 .get("wffInstanceId").get(0);
 
         if (httpSession != null) {
+            
+            Object totalCons = httpSession.getAttribute("totalConnections");
+            
+            int totalConnections = 0;
+            
+            if (totalCons != null) {
+                totalConnections = (int) totalCons;
+            }
+            
+            totalConnections++;
+            httpSession.setAttribute("totalConnections", totalConnections);
+            
             // never to close the session on inactivity
             httpSession.setMaxInactiveInterval(-1);
             LOGGER.info("httpSession.setMaxInactiveInterval(-1)");
@@ -138,11 +147,27 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         // TODO Auto-generated method stub
         super.onWebSocketClose(statusCode, reason);
 
-        totalConnections--;
         LOGGER.info("onWebSocketClose");
 
-        if (httpSession != null && totalConnections == 0) {
-            httpSession.setMaxInactiveInterval(60 * 30);
+        if (httpSession != null) {
+            
+
+            Object totalCons = httpSession.getAttribute("totalConnections");
+            
+            int totalConnections = 0;
+            
+            if (totalCons != null) {
+                totalConnections = (int) totalCons;
+                totalConnections--;
+            }
+            
+            httpSession.setAttribute("totalConnections", totalConnections);
+            
+            
+            if (totalConnections == 0) {
+                httpSession.setMaxInactiveInterval(60 * 30);
+            }
+            
             LOGGER.info("httpSession.setMaxInactiveInterval(60 * 30)");
         }
         BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId);
