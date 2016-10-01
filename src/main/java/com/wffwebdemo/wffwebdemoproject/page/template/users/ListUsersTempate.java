@@ -29,7 +29,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
 
     private static final Logger LOGGER = Logger
             .getLogger(ListUsersTempate.class.getName());
-    
+
     private TBody tBody;
 
     private DocumentModel documentModel;
@@ -46,13 +46,15 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
 
     private Button removeColoumnStyleButton;
 
+    private Button removeColoumnStyleOneByOneButton;
+
     private Style countryColumnStyle;
 
     public ListUsersTempate(DocumentModel documentModel) {
         super(null);
         this.documentModel = documentModel;
 
-        countryColumnStyle = new Style("background:yellow");
+        countryColumnStyle = new Style("background:yellow;color:orange");
 
         develop();
     }
@@ -72,6 +74,77 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             }
         };
 
+        
+
+        new Br(this);
+        new Br(this);
+
+        nextRowsButton = new Button(this, new OnClick(this)) {
+            {
+                new B(this) {
+                    {
+                        new NoTag(this, "Next");
+                    }
+                };
+            }
+        };
+
+        new Br(this);
+        new Br(this);
+
+        markGreenButton = new Button(this, new OnClick(this)) {
+            {
+                new B(this) {
+                    {
+                        new NoTag(this, "Mark column green");
+                    }
+                };
+            }
+        };
+
+        new Br(this);
+        new Br(this);
+
+        markVioletButton = new Button(this, new OnClick(this)) {
+            {
+                new B(this) {
+                    {
+                        new NoTag(this, "Mark column violet");
+                    }
+                };
+            }
+        };
+
+        new Br(this);
+        new Br(this);
+
+        removeColoumnStyleButton = new Button(this, new OnClick(this)) {
+            {
+                new B(this) {
+                    {
+                        new NoTag(this,
+                                "Remove style from column all together");
+                    }
+                };
+            }
+        };
+
+        new Br(this);
+        new Br(this);
+
+        removeColoumnStyleOneByOneButton = new Button(this, new OnClick(this)) {
+            {
+                new B(this) {
+                    {
+                        new NoTag(this, "Remove style from column one by one");
+                    }
+                };
+            }
+        };
+
+        new Br(this);
+        new Br(this);
+        
         new Table(this) {
             {
                 tBody = new TBody(this) {
@@ -100,50 +173,6 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 };
             }
         };
-
-        new Br(this);
-        new Br(this);
-
-        nextRowsButton = new Button(this, new OnClick(this)) {
-            {
-                new B(this) {
-                    {
-                        new NoTag(this, "Next");
-                    }
-                };
-            }
-        };
-
-        markGreenButton = new Button(this, new OnClick(this)) {
-            {
-                new B(this) {
-                    {
-                        new NoTag(this, "Mark column green");
-                    }
-                };
-            }
-        };
-
-        markVioletButton = new Button(this, new OnClick(this)) {
-            {
-                new B(this) {
-                    {
-                        new NoTag(this, "Mark column violet");
-                    }
-                };
-            }
-        };
-
-        removeColoumnStyleButton = new Button(this, new OnClick(this)) {
-            {
-                new B(this) {
-                    {
-                        new NoTag(this, "Remove style from column");
-                    }
-                };
-            }
-        };
-
         // initially add rows
         addRows();
     }
@@ -206,18 +235,24 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             displayInServerLogPage("Mark column violet");
         } else if (removeColoumnStyleButton.equals(event.getSourceTag())) {
             LOGGER.info("remove style");
-            
+            countryColumnStyle.getCssProperties().clear();
+            displayInServerLogPage("remove style all together ");
+        } else if (removeColoumnStyleOneByOneButton
+                .equals(event.getSourceTag())) {
+            LOGGER.info("remove style");
+
             AbstractHtml[] ownerTags = countryColumnStyle.getOwnerTags();
-            
+
             for (AbstractHtml ownerTag : ownerTags) {
-                ownerTag.removeAttributes(countryColumnStyle.getAttributeName());
+                ownerTag.removeAttributes(
+                        countryColumnStyle.getAttributeName());
             }
-            displayInServerLogPage("remove style");
+            displayInServerLogPage("remove style one by one");
         }
 
         return null;
     }
-    
+
     private void displayInServerLogPage(String msg) {
         Object serverLogPageInstanceId = documentModel.getHttpSession()
                 .getAttribute("serverLogPageInstanceId");
