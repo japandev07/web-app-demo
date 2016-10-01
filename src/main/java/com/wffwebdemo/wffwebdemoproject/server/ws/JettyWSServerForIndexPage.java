@@ -27,7 +27,6 @@ import com.webfirmframework.wffweb.PushFailedException;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.server.page.WebSocketPushListener;
-import com.webfirmframework.wffweb.server.page.action.BrowserPageAction;
 
 public class JettyWSServerForIndexPage extends WebSocketAdapter {
 
@@ -91,12 +90,12 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             // }
 
          // or refresh the browser in later version
-            try {
-                session.getRemote().sendBytes(
-                        BrowserPageAction.RELOAD.getActionByteBuffer());
-            } catch (Exception e) {
-                LOGGER.severe(e.toString());
-            }
+//            try {
+//                session.getRemote().sendBytes(
+//                        BrowserPageAction.RELOAD.getActionByteBuffer());
+//            } catch (Exception e) {
+//                LOGGER.severe(e.toString());
+//            }
             session.close();
             return;
 
