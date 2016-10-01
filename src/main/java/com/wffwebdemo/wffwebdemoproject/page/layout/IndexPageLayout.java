@@ -47,12 +47,23 @@ public class IndexPageLayout extends Html {
         new Body(this, new Style("background:lightgray")) {
 
             {
+                new Br(this);
+                new Br(this);
+                
                 new A(this, new Href("server-log"), new Target(Target.BLANK)) {
                     {
                         new NoTag(this, "view server log");
                     }
                 };
                 
+                new Br(this);
+                new Br(this);
+                
+                new NoTag(this, "Username : demo");
+                new Br(this);
+                new NoTag(this, "Password : demo");
+                
+                new Br(this);
                 new Br(this);
                 
                 DocumentModel documentModel = new DocumentModel();

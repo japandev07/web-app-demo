@@ -89,7 +89,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             {
                 new B(this) {
                     {
-                        new NoTag(this, "Next rows");
+                        new NoTag(this, "Next 25 rows");
                     }
                 };
             }
@@ -102,7 +102,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             {
                 new B(this) {
                     {
-                        new NoTag(this, "Next 100 rows as stream");
+                        new NoTag(this, "Next 500 rows as stream");
                     }
                 };
             }
@@ -244,7 +244,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             tBody.removeChildren(previousRows);
         }
         
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 500; i++) {
 
             Tr tr = new Tr(tBody) {
                 {
