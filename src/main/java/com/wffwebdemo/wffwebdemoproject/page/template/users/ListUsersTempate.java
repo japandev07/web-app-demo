@@ -39,6 +39,8 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
     private int rowCount = 0;
 
     private Button nextRowsButton;
+    
+    private Button lazyNextRowsButton;
 
     private Button markGreenButton;
 
@@ -74,7 +76,11 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             }
         };
 
-        
+        new Div(this) {
+            {
+                new NoTag(null, "Users list");
+            }
+        };
 
         new Br(this);
         new Br(this);
@@ -83,7 +89,20 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             {
                 new B(this) {
                     {
-                        new NoTag(this, "Next");
+                        new NoTag(this, "Next rows");
+                    }
+                };
+            }
+        };
+        
+        new Br(this);
+        new Br(this);
+
+        lazyNextRowsButton = new Button(this, new OnClick(this)) {
+            {
+                new B(this) {
+                    {
+                        new NoTag(this, "Next 100 rows as stream");
                     }
                 };
             }
@@ -136,7 +155,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             {
                 new B(this) {
                     {
-                        new NoTag(this, "Remove style from column one by one");
+                        new NoTag(this, "Remove style attribute from column one by one");
                     }
                 };
             }
@@ -217,6 +236,43 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
         previousRows = rows;
 
     }
+    
+    private void addRowsAsStream() {
+
+        List<AbstractHtml> rows = new LinkedList<AbstractHtml>();
+        if (previousRows != null) {
+            tBody.removeChildren(previousRows);
+        }
+        
+        for (int i = 0; i < 100; i++) {
+
+            Tr tr = new Tr(tBody) {
+                {
+                    rowCount++;
+
+                    new Td(this) {
+                        {
+                            new NoTag(this, "Alfreds Futterkiste " + rowCount);
+                        }
+                    };
+                    new Td(this) {
+                        {
+                            new NoTag(this, "Maria Anders " + rowCount);
+                        }
+                    };
+                    new Td(this, countryColumnStyle) {
+                        {
+                            new NoTag(this, "Germany " + rowCount);
+                        }
+                    };
+                }
+            };
+
+            rows.add(tr);
+        }
+
+        previousRows = rows;
+    }
 
     @Override
     public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
@@ -234,12 +290,12 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             countryColumnStyle.addCssProperties("background:violet");
             displayInServerLogPage("Mark column violet");
         } else if (removeColoumnStyleButton.equals(event.getSourceTag())) {
-            LOGGER.info("remove style");
+            LOGGER.info("remove style all together");
             countryColumnStyle.getCssProperties().clear();
             displayInServerLogPage("remove style all together ");
         } else if (removeColoumnStyleOneByOneButton
                 .equals(event.getSourceTag())) {
-            LOGGER.info("remove style");
+            LOGGER.info("remove style attribyte one by one");
 
             AbstractHtml[] ownerTags = countryColumnStyle.getOwnerTags();
 
@@ -247,7 +303,13 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 ownerTag.removeAttributes(
                         countryColumnStyle.getAttributeName());
             }
-            displayInServerLogPage("remove style one by one");
+            displayInServerLogPage("remove style atribyte one by one");
+        } else if (lazyNextRowsButton.equals(event.getSourceTag())) {
+            
+            addRowsAsStream();
+            
+            LOGGER.info("lazyNextRowsButton");
+            displayInServerLogPage("lazyNextRowsButton");
         }
 
         return null;
