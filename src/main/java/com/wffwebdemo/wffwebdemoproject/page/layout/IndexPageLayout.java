@@ -49,6 +49,13 @@ public class IndexPageLayout extends Html {
             {
                 new Br(this);
                 new Br(this);
+                new A(this, new Href("https://github.com/webfirmframework/wffweb-demo-deployment"), new Target(Target.BLANK)) {
+                    {
+                        new NoTag(this, "Find its code in github");
+                    }
+                };
+                new Br(this);
+                new Br(this);
                 
                 new A(this, new Href("server-log"), new Target(Target.BLANK)) {
                     {
