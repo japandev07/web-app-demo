@@ -84,7 +84,7 @@ public class IndexPageLayout extends Html {
                     public void run() {
                         while (!Thread.interrupted()) {
                             try {
-                                new NoTag(timeDiv, new Date().toString());
+                                timeDiv.addInnerHtml(new NoTag(null, new Date().toString()));
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
                                 break;
