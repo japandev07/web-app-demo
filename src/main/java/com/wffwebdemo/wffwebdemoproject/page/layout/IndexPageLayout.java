@@ -85,12 +85,14 @@ public class IndexPageLayout extends Html {
                         while (!Thread.interrupted()) {
                             try {
                                 timeDiv.addInnerHtml(new NoTag(null, new Date().toString()));
+                                LOGGER.info("Server Time " + new Date());
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
                                 break;
                             }
                         }
                         
+                        LOGGER.info("Server time printing thread stopped");
                     }
                 });
                 
