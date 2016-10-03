@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import com.webfirmframework.wffweb.tag.html.Body;
 import com.webfirmframework.wffweb.tag.html.Br;
+import com.webfirmframework.wffweb.tag.html.H4;
 import com.webfirmframework.wffweb.tag.html.Html;
 import com.webfirmframework.wffweb.tag.html.TitleTag;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
@@ -16,6 +17,7 @@ import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
 import com.webfirmframework.wffweb.tag.html.links.A;
 import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
+import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Span;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.wffwebdemo.wffwebdemoproject.page.model.DocumentModel;
 import com.wffwebdemo.wffwebdemoproject.page.template.LoginTemplate;
@@ -75,28 +77,40 @@ public class IndexPageLayout extends Html {
                 new Br(this);
                 new Br(this);
                 
+                //to print server time
+                new H4(this) {
+                    {
+                        new NoTag(this, "Server time : ");
 
-                final Div timeDiv = new Div(this);
-                
-                Runnable thread = new Runnable() {
-                    
-                    @Override
-                    public void run() {
-                        while (!Thread.interrupted()) {
-                            try {
-                                timeDiv.addInnerHtml(new NoTag(null, new Date().toString()));
-                                LOGGER.info("Server Time " + new Date());
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                break;
+                        final Span timeSpan = new Span(this);
+
+                        Runnable thread = new Runnable() {
+
+                            @Override
+                            public void run() {
+                                while (!Thread.interrupted()) {
+                                    try {
+                                        timeSpan.addInnerHtml(new NoTag(null,
+                                                new Date().toString()));
+                                        LOGGER.info(
+                                                "Server Time " + new Date());
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException e) {
+                                        break;
+                                    }
+                                }
+
+                                LOGGER.info(
+                                        "Server time printing thread stopped");
                             }
-                        }
-                        
-                        LOGGER.info("Server time printing thread stopped");
+                        };
+
+                        allThreads.add(thread);
                     }
                 };
                 
-                allThreads.add(thread);
+                
+                
                 
                 new Br(this);
                 new Br(this);
