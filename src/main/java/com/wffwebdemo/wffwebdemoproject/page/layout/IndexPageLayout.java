@@ -1,5 +1,9 @@
 package com.wffwebdemo.wffwebdemoproject.page.layout;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import com.webfirmframework.wffweb.tag.html.Body;
@@ -23,11 +27,15 @@ public class IndexPageLayout extends Html {
     private TitleTag pageTitle;
 
     private HttpSession httpSession;
+    
+    private List<Thread> allThreads;
 
     public IndexPageLayout(HttpSession httpSession) {
         super(null);
         this.httpSession = httpSession;
         super.setPrependDocType(true);
+        
+        allThreads = new ArrayList<Thread>();
         develop();
     }
 
@@ -63,6 +71,36 @@ public class IndexPageLayout extends Html {
                     }
                 };
                 
+                
+                new Br(this);
+                new Br(this);
+                
+
+                final Div timeDiv = new Div(this);
+                
+                Thread thread = new Thread(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        while (!Thread.interrupted()) {
+                            try {
+                                new NoTag(timeDiv, new Date().toString());
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                break;
+                            }
+                        }
+                        
+                    }
+                });
+                
+                thread.setDaemon(true);
+                
+                allThreads.add(thread);
+                thread.start();
+                
+                
+                
                 new Br(this);
                 new Br(this);
                 
@@ -88,6 +126,10 @@ public class IndexPageLayout extends Html {
 
         };
 
+    }
+    
+    public List<Thread> getAllThreads() {
+        return allThreads;
     }
 
 }

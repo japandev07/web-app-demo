@@ -1,5 +1,7 @@
 package com.wffwebdemo.wffwebdemoproject.page;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import com.webfirmframework.wffweb.server.page.BrowserPage;
@@ -10,6 +12,7 @@ public class IndexPage extends BrowserPage {
 
     private static final long serialVersionUID = 1L;
     private HttpSession httpSession;
+    private IndexPageLayout indexPageLayout;
 
     @Override
     public String webSocketUrl() {
@@ -25,7 +28,16 @@ public class IndexPage extends BrowserPage {
 
         // here we should return the object IndexPageLayout
 
-        return new IndexPageLayout(httpSession);
+        indexPageLayout = new IndexPageLayout(httpSession);
+        return indexPageLayout;
+    }
+    
+    public void stopAllThreads() {
+        List<Thread> allThreads = indexPageLayout.getAllThreads();
+        for (Thread thread : allThreads) {
+            thread.interrupt();
+        }
+        allThreads.clear();
     }
 
 }
