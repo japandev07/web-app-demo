@@ -28,14 +28,14 @@ public class IndexPageLayout extends Html {
 
     private HttpSession httpSession;
     
-    private List<Thread> allThreads;
+    private List<Runnable> allThreads;
 
     public IndexPageLayout(HttpSession httpSession) {
         super(null);
         this.httpSession = httpSession;
         super.setPrependDocType(true);
         
-        allThreads = new ArrayList<Thread>();
+        allThreads = new ArrayList<Runnable>();
         develop();
     }
 
@@ -78,7 +78,7 @@ public class IndexPageLayout extends Html {
 
                 final Div timeDiv = new Div(this);
                 
-                Thread thread = new Thread(new Runnable() {
+                Runnable thread = new Runnable() {
                     
                     @Override
                     public void run() {
@@ -94,9 +94,7 @@ public class IndexPageLayout extends Html {
                         
                         LOGGER.info("Server time printing thread stopped");
                     }
-                });
-                
-                thread.setDaemon(true);
+                };
                 
                 allThreads.add(thread);
                 
@@ -127,7 +125,7 @@ public class IndexPageLayout extends Html {
 
     }
     
-    public List<Thread> getAllThreads() {
+    public List<Runnable> getAllThreads() {
         return allThreads;
     }
 
