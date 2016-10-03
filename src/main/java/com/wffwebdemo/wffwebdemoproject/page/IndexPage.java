@@ -8,7 +8,7 @@ import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
 import com.wffwebdemo.wffwebdemoproject.page.layout.IndexPageLayout;
 
-public class IndexPage extends BrowserPage {
+public class IndexPage extends BrowserPage implements Threaded {
 
     private static final long serialVersionUID = 1L;
     private HttpSession httpSession;
@@ -37,7 +37,16 @@ public class IndexPage extends BrowserPage {
         for (Thread thread : allThreads) {
             thread.interrupt();
         }
-        allThreads.clear();
+    }
+
+    @Override
+    public void startAllThreads() {
+        List<Thread> allThreads = indexPageLayout.getAllThreads();
+        for (Thread thread : allThreads) {
+            thread.start();
+        }
+        
+        
     }
 
 }

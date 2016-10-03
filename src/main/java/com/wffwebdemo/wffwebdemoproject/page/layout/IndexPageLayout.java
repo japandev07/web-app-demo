@@ -99,9 +99,6 @@ public class IndexPageLayout extends Html {
                 thread.setDaemon(true);
                 
                 allThreads.add(thread);
-                thread.start();
-                
-                
                 
                 new Br(this);
                 new Br(this);

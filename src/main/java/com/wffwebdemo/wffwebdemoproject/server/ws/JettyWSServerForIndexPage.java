@@ -28,6 +28,7 @@ import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.server.page.WebSocketPushListener;
 import com.webfirmframework.wffweb.server.page.action.BrowserPageAction;
+import com.wffwebdemo.wffwebdemoproject.page.Threaded;
 
 public class JettyWSServerForIndexPage extends WebSocketAdapter {
 
@@ -120,6 +121,14 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             // }
 
             BrowserPageContext.INSTANCE.webSocketOpened(wffInstanceId);
+            
+            //to stop all running threads
+            
+            
+            if (browserPage instanceof Threaded) {
+                Threaded threaded = (Threaded) browserPage;
+                threaded.startAllThreads();
+            }
         }
 
         browserPage.setWebSocketPushListener(new WebSocketPushListener() {
@@ -176,6 +185,12 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             
             LOGGER.info("httpSession.setMaxInactiveInterval(60 * 30)");
         }
+        
+        if (browserPage instanceof Threaded) {
+            Threaded threaded = (Threaded) browserPage;
+            threaded.startAllThreads();
+        }
+        
         BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId);
     }
 
