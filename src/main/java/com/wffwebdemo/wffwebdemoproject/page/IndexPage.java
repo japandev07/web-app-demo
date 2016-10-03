@@ -46,6 +46,7 @@ public class IndexPage extends BrowserPage implements Threaded {
         final List<Runnable> allThreads = indexPageLayout.getAllThreads();
         for (final Runnable runnable : allThreads) {
             final Thread thread = new Thread(runnable);
+            thread.setDaemon(true);
             thread.start();
             allActiveThreads.add(thread);
         }
