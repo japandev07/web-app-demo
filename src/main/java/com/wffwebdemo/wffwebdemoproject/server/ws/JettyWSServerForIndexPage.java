@@ -51,7 +51,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         // TODO Auto-generated method stub
         super.onWebSocketConnect(session);
 
-        LOGGER.info("onWebSocketConnect");
+        LOGGER.info("onWebSocketConnect "+session);
 
         this.wffInstanceId = session.getUpgradeRequest().getParameterMap()
                 .get("wffInstanceId").get(0);
