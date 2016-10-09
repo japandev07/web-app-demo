@@ -153,7 +153,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         
         super.onWebSocketClose(statusCode, reason);
 
-        LOGGER.info("onWebSocketClose " + getSession().hashCode());
+        LOGGER.info("onWebSocketClose 2");
 
         if (httpSession != null) {
             
