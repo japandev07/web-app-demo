@@ -36,7 +36,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         // TODO Auto-generated method stub
         super.onWebSocketConnect(session);
 
-        LOGGER.info("onWebSocketConnect "+session);
+        LOGGER.info("onWebSocketConnect " + session.hashCode());
 
         this.wffInstanceId = session.getUpgradeRequest().getParameterMap()
                 .get("wffInstanceId").get(0);
@@ -58,7 +58,8 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             httpSession.setMaxInactiveInterval(-1);
             LOGGER.info("httpSession.setMaxInactiveInterval(-1)");
         }
-        browserPage = BrowserPageContext.INSTANCE.getBrowserPage(wffInstanceId);
+//        browserPage = BrowserPageContext.INSTANCE.getBrowserPage(wffInstanceId);
+        browserPage = BrowserPageContext.INSTANCE.webSocketOpened(wffInstanceId);
 
         if (browserPage == null) {
             System.out.println("browserPage == null, read comments");
@@ -105,7 +106,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             // e.printStackTrace();
             // }
 
-            BrowserPageContext.INSTANCE.webSocketOpened(wffInstanceId);
+//            BrowserPageContext.INSTANCE.webSocketOpened(wffInstanceId);
             
             //to stop all running threads
             
@@ -116,22 +117,24 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             }
         }
 
-        browserPage.setWebSocketPushListener(new WebSocketPushListener() {
+        browserPage.addWebSocketPushListener(String.valueOf(session.hashCode()),
+                new WebSocketPushListener() {
 
-            @Override
-            public void push(byte[] message) {
-                try {
+                    @Override
+                    public void push(ByteBuffer data) {
+                        try {
 
-                    session.getRemote().sendBytes(ByteBuffer.wrap(message));
-                    // asyncRemove will make exception if the click is made many
-                    // times
-                    // https://bz.apache.org/bugzilla/show_bug.cgi?id=56026
-                    // session.getAsyncRemote().sendBinary(ByteBuffer.wrap(message));
-                } catch (Exception e) {
-                    throw new PushFailedException(e.getMessage(), e);
-                }
-            }
-        });
+                            session.getRemote().sendBytes(data);
+                            // asyncRemove will make exception if the click is
+                            // made many
+                            // times
+                            // https://bz.apache.org/bugzilla/show_bug.cgi?id=56026
+                            // session.getAsyncRemote().sendBinary(ByteBuffer.wrap(message));
+                        } catch (Exception e) {
+                            throw new PushFailedException(e.getMessage(), e);
+                        }
+                    }
+                });
 
     }
 
@@ -147,7 +150,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         // TODO Auto-generated method stub
         super.onWebSocketClose(statusCode, reason);
 
-        LOGGER.info("onWebSocketClose");
+        LOGGER.info("onWebSocketClose " + getSession().hashCode());
 
         if (httpSession != null) {
             
@@ -176,7 +179,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             threaded.stopAllThreads();
         }
         
-        BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId);
+        BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId, String.valueOf(getSession().hashCode()));
     }
 
     @Override
