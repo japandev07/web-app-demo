@@ -153,13 +153,11 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
 
     @Override
     public void onWebSocketClose(int statusCode, String reason) {
-        // TODO Auto-generated method stub
         
-        LOGGER.info("onWebSocketClose");
+        LOGGER.info("onWebSocketClose with reason " + reason + ", statusCode "
+                + statusCode);
         
         super.onWebSocketClose(statusCode, reason);
-
-        LOGGER.info("onWebSocketClose 2");
 
         if (httpSession != null) {
             
@@ -188,13 +186,6 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             threaded.stopAllThreads();
         }
         
-        
-        try {
-            LOGGER.info("getSession().hashCode() " + getSession().hashCode());
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId, wsSessionId);
     }
 
