@@ -181,12 +181,13 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             LOGGER.info("httpSession.setMaxInactiveInterval(60 * 30)");
         }
         
+        BrowserPage browserPage = BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId, wsSessionId);
+        
         if (browserPage instanceof Threaded) {
             Threaded threaded = (Threaded) browserPage;
             threaded.stopAllThreads();
         }
         
-        BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId, wsSessionId);
     }
 
     @Override
