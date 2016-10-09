@@ -21,8 +21,12 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             .getLogger(JettyWSServerForIndexPage.class.getName());
 
     private BrowserPage browserPage;
+    
     private HttpSession httpSession;
+    
     private String wffInstanceId;
+    
+    private String wsSessionId;
 
     public JettyWSServerForIndexPage() {
     }
@@ -116,8 +120,10 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
                 threaded.startAllThreads();
             }
         }
+        
+        wsSessionId = String.valueOf(session.hashCode());
 
-        browserPage.addWebSocketPushListener(String.valueOf(session.hashCode()),
+        browserPage.addWebSocketPushListener(wsSessionId,
                 new WebSocketPushListener() {
 
                     @Override
@@ -183,8 +189,13 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         }
         
         
-        LOGGER.info("getSession().hashCode() " + getSession().hashCode());
-        BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId, String.valueOf(getSession().hashCode()));
+        try {
+            LOGGER.info("getSession().hashCode() " + getSession().hashCode());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId, wsSessionId);
     }
 
     @Override
