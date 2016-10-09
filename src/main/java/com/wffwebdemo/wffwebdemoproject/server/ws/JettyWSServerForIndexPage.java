@@ -182,6 +182,8 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             threaded.stopAllThreads();
         }
         
+        
+        LOGGER.info("getSession().hashCode() " + getSession().hashCode());
         BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId, String.valueOf(getSession().hashCode()));
     }
 
