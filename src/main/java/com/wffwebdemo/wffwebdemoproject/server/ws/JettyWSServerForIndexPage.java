@@ -148,6 +148,9 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
     @Override
     public void onWebSocketClose(int statusCode, String reason) {
         // TODO Auto-generated method stub
+        
+        LOGGER.info("onWebSocketClose");
+        
         super.onWebSocketClose(statusCode, reason);
 
         LOGGER.info("onWebSocketClose " + getSession().hashCode());
