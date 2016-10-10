@@ -56,7 +56,7 @@ public class IndexPageLayout extends Html {
                         new NoTag(this);
                     }
                 };
-                new Script(this, new Type(Type.TEXT_JAVASCRIPT), new Src("js/util.js"));
+                new Script(this, new Type(Type.TEXT_JAVASCRIPT), new Src("../js/util.js"));
             }
         };
 
