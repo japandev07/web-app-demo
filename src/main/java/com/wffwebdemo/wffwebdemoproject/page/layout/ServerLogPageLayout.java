@@ -47,7 +47,7 @@ public class ServerLogPageLayout extends Html {
         };
         List<AbstractHtml> children = body.getChildren();
         if (children.size() > 50) {
-            body.removeChild(children.get(children.size() - 1));
+            body.removeChild(children.get(0));
             body.appendChild(logDiv);
         } else {
             body.appendChild(logDiv);
