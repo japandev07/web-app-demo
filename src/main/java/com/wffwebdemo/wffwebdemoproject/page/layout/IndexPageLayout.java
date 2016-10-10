@@ -60,7 +60,9 @@ public class IndexPageLayout extends Html {
 
             {
                 
-                new Button(this, new OnClick("wffAsync.serverMethod('testServerMethod', {'somekey':'some value'}).invoke(function(obj){alert('callback '+obj.serverKey);})")) {
+                //invokeServerMethod() is defined in js/util.js
+                
+                new Button(this, new OnClick("invokeServerMethod()")) {
                     {
                         new NoTag(this, "Custom Server Method Invocation");
                     }

@@ -2,7 +2,6 @@ package com.wffwebdemo.wffwebdemoproject.page.model;
 
 import javax.servlet.http.HttpSession;
 
-import com.webfirmframework.wffweb.tag.html.Body;
 import com.webfirmframework.wffweb.tag.html.TitleTag;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 

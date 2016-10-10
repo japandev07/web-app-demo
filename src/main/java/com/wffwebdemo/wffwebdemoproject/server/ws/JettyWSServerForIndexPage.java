@@ -148,7 +148,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
     public void onWebSocketBinary(byte[] payload, int offset, int len) {
         super.onWebSocketBinary(payload, offset, len);
 
-        browserPage.websocketMessaged(payload);
+        browserPage.webSocketMessaged(payload);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.wffwebdemo.wffwebdemoproject.page.template;
 
 import java.util.logging.Logger;
 
-import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.tag.html.Br;
 import com.webfirmframework.wffweb.tag.html.attribute.Target;
