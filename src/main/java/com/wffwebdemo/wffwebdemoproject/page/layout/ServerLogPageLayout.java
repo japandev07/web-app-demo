@@ -1,5 +1,6 @@
 package com.wffwebdemo.wffwebdemoproject.page.layout;
 
+import java.util.Date;
 import java.util.List;
 
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
@@ -42,7 +43,7 @@ public class ServerLogPageLayout extends Html {
     public void log(final String msg) {
         Div logDiv = new Div(null) {
             {
-                new NoTag(this, msg);
+                new NoTag(this, "["+new Date() + "]$ " + msg);
             }
         };
         List<AbstractHtml> children = body.getChildren();
