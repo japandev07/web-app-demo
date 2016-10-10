@@ -43,7 +43,7 @@ public class ServerLogPageLayout extends Html {
     public void log(final String msg) {
         Div logDiv = new Div(null) {
             {
-                new NoTag(this, "["+new Date() + "]$ " + msg);
+                new NoTag(this, "[" + new Date() + "]$ " + msg);
             }
         };
         List<AbstractHtml> children = body.getChildren();
