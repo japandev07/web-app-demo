@@ -13,7 +13,9 @@ import com.webfirmframework.wffweb.tag.html.Html;
 import com.webfirmframework.wffweb.tag.html.TitleTag;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
 import com.webfirmframework.wffweb.tag.html.attribute.Target;
+import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
+import com.webfirmframework.wffweb.tag.html.formsandinputs.Button;
 import com.webfirmframework.wffweb.tag.html.links.A;
 import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
@@ -57,6 +59,13 @@ public class IndexPageLayout extends Html {
         new Body(this, new Style("background:lightgray")) {
 
             {
+                
+                new Button(this, new OnClick("wffAsync.serverMethod('testServerMethod', {'somekey':'some value'}).invoke(function(obj){alert('callback '+obj.serverKey);})")) {
+                    {
+                        new NoTag(this, "Custom Server Method Invocation");
+                    }
+                };
+                
                 new Br(this);
                 new Br(this);
                 new A(this, new Href("https://github.com/webfirmframework/wffweb-demo-deployment"), new Target(Target.BLANK)) {
