@@ -1,5 +1,8 @@
 package com.wffwebdemo.wffwebdemoproject.page.layout;
 
+import java.util.List;
+
+import com.webfirmframework.wffweb.tag.html.AbstractHtml;
 import com.webfirmframework.wffweb.tag.html.Body;
 import com.webfirmframework.wffweb.tag.html.Html;
 import com.webfirmframework.wffweb.tag.html.TitleTag;
@@ -42,8 +45,10 @@ public class ServerLogPageLayout extends Html {
                 new NoTag(this, msg);
             }
         };
-        if (body.getChildren().size() > 25) {
-            body.addInnerHtml(logDiv);
+        List<AbstractHtml> children = body.getChildren();
+        if (children.size() > 50) {
+            body.removeChild(children.get(children.size() - 1));
+            body.appendChild(logDiv);
         } else {
             body.appendChild(logDiv);
         }
