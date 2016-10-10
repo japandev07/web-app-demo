@@ -31,6 +31,8 @@ public class IndexPage extends BrowserPage implements Threaded, ServerAsyncMetho
     @Override
     public AbstractHtml render() {
 
+        //to add a custom server method
+        //this is an instance of ServerAsyncMethod
         addServerMethod("testServerMethod", this);
         
         // here we should return the object IndexPageLayout
