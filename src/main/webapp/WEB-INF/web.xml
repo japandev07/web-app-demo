@@ -6,8 +6,6 @@
 
 	<display-name>webfirmframework-wffweb</display-name>
 	<welcome-file-list>
-<!-- 		<welcome-file>index</welcome-file> -->
-<!-- 		<welcome-file>/index</welcome-file> -->
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
@@ -21,10 +19,6 @@
 		</servlet> <servlet-mapping> <servlet-name>JettyWSServerForIndexPageServlet</servlet-name> 
 		<url-pattern>/ws-for-index-page</url-pattern> </servlet-mapping> -->
 
-	<servlet-mapping>
-		<servlet-name>MainServlet</servlet-name>
-		<url-pattern>/index</url-pattern>
-	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>MainServlet</servlet-name>
 		<url-pattern>/index</url-pattern>
