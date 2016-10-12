@@ -43,6 +43,6 @@ function invokeServerMethod() {
 				console.log('callback byteArray '
 						+ wffGlobal.decoder.decode(obj.byteArray));
 
-				obj.testFun('hi how are you');
+				obj.testFun('check out browser console to see values received from server');
 			});
 };

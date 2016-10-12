@@ -46,7 +46,7 @@ public class CustomServerMethod implements ServerAsyncMethod {
             bmObject.put("reg", BMValueType.REG_EXP, "[w]");
             bmObject.put("bool", BMValueType.BOOLEAN, true);
             bmObject.put("testFun", BMValueType.FUNCTION,
-                    "function(arg) {console.log(arg);}");
+                    "function(arg) {alert(arg);}");
 
             insertArraysTo(bmObject);
 
