@@ -57,7 +57,7 @@ public class IndexPageServlet extends HttpServlet {
             }
 
             if (browserPage == null) {
-                browserPage = new IndexPage(session);
+                browserPage = new IndexPage(session, request.getLocale());
                 BrowserPageContext.INSTANCE.addBrowserPage(session.getId(),
                         browserPage);
                 session.setAttribute("indexPageInstanceId",

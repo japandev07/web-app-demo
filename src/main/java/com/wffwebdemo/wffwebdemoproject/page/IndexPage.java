@@ -2,6 +2,7 @@ package com.wffwebdemo.wffwebdemoproject.page;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,14 +15,16 @@ public class IndexPage extends BrowserPage implements Threaded {
     private static final long serialVersionUID = 1L;
     private final HttpSession httpSession;
     private IndexPageLayout indexPageLayout;
+    private Locale locale;
 
     @Override
     public String webSocketUrl() {
         return "wss://wffweb.herokuapp.com/ws-for-index-page";
     }
 
-    public IndexPage(final HttpSession httpSession) {
+    public IndexPage(final HttpSession httpSession, Locale locale) {
         this.httpSession = httpSession;
+        this.locale = locale;
     }
 
     @Override
@@ -32,7 +35,7 @@ public class IndexPage extends BrowserPage implements Threaded {
         
         // here we should return the object IndexPageLayout
 
-        indexPageLayout = new IndexPageLayout(httpSession);
+        indexPageLayout = new IndexPageLayout(httpSession, locale);
         return indexPageLayout;
     }
 

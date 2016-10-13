@@ -3,6 +3,7 @@ package com.wffwebdemo.wffwebdemoproject.page.layout;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
@@ -37,9 +38,12 @@ public class IndexPageLayout extends Html {
     
     private List<Runnable> allThreads;
 
-    public IndexPageLayout(HttpSession httpSession) {
+    private Locale locale;
+
+    public IndexPageLayout(HttpSession httpSession, Locale locale) {
         super(null);
         this.httpSession = httpSession;
+        this.locale = locale;
         super.setPrependDocType(true);
         
         allThreads = new ArrayList<Runnable>();
@@ -107,8 +111,8 @@ public class IndexPageLayout extends Html {
                                     try {
                                         timeSpan.addInnerHtml(new NoTag(null,
                                                 new Date().toString()));
-                                        LOGGER.info(
-                                                "Server Time " + new Date());
+                                        LOGGER.info("Server Time " + new Date()
+                                                + ", locale " + locale);
                                         Thread.sleep(1000);
                                     } catch (InterruptedException e) {
                                         break;
