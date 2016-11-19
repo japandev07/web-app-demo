@@ -244,6 +244,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
                     AbstractHtml parentOfTr = tr.getParent();
                     parentOfTr.removeChild(tr);
+                    rows.remove(tr);
                     return null;
                 }
             });
@@ -309,6 +310,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
                     AbstractHtml parentOfTr = tr.getParent();
                     parentOfTr.removeChild(tr);
+                    rows.remove(tr);
                     return null;
                 }
             });
