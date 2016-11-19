@@ -239,15 +239,26 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 }
             };
             
-            final OnClick deleteClick = new OnClick(new ServerAsyncMethod() {
-                @Override
-                public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
-                    AbstractHtml parentOfTr = tr.getParent();
-                    parentOfTr.removeChild(tr);
-                    rows.remove(tr);
-                    return null;
-                }
+          //as java 8 syntax, lambda expression way
+            final OnClick deleteClick = new OnClick((wffBMObject, event) -> {
+                AbstractHtml parentOfTr = tr.getParent();
+                parentOfTr.removeChild(tr);
+                rows.remove(tr);
+                displayInServerLogPage("Removed row no " + rowCount);
+                return null;
             });
+            
+            //as java 7 syntax
+//            final OnClick deleteClick = new OnClick(new ServerAsyncMethod() {
+//                @Override
+//                public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
+//                    AbstractHtml parentOfTr = tr.getParent();
+//                    parentOfTr.removeChild(tr);
+//                    rows.remove(tr);
+//                    displayInServerLogPage("Removed row no " + rowCount);
+//                    return null;
+//                }
+//            });
             
             new Td(tr, countryColumnStyle) {
                 {
@@ -305,15 +316,26 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 }
             };
             
-            final OnClick deleteClick = new OnClick(new ServerAsyncMethod() {
-                @Override
-                public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
-                    AbstractHtml parentOfTr = tr.getParent();
-                    parentOfTr.removeChild(tr);
-                    rows.remove(tr);
-                    return null;
-                }
+            //as java 8 syntax, lambda expression way
+            final OnClick deleteClick = new OnClick((wffBMObject, event) -> {
+                AbstractHtml parentOfTr = tr.getParent();
+                parentOfTr.removeChild(tr);
+                rows.remove(tr);
+                displayInServerLogPage("Removed row no " + rowCount);
+                return null;
             });
+            
+            //as java 7 syntax
+//            final OnClick deleteClick = new OnClick(new ServerAsyncMethod() {
+//                @Override
+//                public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
+//                    AbstractHtml parentOfTr = tr.getParent();
+//                    parentOfTr.removeChild(tr);
+//                    rows.remove(tr);
+//                    displayInServerLogPage("Removed row no " + rowCount);
+//                    return null;
+//                }
+//            });
             
             new Td(tr, countryColumnStyle) {
                 {
