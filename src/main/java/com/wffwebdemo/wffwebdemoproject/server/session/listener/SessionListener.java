@@ -7,7 +7,9 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
+import com.webfirmframework.wffweb.server.page.action.BrowserPageAction;
 import com.wffwebdemo.wffwebdemoproject.page.IndexPage;
 
 @WebListener
@@ -36,6 +38,10 @@ public class SessionListener implements HttpSessionListener {
 
             if (indexPage != null) {
                 indexPage.stopAllThreads();
+                
+                //To refresh the browser page when the session is closed.
+                indexPage.performBrowserPageAction(
+                        BrowserPageAction.RELOAD.getActionByteBuffer());
             }
 
         }
