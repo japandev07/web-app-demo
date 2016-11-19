@@ -231,6 +231,11 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                             new NoTag(this, "Germany " + rowCount);
                         }
                     };
+                    new Td(this) {
+                        {
+                            new NoTag(this, "Action");
+                        }
+                    };
                 }
             };
 
@@ -255,8 +260,10 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
         }
         
         for (int i = 0; i < 1000; i++) {
+            
+            
 
-            Tr tr = new Tr(tBody) {
+            final Tr tr = new Tr(tBody) {
                 {
                     rowCount++;
 
@@ -273,6 +280,25 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                     new Td(this, countryColumnStyle) {
                         {
                             new NoTag(this, "Germany " + rowCount);
+                        }
+                    };
+                }
+            };
+            
+            final OnClick deleteClick = new OnClick(new ServerAsyncMethod() {
+                @Override
+                public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
+                    AbstractHtml parentOfTr = tr.getParent();
+                    parentOfTr.removeChild(tr);
+                    return null;
+                }
+            });
+            
+            new Td(tr, countryColumnStyle) {
+                {
+                    new Button(this, deleteClick) {
+                        {
+                            new NoTag(this, "Delete Row");
                         }
                     };
                 }
