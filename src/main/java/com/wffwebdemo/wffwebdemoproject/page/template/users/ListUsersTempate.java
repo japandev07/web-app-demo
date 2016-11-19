@@ -239,6 +239,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 }
             };
             
+           final int rowCount = this.rowCount;
           //as java 8 syntax, lambda expression way
             final OnClick deleteClick = new OnClick((wffBMObject, event) -> {
                 AbstractHtml parentOfTr = tr.getParent();
@@ -316,6 +317,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 }
             };
             
+            final int rowCount = this.rowCount;
             //as java 8 syntax, lambda expression way
             final OnClick deleteClick = new OnClick((wffBMObject, event) -> {
                 AbstractHtml parentOfTr = tr.getParent();
