@@ -40,8 +40,8 @@ public class SessionListener implements HttpSessionListener {
                 indexPage.stopAllThreads();
                 
                 //To refresh the browser page when the session is closed.
-                indexPage.performBrowserPageAction(
-                        BrowserPageAction.RELOAD.getActionByteBuffer());
+//                indexPage.performBrowserPageAction(
+//                        BrowserPageAction.RELOAD.getActionByteBuffer());
             }
 
         }
