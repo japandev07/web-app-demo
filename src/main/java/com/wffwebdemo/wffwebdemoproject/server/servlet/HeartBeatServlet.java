@@ -46,7 +46,7 @@ public class HeartBeatServlet extends HttpServlet {
 
         try (OutputStream os = response.getOutputStream();) {
 
-            request.getSession();
+            request.getSession(false);
             os.write("activated".getBytes("UTF-8"));
             os.flush();
         }
