@@ -14,6 +14,7 @@ import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.server.page.WebSocketPushListener;
 import com.webfirmframework.wffweb.server.page.action.BrowserPageAction;
 import com.wffwebdemo.wffwebdemoproject.page.Threaded;
+import com.wffwebdemo.wffwebdemoproject.server.util.HeartBeatUtil;
 
 public class JettyWSServerForIndexPage extends WebSocketAdapter {
 
@@ -61,6 +62,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             // never to close the session on inactivity
             httpSession.setMaxInactiveInterval(-1);
             LOGGER.info("httpSession.setMaxInactiveInterval(-1)");
+            HeartBeatUtil.ping(httpSession.getId());
         }
 //        browserPage = BrowserPageContext.INSTANCE.getBrowserPage(wffInstanceId);
         browserPage = BrowserPageContext.INSTANCE.webSocketOpened(wffInstanceId);
@@ -176,6 +178,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             
             if (totalConnections == 0) {
                 httpSession.setMaxInactiveInterval(60 * 30);
+                HeartBeatUtil.ping(httpSession.getId());
             }
             
             LOGGER.info("httpSession.setMaxInactiveInterval(60 * 30)");
