@@ -293,8 +293,10 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             tBody.removeChildren(previousRows);
         }
 
-        if (onTop && tBody.getChildren().size() > 0) {
-            AbstractHtml firstChild = tBody.getChildren().get(0);
+        if (onTop && tBody.getChildren().size() > 1) {
+            //at zeroth index child tag represents the head of the row
+            // so taking the child at 1st index
+            AbstractHtml firstChild = tBody.getChildren().get(1);
             firstChild.insertBefore(rows.toArray(new AbstractHtml[rows.size()]));
         } else {
             tBody.appendChildren(rows);
