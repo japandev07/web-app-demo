@@ -318,7 +318,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
 
         List<AbstractHtml> rows = new LinkedList<AbstractHtml>();
         if (previousRows != null) {
-            tBody.removeChildren(previousRows);
+            tBody.removeAllChildren();
         }
         
         for (int i = 0; i < 1000; i++) {
