@@ -39,6 +39,8 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
     private List<AbstractHtml> previousRows;
 
     private int rowCount = 0;
+    
+    private Button addNewRowOnTopButton;
 
     private Button nextRowsButton;
     
@@ -94,6 +96,16 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
 
         new Br(this);
         new Br(this);
+        
+        addNewRowOnTopButton = new Button(this, new OnClick(this)) {
+            {
+                new B(this) {
+                    {
+                        new NoTag(this, "Add Row On Top");
+                    }
+                };
+            }
+        };
 
         nextRowsButton = new Button(this, new OnClick(this)) {
             {
@@ -208,14 +220,14 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             }
         };
         // initially add rows
-        addRows();
+        addRows(false, 25);
     }
 
-    private void addRows() {
+    private void addRows(final boolean onTop, int howMany) {
 
         List<AbstractHtml> rows = new LinkedList<AbstractHtml>();
 
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < howMany; i++) {
 
             final Tr tr = new Tr(null) {
                 {
@@ -278,10 +290,14 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             tBody.removeChildren(previousRows);
         }
 
-        tBody.appendChildren(rows);
+        if (onTop && tBody.getChildren().size() > 0) {
+            AbstractHtml firstChild = tBody.getChildren().get(0);
+            firstChild.insertBefore(rows.toArray(new AbstractHtml[rows.size()]));
+        } else {
+            tBody.appendChildren(rows);
+        }
 
         previousRows = rows;
-
     }
     
     private void addRowsAsStream() {
@@ -359,8 +375,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
     public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
 
         if (nextRowsButton.equals(event.getSourceTag())) {
-            addRows();
-            countryColumnStyle.addCssProperties("nextRowsButton");
+            addRows(false, 25);
             displayInServerLogPage("nextRowsButton");
         } else if (markGreenButton.equals(event.getSourceTag())) {
             LOGGER.info("Mark column green");
@@ -391,6 +406,9 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             
             LOGGER.info("lazyNextRowsButton");
             displayInServerLogPage("lazyNextRowsButton");
+        } if (addNewRowOnTopButton.equals(event.getSourceTag())) {
+            addRows(true, 1);
+            displayInServerLogPage("addNewRowOnTopButton clicked");
         }
 
         return null;
