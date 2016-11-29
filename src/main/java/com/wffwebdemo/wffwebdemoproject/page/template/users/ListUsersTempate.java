@@ -106,6 +106,9 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 };
             }
         };
+        
+        new Br(this);
+        new Br(this);
 
         nextRowsButton = new Button(this, new OnClick(this)) {
             {
