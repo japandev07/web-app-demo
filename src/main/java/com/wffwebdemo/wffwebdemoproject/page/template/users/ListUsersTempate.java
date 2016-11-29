@@ -39,8 +39,6 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
     private List<AbstractHtml> previousRows;
 
     private int rowCount = 0;
-    
-    private Button addNewRowOnTopButton;
 
     private Button nextRowsButton;
     
@@ -94,19 +92,6 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             }
         };
 
-        new Br(this);
-        new Br(this);
-        
-        addNewRowOnTopButton = new Button(this, new OnClick(this)) {
-            {
-                new B(this) {
-                    {
-                        new NoTag(this, "Add Row On Top");
-                    }
-                };
-            }
-        };
-        
         new Br(this);
         new Br(this);
 
@@ -223,14 +208,14 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             }
         };
         // initially add rows
-        addRows(false, 25);
+        addRows();
     }
 
-    private void addRows(final boolean onTop, int howMany) {
+    private void addRows() {
 
         List<AbstractHtml> rows = new LinkedList<AbstractHtml>();
 
-        for (int i = 0; i < howMany; i++) {
+        for (int i = 0; i < 25; i++) {
 
             final Tr tr = new Tr(null) {
                 {
@@ -289,28 +274,13 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             rows.add(tr);
         }
 
-        if (previousRows != null && !onTop) {
+        if (previousRows != null) {
             tBody.removeChildren(previousRows);
         }
 
-        if (onTop && tBody.getChildren().size() > 1) {
-            //at zeroth index child tag represents the head of the row
-            // so taking the child at 1st index
-            AbstractHtml firstChild = tBody.getChildren().get(1);
-            firstChild.insertBefore(rows.toArray(new AbstractHtml[rows.size()]));
-            
-            //if rows added on top then the current rows should be previous rows + newly added rows
-            if (previousRows != null) {
-                List<AbstractHtml> currentRows = new LinkedList<>(rows);
-                currentRows.addAll(previousRows);
-                previousRows = currentRows;
-            } else {
-                previousRows = rows;
-            }
-        } else {
-            tBody.appendChildren(rows);
-            previousRows = rows;
-        }
+        tBody.appendChildren(rows);
+
+        previousRows = rows;
 
     }
     
@@ -389,7 +359,8 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
     public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
 
         if (nextRowsButton.equals(event.getSourceTag())) {
-            addRows(false, 25);
+            addRows();
+            countryColumnStyle.addCssProperties("nextRowsButton");
             displayInServerLogPage("nextRowsButton");
         } else if (markGreenButton.equals(event.getSourceTag())) {
             LOGGER.info("Mark column green");
@@ -420,9 +391,6 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             
             LOGGER.info("lazyNextRowsButton");
             displayInServerLogPage("lazyNextRowsButton");
-        } if (addNewRowOnTopButton.equals(event.getSourceTag())) {
-            addRows(true, 1);
-            displayInServerLogPage("addNewRowOnTopButton clicked");
         }
 
         return null;
