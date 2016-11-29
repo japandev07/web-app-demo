@@ -114,7 +114,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
         };
 
         new Span(this) {{
-            new NoTag(this, "    =    ");
+            new NoTag(this, "    =   > ");
         }};
 
         noOfRowsInput = new Input(this, new Id("noOfRowsInput"), new Type(Type.NUMBER),
