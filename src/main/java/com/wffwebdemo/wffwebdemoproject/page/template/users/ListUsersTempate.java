@@ -298,11 +298,20 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             // so taking the child at 1st index
             AbstractHtml firstChild = tBody.getChildren().get(1);
             firstChild.insertBefore(rows.toArray(new AbstractHtml[rows.size()]));
+            
+            //if rows added on top then the current rows should be previous rows + newly added rows
+            if (previousRows != null) {
+                List<AbstractHtml> currentRows = new LinkedList<>(rows);
+                currentRows.addAll(previousRows);
+                previousRows = currentRows;
+            } else {
+                previousRows = rows;
+            }
         } else {
             tBody.appendChildren(rows);
+            previousRows = rows;
         }
 
-        previousRows = rows;
     }
     
     private void addRowsAsStream() {
