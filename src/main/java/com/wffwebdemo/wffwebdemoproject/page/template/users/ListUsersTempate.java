@@ -9,10 +9,13 @@ import com.webfirmframework.wffweb.tag.html.AbstractHtml;
 import com.webfirmframework.wffweb.tag.html.Br;
 import com.webfirmframework.wffweb.tag.html.attribute.Type;
 import com.webfirmframework.wffweb.tag.html.attribute.event.ServerAsyncMethod;
+import com.webfirmframework.wffweb.tag.html.attribute.event.form.OnChange;
 import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
+import com.webfirmframework.wffweb.tag.html.attribute.global.Id;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
 import com.webfirmframework.wffweb.tag.html.formatting.B;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Button;
+import com.webfirmframework.wffweb.tag.html.formsandinputs.Input;
 import com.webfirmframework.wffweb.tag.html.programming.Script;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.StyleTag;
@@ -37,11 +40,13 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
     private DocumentModel documentModel;
 
     private int rowCount = 0;
-    
+
+    private Input noOfRowsInput;
+
     private Button addNewRowOnTopButton;
 
     private Button nextRowsButton;
-    
+
     private Button lazyNextRowsButton;
 
     private Button markGreenButton;
@@ -53,6 +58,8 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
     private Button removeColoumnStyleOneByOneButton;
 
     private Style countryColumnStyle;
+    
+    private int noOfRows = 1;
 
     public ListUsersTempate(DocumentModel documentModel) {
         super(null);
@@ -77,9 +84,9 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 new NoTag(this, "}");
             }
         };
-        
-        //this way also you can execute JavaScript
-        //check browser console when clicking on list users button
+
+        // this way also you can execute JavaScript
+        // check browser console when clicking on list users button
         new Script(this, new Type(Type.TEXT_JAVASCRIPT)) {
             {
                 new NoTag(this, "console.log('list users template is added');");
@@ -94,7 +101,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
 
         new Br(this);
         new Br(this);
-        
+
         addNewRowOnTopButton = new Button(this, new OnClick(this)) {
             {
                 new B(this) {
@@ -104,7 +111,12 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 };
             }
         };
-        
+
+        new NoTag(this, "&nbsp;&nbsp;");
+
+        noOfRowsInput = new Input(this, new Id("noOfRowsInput"), new Type(Type.NUMBER),
+                new OnChange("return true;", this, "return {noOfRows:document.getElementById('noOfRowsInput').value}", null));
+
         new Br(this);
         new Br(this);
 
@@ -117,7 +129,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 };
             }
         };
-        
+
         new Br(this);
         new Br(this);
 
@@ -178,7 +190,8 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             {
                 new B(this) {
                     {
-                        new NoTag(this, "Remove style attribute from column one by one");
+                        new NoTag(this,
+                                "Remove style attribute from column one by one");
                     }
                 };
             }
@@ -186,7 +199,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
 
         new Br(this);
         new Br(this);
-        
+
         new Table(this) {
             {
                 tBody = new TBody(this) {
@@ -251,9 +264,9 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                     };
                 }
             };
-            
-           final int rowCount = this.rowCount;
-          //as java 8 syntax, lambda expression way
+
+            final int rowCount = this.rowCount;
+            // as java 8 syntax, lambda expression way
             final OnClick deleteClick = new OnClick((wffBMObject, event) -> {
                 AbstractHtml parentOfTr = tr.getParent();
                 parentOfTr.removeChild(tr);
@@ -261,19 +274,20 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 displayInServerLogPage("Removed row no " + rowCount);
                 return null;
             });
-            
-            //as java 7 syntax
-//            final OnClick deleteClick = new OnClick(new ServerAsyncMethod() {
-//                @Override
-//                public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
-//                    AbstractHtml parentOfTr = tr.getParent();
-//                    parentOfTr.removeChild(tr);
-//                    rows.remove(tr);
-//                    displayInServerLogPage("Removed row no " + rowCount);
-//                    return null;
-//                }
-//            });
-            
+
+            // as java 7 syntax
+            // final OnClick deleteClick = new OnClick(new ServerAsyncMethod() {
+            // @Override
+            // public WffBMObject asyncMethod(WffBMObject wffBMObject, Event
+            // event) {
+            // AbstractHtml parentOfTr = tr.getParent();
+            // parentOfTr.removeChild(tr);
+            // rows.remove(tr);
+            // displayInServerLogPage("Removed row no " + rowCount);
+            // return null;
+            // }
+            // });
+
             new Td(tr, countryColumnStyle) {
                 {
                     new Button(this, deleteClick) {
@@ -292,10 +306,11 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
         }
 
         if (onTop && tBody.getChildren().size() > 1) {
-            //at zeroth index child tag represents the head of the row
+            // at zeroth index child tag represents the head of the row
             // so taking the child at 1st index
             AbstractHtml firstChild = tBody.getChildren().get(1);
-            firstChild.insertBefore(rows.toArray(new AbstractHtml[rows.size()]));
+            firstChild
+                    .insertBefore(rows.toArray(new AbstractHtml[rows.size()]));
         } else {
             tBody.appendChildren(rows);
         }
@@ -303,21 +318,20 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
     }
 
     private void removePreviousRows() {
-        List<AbstractHtml>  currentChildren = new LinkedList<AbstractHtml>(tBody.getChildren());
+        List<AbstractHtml> currentChildren = new LinkedList<AbstractHtml>(
+                tBody.getChildren());
         currentChildren.remove(0);
         tBody.removeChildren(currentChildren);
     }
-    
+
     private void addRowsAsStream() {
 
         List<AbstractHtml> rows = new LinkedList<AbstractHtml>();
         if (tBody.getChildren().size() > 1) {
             removePreviousRows();
         }
-        
+
         for (int i = 0; i < 1000; i++) {
-            
-            
 
             final Tr tr = new Tr(tBody) {
                 {
@@ -340,9 +354,9 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                     };
                 }
             };
-            
+
             final int rowCount = this.rowCount;
-            //as java 8 syntax, lambda expression way
+            // as java 8 syntax, lambda expression way
             final OnClick deleteClick = new OnClick((wffBMObject, event) -> {
                 AbstractHtml parentOfTr = tr.getParent();
                 parentOfTr.removeChild(tr);
@@ -350,19 +364,20 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
                 displayInServerLogPage("Removed row no " + rowCount);
                 return null;
             });
-            
-            //as java 7 syntax
-//            final OnClick deleteClick = new OnClick(new ServerAsyncMethod() {
-//                @Override
-//                public WffBMObject asyncMethod(WffBMObject wffBMObject, Event event) {
-//                    AbstractHtml parentOfTr = tr.getParent();
-//                    parentOfTr.removeChild(tr);
-//                    rows.remove(tr);
-//                    displayInServerLogPage("Removed row no " + rowCount);
-//                    return null;
-//                }
-//            });
-            
+
+            // as java 7 syntax
+            // final OnClick deleteClick = new OnClick(new ServerAsyncMethod() {
+            // @Override
+            // public WffBMObject asyncMethod(WffBMObject wffBMObject, Event
+            // event) {
+            // AbstractHtml parentOfTr = tr.getParent();
+            // parentOfTr.removeChild(tr);
+            // rows.remove(tr);
+            // displayInServerLogPage("Removed row no " + rowCount);
+            // return null;
+            // }
+            // });
+
             new Td(tr, countryColumnStyle) {
                 {
                     new Button(this, deleteClick) {
@@ -408,14 +423,23 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             }
             displayInServerLogPage("remove style atribyte one by one");
         } else if (lazyNextRowsButton.equals(event.getSourceTag())) {
-            
+
             addRowsAsStream();
-            
+
             LOGGER.info("lazyNextRowsButton");
             displayInServerLogPage("lazyNextRowsButton");
-        } if (addNewRowOnTopButton.equals(event.getSourceTag())) {
-            addRows(true, 1);
+        } else if (addNewRowOnTopButton.equals(event.getSourceTag())) {
+            addRows(true, noOfRows);
             displayInServerLogPage("addNewRowOnTopButton clicked");
+        } else if (noOfRowsInput.equals(event.getSourceTag())) {
+            
+            try {
+                noOfRows = (int) wffBMObject.getValue("noOfRows");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            displayInServerLogPage("ValueChanged");
         }
 
         return null;
