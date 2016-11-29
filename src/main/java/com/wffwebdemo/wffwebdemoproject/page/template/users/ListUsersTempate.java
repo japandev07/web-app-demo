@@ -14,11 +14,11 @@ import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Id;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
 import com.webfirmframework.wffweb.tag.html.formatting.B;
-import com.webfirmframework.wffweb.tag.html.formatting.Pre;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Button;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Input;
 import com.webfirmframework.wffweb.tag.html.programming.Script;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
+import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Span;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.StyleTag;
 import com.webfirmframework.wffweb.tag.html.tables.TBody;
 import com.webfirmframework.wffweb.tag.html.tables.Table;
@@ -113,7 +113,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             }
         };
 
-        new Pre(this) {{
+        new Span(this) {{
             new NoTag(this, "    =    ");
         }};
 
