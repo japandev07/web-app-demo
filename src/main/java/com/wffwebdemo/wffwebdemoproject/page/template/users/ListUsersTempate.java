@@ -107,14 +107,14 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             {
                 new B(this) {
                     {
-                        new NoTag(this, "Add Row On Top");
+                        new NoTag(this, "Add Rows On Top");
                     }
                 };
             }
         };
 
         new Span(this) {{
-            new NoTag(this, "&nbsp;&nbsp;");
+            new NoTag(this, "&nbsp;=&nbsp;");
         }};
 
         noOfRowsInput = new Input(this, new Id("noOfRowsInput"), new Type(Type.NUMBER),
