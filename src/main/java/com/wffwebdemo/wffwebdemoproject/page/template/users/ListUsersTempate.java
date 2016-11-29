@@ -286,7 +286,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             rows.add(tr);
         }
 
-        if (previousRows != null) {
+        if (previousRows != null && !onTop) {
             tBody.removeChildren(previousRows);
         }
 
