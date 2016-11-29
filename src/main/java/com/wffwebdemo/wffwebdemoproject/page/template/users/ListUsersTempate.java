@@ -36,8 +36,6 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
 
     private DocumentModel documentModel;
 
-    private List<AbstractHtml> previousRows;
-
     private int rowCount = 0;
     
     private Button addNewRowOnTopButton;
@@ -289,8 +287,8 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             rows.add(tr);
         }
 
-        if (previousRows != null && !onTop) {
-            tBody.removeChildren(previousRows);
+        if (tBody.getChildren().size() > 1 && !onTop) {
+            removePreviousRows();
         }
 
         if (onTop && tBody.getChildren().size() > 1) {
@@ -298,29 +296,23 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             // so taking the child at 1st index
             AbstractHtml firstChild = tBody.getChildren().get(1);
             firstChild.insertBefore(rows.toArray(new AbstractHtml[rows.size()]));
-            
-            //if rows added on top then the current rows should be previous rows + newly added rows
-            if (previousRows != null) {
-                List<AbstractHtml> currentRows = new LinkedList<>(rows);
-                currentRows.addAll(previousRows);
-                previousRows = currentRows;
-            } else {
-                previousRows = rows;
-            }
         } else {
             tBody.appendChildren(rows);
-            previousRows = rows;
         }
 
+    }
+
+    private void removePreviousRows() {
+        List<AbstractHtml>  currentChildren = new LinkedList<AbstractHtml>(tBody.getChildren());
+        currentChildren.remove(0);
+        tBody.removeChildren(currentChildren);
     }
     
     private void addRowsAsStream() {
 
         List<AbstractHtml> rows = new LinkedList<AbstractHtml>();
         if (tBody.getChildren().size() > 1) {
-            List<AbstractHtml>  currentChildren = new LinkedList<AbstractHtml>(tBody.getChildren());
-            currentChildren.remove(0);
-            tBody.removeChildren(currentChildren);
+            removePreviousRows();
         }
         
         for (int i = 0; i < 1000; i++) {
@@ -384,7 +376,6 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             rows.add(tr);
         }
 
-        previousRows = rows;
     }
 
     @Override
