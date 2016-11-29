@@ -434,7 +434,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
         } else if (noOfRowsInput.equals(event.getSourceTag())) {
             
             try {
-                noOfRows = (int) wffBMObject.getValue("noOfRows");
+                noOfRows = Integer.parseInt(wffBMObject.getValue("noOfRows").toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
