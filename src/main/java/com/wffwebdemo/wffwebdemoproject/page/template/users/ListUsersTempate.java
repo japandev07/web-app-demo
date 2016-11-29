@@ -118,7 +118,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
         }};
 
         noOfRowsInput = new Input(this, new Id("noOfRowsInput"), new Type(Type.NUMBER),
-                new OnChange("return true;", this, "return {noOfRows:document.getElementById('noOfRowsInput').value}", null));
+                new OnChange("return true;", this, "return {noOfRows:document.getElementById('noOfRowsInput').value};", null));
 
         new Br(this);
         new Br(this);
