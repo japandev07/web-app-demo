@@ -71,6 +71,9 @@ public class IndexPageLayout extends Html {
                 
                 new SuggestionSearchInput(this);
                 
+                new Br(this);
+                new Br(this);
+                
                 //invokeServerMethod() is defined in js/util.js
                 
                 new Button(this, new OnClick("invokeServerMethod()")) {
