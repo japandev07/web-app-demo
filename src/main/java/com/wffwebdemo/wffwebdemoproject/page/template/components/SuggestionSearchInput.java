@@ -68,14 +68,14 @@ public class SuggestionSearchInput extends Div implements ServerAsyncMethod {
 
             for (int i = 12345; i < 12345 + 10; i++) {
 
-                String value = "Alice " + i;
+                final String value = "Alice " + i;
 
                 if (value.contains(fieldValue)) {
                     
                     Option option = new Option(this, new Id(dataListId),
                             new Value(value)) {
                         {
-                            new NoTag(this, "Hello");
+                            new NoTag(this, "Hello "+value);
                         }
                     };
                     
