@@ -27,6 +27,7 @@ import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Span;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.wffwebdemo.wffwebdemoproject.page.model.DocumentModel;
 import com.wffwebdemo.wffwebdemoproject.page.template.LoginTemplate;
+import com.wffwebdemo.wffwebdemoproject.page.template.components.SuggestionSearchInput;
 
 public class IndexPageLayout extends Html {
 
@@ -67,6 +68,8 @@ public class IndexPageLayout extends Html {
         new Body(this, new Style("background:lightgray")) {
 
             {
+                
+                new SuggestionSearchInput(this);
                 
                 //invokeServerMethod() is defined in js/util.js
                 
