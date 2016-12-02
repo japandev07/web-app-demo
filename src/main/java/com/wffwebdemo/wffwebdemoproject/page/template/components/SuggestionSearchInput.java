@@ -67,7 +67,7 @@ public class SuggestionSearchInput extends Div implements ServerAsyncMethod {
 
             Set<AbstractHtml> options = new LinkedHashSet<AbstractHtml>();
 
-            for (int i = 12345; i < 12345 + 10; i++) {
+            for (int i = 12345; i < 12345 + 100; i++) {
 
                 final String value = "Alice " + i;
 
