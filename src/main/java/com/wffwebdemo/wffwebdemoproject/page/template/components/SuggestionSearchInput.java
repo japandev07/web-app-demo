@@ -43,7 +43,7 @@ public class SuggestionSearchInput extends Div implements ServerAsyncMethod {
         
         new Input(this, new Placeholder("type Alice") , 
                 new List(dataListId), 
-                new OnKeyUp("return (event.key.length == 1 || event.key == 'Backspace');", this, "return {fieldValue:source.value};", null));
+                new OnKeyUp("return (event.key.length == 1 || event.key === 'Backspace');", this, "return {fieldValue:source.value};", null));
         
         
         dataList = new DataList(this,
