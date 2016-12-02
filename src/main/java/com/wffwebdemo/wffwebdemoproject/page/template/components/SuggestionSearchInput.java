@@ -13,6 +13,7 @@ import com.webfirmframework.wffweb.tag.html.attribute.global.Id;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Input;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Option;
 import com.webfirmframework.wffweb.tag.html.html5.attribute.List;
+import com.webfirmframework.wffweb.tag.html.html5.attribute.Placeholder;
 import com.webfirmframework.wffweb.tag.html.html5.formsandinputs.DataList;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
@@ -40,7 +41,7 @@ public class SuggestionSearchInput extends Div implements ServerAsyncMethod {
 
         dataListId = UUID.randomUUID().toString();
         
-        new Input(this, new List(dataListId), new OnKeyUp(null, this, "return {fieldValue:source.value};", null));
+        new Input(this, new Placeholder("type Alice") , new List(dataListId), new OnKeyUp(null, this, "return {fieldValue:source.value};", null));
         
         
         dataList = new DataList(this,
