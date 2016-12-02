@@ -41,7 +41,7 @@ public class SuggestionSearchInput extends Div implements ServerAsyncMethod {
 
         dataListId = UUID.randomUUID().toString();
         
-        new Input(this, new Placeholder("type Alice") , new List(dataListId), new OnKeyUp(null, this, "return {fieldValue:source.value};", null));
+        new Input(this, new Placeholder("type Alice") , new List(dataListId), new OnKeyUp("return (event.key.length == 1);", this, "return {fieldValue:source.value};", null));
         
         
         dataList = new DataList(this,
