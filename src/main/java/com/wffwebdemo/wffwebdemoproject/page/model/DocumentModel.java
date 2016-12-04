@@ -2,6 +2,7 @@ package com.wffwebdemo.wffwebdemoproject.page.model;
 
 import javax.servlet.http.HttpSession;
 
+import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.tag.html.TitleTag;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 
@@ -13,7 +14,10 @@ public class DocumentModel {
 
     private HttpSession httpSession;
 
-    public DocumentModel() {
+    private BrowserPage browserPage;
+
+    public DocumentModel(BrowserPage browserPage) {
+        this.setBrowserPage(browserPage);
     }
 
     public Div getBodyDiv() {
@@ -45,6 +49,14 @@ public class DocumentModel {
      */
     public void setHttpSession(HttpSession httpSession) {
         this.httpSession = httpSession;
+    }
+
+    public BrowserPage getBrowserPage() {
+        return browserPage;
+    }
+
+    public void setBrowserPage(BrowserPage browserPage) {
+        this.browserPage = browserPage;
     }
 
 }

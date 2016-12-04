@@ -35,7 +35,7 @@ public class IndexPage extends BrowserPage implements Threaded {
         
         // here we should return the object IndexPageLayout
 
-        indexPageLayout = new IndexPageLayout(httpSession, locale);
+        indexPageLayout = new IndexPageLayout(httpSession, locale, this);
         return indexPageLayout;
     }
 
