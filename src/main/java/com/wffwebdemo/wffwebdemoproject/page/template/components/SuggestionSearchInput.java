@@ -25,7 +25,7 @@ import com.webfirmframework.wffweb.wffbm.data.WffBMObject;
  */
 @SuppressWarnings("serial")
 public class SuggestionSearchInput extends Div implements ServerAsyncMethod {
-    
+
     private DataList dataList;
     private String dataListId;
 
@@ -40,20 +40,22 @@ public class SuggestionSearchInput extends Div implements ServerAsyncMethod {
     private void develop() {
 
         dataListId = UUID.randomUUID().toString();
-        
-        new Input(this, new Placeholder("type Alice") , 
-                new List(dataListId), 
-                new OnKeyUp("return (event.key.length == 1 || event.key === 'Backspace');", this, "return {fieldValue:source.value};", null));
-        
-        
-        dataList = new DataList(this,
-                new Id(dataListId)) {{
-                    
-                new Option(this,
-                        new Value("Alice")) {{
+
+        new Input(this, new Placeholder("type Alice"), new List(dataListId),
+                new OnKeyUp(
+                        "return (event.key.length == 1 || event.key === 'Backspace');",
+                        this, "return {fieldValue:source.value};", null));
+
+        dataList = new DataList(this, new Id(dataListId)) {
+            {
+
+                new Option(this, new Value("Alice")) {
+                    {
                         new NoTag(this, "Hello");
-                }};
-        }};
+                    }
+                };
+            }
+        };
 
     }
 
@@ -62,7 +64,7 @@ public class SuggestionSearchInput extends Div implements ServerAsyncMethod {
 
         // TODO do checking for event.getSourceAttribute()
         // if multiple events are handled by this method
-        
+
         String fieldValue = (String) wffBMObject.getValue("fieldValue");
 
         if (fieldValue != null) {
@@ -74,24 +76,26 @@ public class SuggestionSearchInput extends Div implements ServerAsyncMethod {
                 final String value = "Alice " + i;
 
                 if (value.contains(fieldValue)) {
-                    
+
                     Option option = new Option(this, new Id(dataListId),
                             new Value(value)) {
                         {
-                            new NoTag(this, "Hello "+value);
+                            new NoTag(this, "Hello " + value);
                         }
                     };
-                    
+
                     options.add(option);
                 }
 
             }
-            
-            // will be available since wffweb-2.1.3
-//            dataList.addInnerHtmls(options.toArray(new AbstractHtml[options.size()]));
 
-            dataList.removeAllChildren();
-            dataList.appendChildren(options);
+            // will be available since wffweb-2.1.3
+            dataList.addInnerHtmls(
+                    options.toArray(new AbstractHtml[options.size()]));
+
+            // for old versions
+            // dataList.removeAllChildren();
+            // dataList.appendChildren(options);
         }
 
         return null;
