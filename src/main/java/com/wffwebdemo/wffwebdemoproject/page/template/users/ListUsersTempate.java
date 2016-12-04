@@ -1,5 +1,6 @@
 package com.wffwebdemo.wffwebdemoproject.page.template.users;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -304,9 +305,9 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             rows.add(tr);
         }
 
-        if (tBody.getChildren().size() > 1 && !onTop) {
-            removePreviousRows();
-        }
+//        if (tBody.getChildren().size() > 1 && !onTop) {
+//            removePreviousRows();
+//        }
 
         if (onTop && tBody.getChildren().size() > 1) {
             // at zeroth index child tag represents the head of the row
@@ -315,7 +316,11 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             firstChild
                     .insertBefore(rows.toArray(new AbstractHtml[rows.size()]));
         } else {
-            tBody.appendChildren(rows);
+            AbstractHtml firstChild = tBody.getChildren().get(0);
+            Collection<AbstractHtml> allChildren = new LinkedList<AbstractHtml>();
+            allChildren.add(firstChild);
+            allChildren.addAll(rows);
+            tBody.addInnerHtmls(allChildren.toArray(new AbstractHtml[allChildren.size()]));
         }
 
     }
