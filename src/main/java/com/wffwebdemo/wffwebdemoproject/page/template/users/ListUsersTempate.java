@@ -17,6 +17,7 @@ import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
 import com.webfirmframework.wffweb.tag.html.formatting.B;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Button;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Input;
+import com.webfirmframework.wffweb.tag.html.html5.attribute.Max;
 import com.webfirmframework.wffweb.tag.html.programming.Script;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Span;
@@ -118,7 +119,7 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             new NoTag(this, "    =   > ");
         }};
 
-        noOfRowsInput = new Input(this, new Id("noOfRowsInput"), new Type(Type.NUMBER),
+        noOfRowsInput = new Input(this, new Id("noOfRowsInput"), new Type(Type.NUMBER), new Max("1000"),
                 new OnChange("return true;", this, "return {noOfRows:document.getElementById('noOfRowsInput').value};", null));
 
         new Br(this);
@@ -434,7 +435,6 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             } finally {
                 documentModel.getBrowserPage().unholdPush();
             }
-
             
             displayInServerLogPage("remove style atribyte one by one");
         } else if (lazyNextRowsButton.equals(event.getSourceTag())) {
