@@ -130,7 +130,7 @@ public class CustomServerMethod implements ServerAsyncMethod {
         regexArray.add("[w]");
         regexArray.add("[f]");
         regexArray.add("[f]");
-        bmObject.put("booleanArray", BMValueType.BM_ARRAY, regexArray);
+        bmObject.put("regexArray", BMValueType.BM_ARRAY, regexArray);
 
         WffBMArray funcArray = new WffBMArray(BMValueType.FUNCTION);
         funcArray.add("function(arg) {console.log(arg);}");
