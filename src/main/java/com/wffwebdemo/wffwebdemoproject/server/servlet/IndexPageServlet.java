@@ -33,6 +33,15 @@ public class IndexPageServlet extends HttpServlet {
     public IndexPageServlet() {
         super();
     }
+    
+    @Override
+    public void init() throws ServletException {
+    	super.init();
+    	
+    	TagRegistry.getTagClassNameByTagName();
+    	AttributeRegistry.getAttributeClassNameByAttributeName();
+    	LOGGER.info("Loaded all wffweb classes");
+    }
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
