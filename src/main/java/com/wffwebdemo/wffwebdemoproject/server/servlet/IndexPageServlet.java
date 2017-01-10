@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.wffwebdemo.wffwebdemoproject.page.IndexPage;
+import com.webfirmframework.wffweb.tag.html.attribute.core.AttributeRegistry;
+import com.webfirmframework.wffweb.tag.html.core.TagRegistry;
 
 /**
  * Servlet implementation class HomePageServlet
@@ -32,6 +34,15 @@ public class IndexPageServlet extends HttpServlet {
      */
     public IndexPageServlet() {
         super();
+    }
+    
+    @Override
+    public void init() throws ServletException {
+    	super.init();
+    	
+    	TagRegistry.getTagClassNameByTagName();
+    	AttributeRegistry.getAttributeClassNameByAttributeName();
+    	LOGGER.info("Loaded all wffweb classes");
     }
 
     /**
