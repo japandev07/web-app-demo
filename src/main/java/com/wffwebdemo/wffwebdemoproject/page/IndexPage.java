@@ -69,5 +69,15 @@ public class IndexPage extends BrowserPage implements Threaded {
             allActiveThreads = null;
         }
     }
+    
+    @Override
+    protected void removedFromContext() {
+        // this method will be invoked when this BrowserPage 
+        // is removed from BrowserPageContext
+        super.removedFromContext();
+        
+        stopAllThreads();
+        
+    }
 
 }
