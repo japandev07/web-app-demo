@@ -116,7 +116,7 @@ public class CustomServerMethod implements ServerAsyncMethod {
         bmObject.put("numberArray", BMValueType.BM_ARRAY, numberArray);
 
         WffBMByteArray byteArray = new WffBMByteArray();
-        byteArray.write("こんにちは WFFWEB".getBytes("UTF-8"));
+        byteArray.write("WFFWEB".getBytes("UTF-8"));
 
         bmObject.put("byteArray", BMValueType.BM_BYTE_ARRAY, byteArray);
 
@@ -169,7 +169,9 @@ public class CustomServerMethod implements ServerAsyncMethod {
         if (serverLogPageInstanceId != null) {
             ServerLogPage serverLogPage = (ServerLogPage) BrowserPageContext.INSTANCE
                     .getBrowserPage(serverLogPageInstanceId.toString());
-            serverLogPage.log(msg);
+            if (serverLogPage != null) {
+                serverLogPage.log(msg);
+            }
         }
         
         LOGGER.info(msg);
