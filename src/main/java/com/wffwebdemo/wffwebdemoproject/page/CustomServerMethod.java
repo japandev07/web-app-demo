@@ -103,7 +103,7 @@ public class CustomServerMethod implements ServerAsyncMethod {
     private void insertArraysTo(WffBMObject bmObject)
             throws UnsupportedEncodingException, IOException {
         WffBMArray stringArray = new WffBMArray(BMValueType.STRING);
-        stringArray.add("array value 1");
+        stringArray.add("array value 1 こんにちは");
         stringArray.add("array value 2");
 
         bmObject.put("stringArray", BMValueType.BM_ARRAY, stringArray);
@@ -116,7 +116,7 @@ public class CustomServerMethod implements ServerAsyncMethod {
         bmObject.put("numberArray", BMValueType.BM_ARRAY, numberArray);
 
         WffBMByteArray byteArray = new WffBMByteArray();
-        byteArray.write("WFFWEB".getBytes("UTF-8"));
+        byteArray.write("こんにちは WFFWEB".getBytes("UTF-8"));
 
         bmObject.put("byteArray", BMValueType.BM_BYTE_ARRAY, byteArray);
 
