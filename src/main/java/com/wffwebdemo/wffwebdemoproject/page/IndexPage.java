@@ -3,16 +3,22 @@ package com.wffwebdemo.wffwebdemoproject.page;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
 
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
 import com.wffwebdemo.wffwebdemoproject.page.layout.IndexPageLayout;
+import com.wffwebdemo.wffwebdemoproject.page.template.LoginTemplate;
 
 public class IndexPage extends BrowserPage implements Threaded {
 
     private static final long serialVersionUID = 1L;
+    
+    private static final Logger LOGGER = Logger
+            .getLogger(IndexPage.class.getName());
+    
     private final HttpSession httpSession;
     private IndexPageLayout indexPageLayout;
     private Locale locale;
@@ -72,6 +78,9 @@ public class IndexPage extends BrowserPage implements Threaded {
     
     @Override
     protected void removedFromContext() {
+        
+        LOGGER.info("IndexPage#removedFromContext");
+        
         // this method will be invoked when this BrowserPage 
         // is removed from BrowserPageContext
         super.removedFromContext();

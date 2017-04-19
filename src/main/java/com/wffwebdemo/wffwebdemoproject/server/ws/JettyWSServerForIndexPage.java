@@ -189,6 +189,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         if (browserPage instanceof Threaded) {
             Threaded threaded = (Threaded) browserPage;
             threaded.stopAllThreads();
+            LOGGER.info("onWebSocketClose >> stopAllThreads");
         }
         
     }
