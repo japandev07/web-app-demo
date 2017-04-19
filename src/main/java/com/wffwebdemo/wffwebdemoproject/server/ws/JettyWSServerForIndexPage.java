@@ -124,6 +124,8 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
         }
         
         wsSessionId = String.valueOf(System.identityHashCode(session));
+        
+        LOGGER.info("wsSessionId " + wsSessionId);
 
         browserPage.addWebSocketPushListener(wsSessionId,
                 new WebSocketPushListener() {
