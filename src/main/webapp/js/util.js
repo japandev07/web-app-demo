@@ -5,18 +5,21 @@ function invokeServerMethod() {
 	//if the bytes are some row bytes like bytes from some binary file
 	//then use Int8Array
 	var int8Array = new Int8Array(stringBytes);
-
-	console.log('object type', Object.prototype.toString
-			.call(stringBytes));
-	console.log(stringBytes);
+	
+	// log to see the object type
+	// console.log('object type', Object.prototype.toString
+	// 		.call(stringBytes));
+	
+	// log to see the bytes of string
+	// console.log(stringBytes);
 	
 	var argument = {
 		'nullArray' : [null, null],
 		'undefinedArray' : [undefined, undefined],
 		'nullVal' : null,
 		'undefinedVal' : undefined,
-		'somekey' : 'some value',
-		'string' : 'string value',
+		'somekey' : 'some value ',
+		'string' : 'string value こんにちは',
 		'numb' : 55555,
 		'bool' : true,
 		'regex' : /ab+c/,
@@ -36,13 +39,14 @@ function invokeServerMethod() {
 				for (key in obj) {
 					console.log('key is ' + key + ' ', obj[key]);
 				}
+				
+				obj.testFun('check out browser console to see values received from server');
 
-				console.log('callback byteArray ', obj.byteArray);
+				console.log('callback byteArray row bytes', obj.byteArray);
 
 				// using wff utf-8 decoder which is cross browser
-				console.log('callback byteArray '
+				console.log('callback byteArray as string type'
 						+ wffGlobal.decoder.decode(obj.byteArray));
-
-				obj.testFun('check out browser console to see values received from server');
+				
 			});
 };
