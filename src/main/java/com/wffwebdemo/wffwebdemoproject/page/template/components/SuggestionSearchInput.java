@@ -46,14 +46,16 @@ public class SuggestionSearchInput extends Div implements ServerAsyncMethod {
                         "return (event.key.length == 1 || event.key === 'Backspace');",
                         this, "return {fieldValue:source.value};", null));
 
-        dataList = new DataList(this, new Id(dataListId)) {
-            {
-
-                new Option(this, new Value("Alice")) {
-                    {
-                        new NoTag(this, "Hello");
-                    }
-                };
+        dataList = new DataList(this, new Id(dataListId)) {{
+            
+                for (int i = 12345; i < 12345 + 100; i++) {
+                    final String value = "Alice " + i;
+                    new Option(this, new Value(value)) {{
+                           new NoTag(this, "Hello " + value);
+                        }
+                    };
+                 }
+            
             }
         };
 
@@ -68,6 +70,13 @@ public class SuggestionSearchInput extends Div implements ServerAsyncMethod {
         String fieldValue = (String) wffBMObject.getValue("fieldValue");
 
         if (fieldValue != null) {
+            
+            if (true) {
+                //no need to continue
+                //continue if you want to do anything on key up
+                //eg:- loading different set of data when fieldValue has a particular value
+                return null;
+            }    
 
             Set<AbstractHtml> options = new LinkedHashSet<AbstractHtml>();
 
