@@ -35,7 +35,9 @@ public class IndexPage extends BrowserPage implements Threaded {
 
     @Override
     public AbstractHtml render() {
-
+        
+        super.removeFromContext(false, BrowserPage.On.INIT_REMOVE_PREVIOUS);
+        
         //to add a custom server method
         super.addServerMethod("testServerMethod", new CustomServerMethod(httpSession));
         
