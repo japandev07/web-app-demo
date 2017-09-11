@@ -22,6 +22,8 @@ import com.webfirmframework.wffweb.tag.html.attribute.For;
 import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Id;
+import com.webfirmframework.wffweb.tag.html.attribute.global.Dir;
+import com.webfirmframework.wffweb.tag.html.attribute.global.Lang;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Button;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Label;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Input;
@@ -120,7 +122,9 @@ public class IndexPageLayout extends Html {
                         new NoTag(this, "Arabic ");
                     }};
                     new Input(this,
-                        new Type("text"),
+                        new Type(Type.TEXT),
+			new Dir(Dir.RTL),
+			new Lang("ar"),
                         new Id("rtlTextField"),
                         new Value("كيف حالك؟"));
 		}};                
