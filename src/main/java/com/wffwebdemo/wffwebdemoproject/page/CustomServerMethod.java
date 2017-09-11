@@ -40,6 +40,8 @@ public class CustomServerMethod implements ServerAsyncMethod {
             WffBMObject bmObject = new WffBMObject();
             bmObject.put("serverKey", BMValueType.STRING, "value from server");
             bmObject.put("string", BMValueType.STRING, "sample string");
+            //Right-to-left language
+            bmObject.put("rtlString", BMValueType.STRING, "كيف حالك؟");
             bmObject.put("nul", BMValueType.NULL, null);
             bmObject.put("number", BMValueType.NUMBER, 555);
             bmObject.put("undef", BMValueType.UNDEFINED, null);
