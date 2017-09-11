@@ -117,7 +117,7 @@ public class IndexPageLayout extends Html {
                 new Div(this) {{
                     new Label(this,
                         new For("rtlTextField")) {{
-                        new NoTag(this, "Arabic");
+                        new NoTag(this, "Arabic ");
                     }};
                     new Input(this,
                         new Type("text"),
