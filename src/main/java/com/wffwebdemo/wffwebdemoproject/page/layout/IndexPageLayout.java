@@ -105,9 +105,21 @@ public class IndexPageLayout extends Html {
                 new Br(this);
                 new Br(this);
                 
-                new H4(this) {{new NoTag(this, "webfirmframework supports RTL (Right-to-left language), eg Arabic: كيف حالك؟");}};
+                new H4(this) {{
+                    new NoTag(this, "webfirmframework supports RTL (Right-to-left language), eg Arabic: كيف حالك؟");
+                }};
                 
-                new Br(this);
+                new Div(this) {{
+                    new Label(this,
+                        new For("rtlTextField")) {{
+                        new NoTag(this, "Arabic");
+                    }};
+                    new Input(this,
+                        new Type("text"),
+                        new Id("rtlTextField"),
+                        new Value("كيف حالك؟"));
+		        }};                
+                
                 new Br(this);
                 
                 //to print server time
