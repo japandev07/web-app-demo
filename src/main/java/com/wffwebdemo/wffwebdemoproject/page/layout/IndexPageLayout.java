@@ -17,9 +17,12 @@ import com.webfirmframework.wffweb.tag.html.attribute.Href;
 import com.webfirmframework.wffweb.tag.html.attribute.Src;
 import com.webfirmframework.wffweb.tag.html.attribute.Target;
 import com.webfirmframework.wffweb.tag.html.attribute.Type;
+import com.webfirmframework.wffweb.tag.html.attribute.Value;
 import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
+import com.webfirmframework.wffweb.tag.html.attribute.global.Id;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Button;
+import com.webfirmframework.wffweb.tag.html.formsandinputs.Label;
 import com.webfirmframework.wffweb.tag.html.links.A;
 import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.programming.Script;
@@ -118,7 +121,7 @@ public class IndexPageLayout extends Html {
                         new Type("text"),
                         new Id("rtlTextField"),
                         new Value("كيف حالك؟"));
-		        }};                
+		}};                
                 
                 new Br(this);
                 
