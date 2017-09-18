@@ -17,7 +17,7 @@ import com.wffwebdemo.wffwebdemoproject.page.ServerLogPage;
 /**
  * Servlet implementation class HomePageServlet
  */
-@WebServlet({"/server-log"})
+@WebServlet({"/server-log/*"})
 public class ServerLogPageServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -36,6 +36,17 @@ public class ServerLogPageServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("text/html;charset=utf-8");
+        
+        // all request other than server-log/realtime should redirect to server-log/realtime
+        // but server-log/realtime should not be used as a direct link in any wffweb single page.
+        // in a wffweb single page use server-log links to avoid unwanted removal of browserPage from its context
+        if (request.getRequestURI() == null 
+                || !request.getRequestURI().endsWith("server-log/realtime")) {
+            
+            response.sendRedirect("server-log/realtime");
+            return;
+        }
+        
 
         try (OutputStream os = response.getOutputStream();) {
 
