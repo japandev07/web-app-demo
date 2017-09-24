@@ -48,8 +48,8 @@ public class ServerLogPageServlet extends HttpServlet {
         // in a wffweb single page use server-log links to avoid unwanted removal of browserPage from its context
         if (request.getRequestURI() == null 
                 || !request.getRequestURI().endsWith("server-log/realtime")) {
-            //this must be full path
-            //response.sendRedirect("https://webfirmframework.com/demo/server-log/realtime");
+            //sendRedirect is not working sometimes with heroku
+            //response.sendRedirect("server-log/realtime");
             //alternative 
 	    response.setContentType("text/html;charset=utf-8");
             Html html = new Html(null) {{
