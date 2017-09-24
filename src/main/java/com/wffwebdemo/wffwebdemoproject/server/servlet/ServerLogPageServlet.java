@@ -13,6 +13,12 @@ import javax.servlet.http.HttpSession;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.wffwebdemo.wffwebdemoproject.page.ServerLogPage;
+import com.webfirmframework.wffweb.tag.html.Html;
+import com.webfirmframework.wffweb.tag.html.metainfo.Head;
+import com.webfirmframework.wffweb.tag.html.metainfo.Meta;
+import com.webfirmframework.wffweb.tag.html.attribute.HttpEquiv;
+import com.webfirmframework.wffweb.tag.html.html5.attribute.Content;
+import com.webfirmframework.wffweb.tag.html.Body;
 
 /**
  * Servlet implementation class HomePageServlet
@@ -42,8 +48,20 @@ public class ServerLogPageServlet extends HttpServlet {
         // in a wffweb single page use server-log links to avoid unwanted removal of browserPage from its context
         if (request.getRequestURI() == null 
                 || !request.getRequestURI().endsWith("server-log/realtime")) {
-            
-            response.sendRedirect("server-log/realtime");
+            //this must be full path
+            response.sendRedirect("https://webfirmframework.com/demo/server-log/realtime");
+            //alternative 
+            Html html = new Html(null) {{
+	            new Head(this) {{
+		        new Meta(this,
+                new HttpEquiv("refresh"),
+                new Content("0; url=https://webfirmframework.com/demo/server-log/realtime"));
+	            }};
+	            new Body(this);
+            }};
+            try (OutputStream os = response.getOutputStream();) {
+                html.toOutputStream(os, "UTF-8");
+            }
             return;
         }
         
