@@ -41,7 +41,7 @@ public class ServerLogPageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        response.setContentType("text/html;charset=utf-8");
+        
         
         // all request other than server-log/realtime should redirect to server-log/realtime
         // but server-log/realtime should not be used as a direct link in any wffweb single page.
@@ -51,22 +51,23 @@ public class ServerLogPageServlet extends HttpServlet {
             //this must be full path
             response.sendRedirect("https://webfirmframework.com/demo/server-log/realtime");
             //alternative 
-            Html html = new Html(null) {{
-	            new Head(this) {{
-		        new Meta(this,
-                new HttpEquiv("refresh"),
-                new Content("0; url=https://webfirmframework.com/demo/server-log/realtime"));
-	            }};
-	            new Body(this);
-            }};
-            try (OutputStream os = response.getOutputStream();) {
-                html.toOutputStream(os, "UTF-8");
-            }
+//             Html html = new Html(null) {{
+// 	            new Head(this) {{
+// 		        new Meta(this,
+//                 new HttpEquiv("refresh"),
+//                 new Content("0; url=https://webfirmframework.com/demo/server-log/realtime"));
+// 	            }};
+// 	            new Body(this);
+//             }};
+//             try (OutputStream os = response.getOutputStream();) {
+//                 html.toOutputStream(os, "UTF-8");
+//             }
             
 		
         } else {
         
-
+	response.setContentType("text/html;charset=utf-8");
+		
         try (OutputStream os = response.getOutputStream();) {
 
             HttpSession session = request.getSession();
