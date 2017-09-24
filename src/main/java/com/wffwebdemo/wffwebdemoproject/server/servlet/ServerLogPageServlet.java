@@ -49,19 +49,20 @@ public class ServerLogPageServlet extends HttpServlet {
         if (request.getRequestURI() == null 
                 || !request.getRequestURI().endsWith("server-log/realtime")) {
             //this must be full path
-            response.sendRedirect("https://webfirmframework.com/demo/server-log/realtime");
+            //response.sendRedirect("https://webfirmframework.com/demo/server-log/realtime");
             //alternative 
-//             Html html = new Html(null) {{
-// 	            new Head(this) {{
-// 		        new Meta(this,
-//                 new HttpEquiv("refresh"),
-//                 new Content("0; url=https://webfirmframework.com/demo/server-log/realtime"));
-// 	            }};
-// 	            new Body(this);
-//             }};
-//             try (OutputStream os = response.getOutputStream();) {
-//                 html.toOutputStream(os, "UTF-8");
-//             }
+	    response.setContentType("text/html;charset=utf-8");
+            Html html = new Html(null) {{
+	            new Head(this) {{
+		        new Meta(this,
+                new HttpEquiv("refresh"),
+                new Content("0; url=https://webfirmframework.com/demo/server-log/realtime"));
+	            }};
+	            new Body(this);
+            }};
+            try (OutputStream os = response.getOutputStream();) {
+                html.toOutputStream(os, "UTF-8");
+            }
             
 		
         } else {
