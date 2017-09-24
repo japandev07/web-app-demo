@@ -62,8 +62,9 @@ public class ServerLogPageServlet extends HttpServlet {
             try (OutputStream os = response.getOutputStream();) {
                 html.toOutputStream(os, "UTF-8");
             }
-            return;
-        }
+            
+		
+        } else {
         
 
         try (OutputStream os = response.getOutputStream();) {
@@ -97,6 +98,7 @@ public class ServerLogPageServlet extends HttpServlet {
             browserPage.toOutputStream(os, "UTF-8");
         }
 
+     }	
     }
 
 }
