@@ -36,6 +36,7 @@ import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.wffwebdemo.wffwebdemoproject.page.model.DocumentModel;
 import com.wffwebdemo.wffwebdemoproject.page.template.LoginTemplate;
 import com.wffwebdemo.wffwebdemoproject.page.template.components.SuggestionSearchInput;
+import com.webfirmframework.wffweb.tag.html.attribute.Rel;
 
 public class IndexPageLayout extends Html {
 
@@ -103,7 +104,7 @@ public class IndexPageLayout extends Html {
                 new Br(this);
                 new Br(this);
                 
-                new A(this, new Href("server-log"), new Target(Target.BLANK)) {
+                new A(this, new Href("server-log"), new Target(Target.BLANK), new Rel("noopener")) {
                     {
                         new NoTag(this, "view server log");
                     }
