@@ -39,7 +39,7 @@ public class IndexPage extends BrowserPage implements Threaded {
         //it must be set to false if there is an anchor tag which opens new tab/window to another wffweb single page
         //otherwise the browserPage will be removed from the BrowserPageContext
         //when clicking on the link. But, if the link redirects to another wffweb sigle page then no need to set it false
-        super.removeFromContext(false, BrowserPage.On.INIT_REMOVE_PREVIOUS);
+        //super.removeFromContext(false, BrowserPage.On.INIT_REMOVE_PREVIOUS);
         
         
         //to add a custom server method
