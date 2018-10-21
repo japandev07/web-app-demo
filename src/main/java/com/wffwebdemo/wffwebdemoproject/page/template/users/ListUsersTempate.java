@@ -418,7 +418,9 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             displayInServerLogPage("Mark column violet");
         } else if (removeColoumnStyleButton.equals(event.getSourceTag())) {
             LOGGER.info("remove style all together");
-            countryColumnStyle.getCssProperties().clear();
+            //is not supported since 3.0.1
+            //countryColumnStyle.getCssProperties().clear();
+            countryColumnStyle.removeAllCssProperties();
             displayInServerLogPage("remove style all together ");
         } else if (removeColoumnStyleOneByOneButton
                 .equals(event.getSourceTag())) {
