@@ -445,12 +445,13 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             displayInServerLogPage("remove style atribyte one by one");
         } else if (lazyNextRowsButton.equals(event.getSourceTag())) {
 
-            //since 3.0.1, it perfectly supports multi-theading
+            //since 3.0.1, it perfectly supports multi-threading
             //if addRowsAsStream is called inside a thread, 
             //we can execute other operations at the same time.
             //eg: if we click on logout while addRowsAsStream is in a thread execution
             // the logout will work otherwise the logout will wait to 
             //finish the addRowsAsStream if it is not in a thread.
+            //if 3.0.1 is not released yet you can try wffweb-3.0.1-SNAPSHOT
             EXECUTOR_SERVICE.execute(() -> {
                 addRowsAsStream();
             });
