@@ -3,6 +3,8 @@ package com.wffwebdemo.wffwebdemoproject.page.template.users;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
@@ -63,6 +65,8 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
     private Style countryColumnStyle;
     
     private int noOfRows = 1;
+    
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 
     public ListUsersTempate(DocumentModel documentModel) {
         super(null);
@@ -441,7 +445,15 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
             displayInServerLogPage("remove style atribyte one by one");
         } else if (lazyNextRowsButton.equals(event.getSourceTag())) {
 
-            addRowsAsStream();
+            //since 3.0.1, it perfectly supports multi-theading
+            //if addRowsAsStream is called inside a thread, 
+            //we can execute other operations at the same time.
+            //eg: if we click on logout while addRowsAsStream is in a thread execution
+            // the logout will work otherwise the logout will wait to 
+            //finish the addRowsAsStream if it is not in a thread.
+            EXECUTOR_SERVICE.execute(() -> {
+                addRowsAsStream();
+            });
 
             LOGGER.info("lazyNextRowsButton");
             displayInServerLogPage("lazyNextRowsButton");
