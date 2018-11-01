@@ -337,7 +337,9 @@ public class ListUsersTempate extends Div implements ServerAsyncMethod {
         tBody.removeChildren(currentChildren);
     }
 
-    private void addRowsAsStream() {
+    //used synchronized here to avoid  
+    //multiple threads processing this method 
+    private synchronized void addRowsAsStream() {
 
         List<AbstractHtml> rows = new LinkedList<AbstractHtml>();
         if (tBody.getChildren().size() > 1) {
