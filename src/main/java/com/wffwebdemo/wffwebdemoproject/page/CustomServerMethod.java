@@ -44,6 +44,7 @@ public class CustomServerMethod implements ServerAsyncMethod {
             bmObject.put("rtlString", BMValueType.STRING, "كيف حالك؟");
             bmObject.put("nul", BMValueType.NULL, null);
             bmObject.put("number", BMValueType.NUMBER, 555);
+            bmObject.put("negativeNumber", BMValueType.NUMBER, -555);
             bmObject.put("undef", BMValueType.UNDEFINED, null);
             bmObject.put("reg", BMValueType.REG_EXP, "[w]");
             bmObject.put("bool", BMValueType.BOOLEAN, true);
