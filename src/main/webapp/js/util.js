@@ -21,6 +21,7 @@ function invokeServerMethod() {
 		'somekey' : 'some value ',
 		'string' : 'string value こんにちは',
 		'numb' : 55555,
+		'negNumb' : -55555,
 		'bool' : true,
 		'regex' : /ab+c/,
 		'anObj' : {
