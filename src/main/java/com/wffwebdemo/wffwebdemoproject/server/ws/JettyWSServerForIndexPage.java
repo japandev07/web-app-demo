@@ -1,6 +1,7 @@
 package com.wffwebdemo.wffwebdemoproject.server.ws;
 
-import java.nio.ByteBuffer;
+import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
@@ -11,8 +12,8 @@ import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import com.webfirmframework.wffweb.PushFailedException;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
-import com.webfirmframework.wffweb.server.page.WebSocketPushListener;
 import com.webfirmframework.wffweb.server.page.action.BrowserPageAction;
+import com.webfirmframework.wffweb.util.ByteBufferUtil;
 import com.wffwebdemo.wffwebdemoproject.page.Threaded;
 import com.wffwebdemo.wffwebdemoproject.server.util.HeartBeatUtil;
 
@@ -22,11 +23,11 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             .getLogger(JettyWSServerForIndexPage.class.getName());
 
     private BrowserPage browserPage;
-    
+
     private HttpSession httpSession;
-    
+
     private String wffInstanceId;
-    
+
     private String wsSessionId;
 
     public JettyWSServerForIndexPage() {
@@ -47,25 +48,27 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
                 .get("wffInstanceId").get(0);
 
         if (httpSession != null) {
-            
+
             Object totalCons = httpSession.getAttribute("totalConnections");
-            
+
             int totalConnections = 0;
-            
+
             if (totalCons != null) {
                 totalConnections = (int) totalCons;
             }
-            
+
             totalConnections++;
             httpSession.setAttribute("totalConnections", totalConnections);
-            
+
             // never to close the session on inactivity
             httpSession.setMaxInactiveInterval(-1);
             LOGGER.info("httpSession.setMaxInactiveInterval(-1)");
             HeartBeatUtil.ping(httpSession.getId());
         }
-//        browserPage = BrowserPageContext.INSTANCE.getBrowserPage(wffInstanceId);
-        browserPage = BrowserPageContext.INSTANCE.webSocketOpened(wffInstanceId);
+        // browserPage =
+        // BrowserPageContext.INSTANCE.getBrowserPage(wffInstanceId);
+        browserPage = BrowserPageContext.INSTANCE
+                .webSocketOpened(wffInstanceId);
 
         if (browserPage == null) {
             System.out.println("browserPage == null, read comments");
@@ -83,7 +86,7 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             // e.printStackTrace();
             // }
 
-         // or refresh the browser in later version
+            // or refresh the browser in later version
             try {
                 session.getRemote().sendBytes(
                         BrowserPageAction.RELOAD.getActionByteBuffer());
@@ -112,39 +115,55 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
             // e.printStackTrace();
             // }
 
-//            BrowserPageContext.INSTANCE.webSocketOpened(wffInstanceId);
-            
-            //to stop all running threads
-            
-            
+            // BrowserPageContext.INSTANCE.webSocketOpened(wffInstanceId);
+
+            // to stop all running threads
+
             if (browserPage instanceof Threaded) {
                 Threaded threaded = (Threaded) browserPage;
                 threaded.startAllThreads();
             }
         }
-        
+
         wsSessionId = String.valueOf(System.identityHashCode(session));
-        
+
         LOGGER.info("wsSessionId " + wsSessionId);
 
-        browserPage.addWebSocketPushListener(wsSessionId,
-                new WebSocketPushListener() {
+        // Internally it might contain a volatile variable
+        // so it's better to declare a dedicated variable before
+        // addWebSocketPushListener.
+        // If the maxBinaryMessageBufferSize is changed dynamically
+        // then call getMaxBinaryMessageBufferSize method directly in
+        // sliceIfRequired method as second argument.
+        final int maxBinaryMessageBufferSize = session.getPolicy()
+                .getMaxBinaryMessageBufferSize();
 
-                    @Override
-                    public void push(ByteBuffer data) {
+        browserPage.addWebSocketPushListener(wsSessionId, (data) -> {
+
+            // sending partial bytes feature is available since 3.0.1
+            ByteBufferUtil.sliceIfRequired(data, maxBinaryMessageBufferSize,
+                    (part, last) -> {
+
                         try {
 
-                            session.getRemote().sendBytes(data);
-                            // asyncRemove will make exception if the click is
+                            session.getRemote().sendPartialBytes(part, last);
+                            // asyncRemove will make exception if
+                            // the click is
                             // made many
                             // times
                             // https://bz.apache.org/bugzilla/show_bug.cgi?id=56026
                             // session.getAsyncRemote().sendBinary(ByteBuffer.wrap(message));
-                        } catch (Exception e) {
+                        } catch (IOException e) {
+                            LOGGER.log(Level.SEVERE,
+                                    "IOException while session.getRemote().sendPartialBytes(part, last)",
+                                    e);
+                            session.close();
                             throw new PushFailedException(e.getMessage(), e);
                         }
-                    }
-                });
+
+                        return !last;
+                    });
+        });
 
     }
 
@@ -157,43 +176,42 @@ public class JettyWSServerForIndexPage extends WebSocketAdapter {
 
     @Override
     public void onWebSocketClose(int statusCode, String reason) {
-        
+
         LOGGER.info("onWebSocketClose with reason " + reason + ", statusCode "
                 + statusCode);
-        
+
         super.onWebSocketClose(statusCode, reason);
 
         if (httpSession != null) {
-            
 
             Object totalCons = httpSession.getAttribute("totalConnections");
-            
+
             int totalConnections = 0;
-            
+
             if (totalCons != null) {
                 totalConnections = (int) totalCons;
                 totalConnections--;
             }
-            
+
             httpSession.setAttribute("totalConnections", totalConnections);
-            
-            
+
             if (totalConnections == 0) {
                 httpSession.setMaxInactiveInterval(60 * 30);
                 HeartBeatUtil.ping(httpSession.getId());
             }
-            
+
             LOGGER.info("httpSession.setMaxInactiveInterval(60 * 30)");
         }
-        
-        BrowserPage browserPage = BrowserPageContext.INSTANCE.webSocketClosed(wffInstanceId, wsSessionId);
-        
+
+        BrowserPage browserPage = BrowserPageContext.INSTANCE
+                .webSocketClosed(wffInstanceId, wsSessionId);
+
         if (browserPage instanceof Threaded) {
             Threaded threaded = (Threaded) browserPage;
             threaded.stopAllThreads();
             LOGGER.info("onWebSocketClose >> stopAllThreads");
         }
-        
+
     }
 
     @Override
