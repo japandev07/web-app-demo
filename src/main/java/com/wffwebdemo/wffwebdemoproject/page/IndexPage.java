@@ -1,16 +1,15 @@
 package com.wffwebdemo.wffwebdemoproject.page;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
 
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
+import com.wffwebdemo.wffwebdemoproject.common.util.ScheduledThreadPool;
 import com.wffwebdemo.wffwebdemoproject.page.layout.IndexPageLayout;
-import com.wffwebdemo.wffwebdemoproject.page.template.LoginTemplate;
 
 public class IndexPage extends BrowserPage implements Threaded {
 
@@ -22,6 +21,8 @@ public class IndexPage extends BrowserPage implements Threaded {
     private final HttpSession httpSession;
     private IndexPageLayout indexPageLayout;
     private Locale locale;
+    
+    
 
     @Override
     public String webSocketUrl() {
@@ -51,34 +52,25 @@ public class IndexPage extends BrowserPage implements Threaded {
         return indexPageLayout;
     }
 
-    private List<Thread> allActiveThreads;
+    
 
     @Override
     public void startAllThreads() {
-
-        if (allActiveThreads != null) {
-            return;
+        for (Runnable runnable : indexPageLayout.getTimers()) {
+            ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.scheduleAtFixedRate(runnable, 1, 1, TimeUnit.SECONDS);
         }
-
-        allActiveThreads = new ArrayList<Thread>();
-        final List<Runnable> allThreads = indexPageLayout.getAllThreads();
-        for (final Runnable runnable : allThreads) {
-            final Thread thread = new Thread(runnable);
-            thread.setDaemon(true);
-            thread.start();
-            allActiveThreads.add(thread);
-        }
-
     }
 
     @Override
     public void stopAllThreads() {
 
-        if (allActiveThreads != null) {
-            for (final Thread thread : allActiveThreads) {
-                thread.interrupt();
+        for (Runnable runnable : indexPageLayout.getTimers()) {
+            try {
+                ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.cancel(runnable, true);
+            } catch (IllegalAccessException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            allActiveThreads = null;
         }
     }
     

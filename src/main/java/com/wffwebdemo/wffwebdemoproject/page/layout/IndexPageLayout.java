@@ -13,30 +13,31 @@ import com.webfirmframework.wffweb.tag.html.Br;
 import com.webfirmframework.wffweb.tag.html.H4;
 import com.webfirmframework.wffweb.tag.html.Html;
 import com.webfirmframework.wffweb.tag.html.TitleTag;
+import com.webfirmframework.wffweb.tag.html.attribute.For;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
+import com.webfirmframework.wffweb.tag.html.attribute.Rel;
 import com.webfirmframework.wffweb.tag.html.attribute.Src;
 import com.webfirmframework.wffweb.tag.html.attribute.Target;
 import com.webfirmframework.wffweb.tag.html.attribute.Type;
 import com.webfirmframework.wffweb.tag.html.attribute.Value;
-import com.webfirmframework.wffweb.tag.html.attribute.For;
 import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
-import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
-import com.webfirmframework.wffweb.tag.html.attribute.global.Id;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Dir;
+import com.webfirmframework.wffweb.tag.html.attribute.global.Id;
 import com.webfirmframework.wffweb.tag.html.attribute.global.Lang;
+import com.webfirmframework.wffweb.tag.html.attribute.global.Style;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Button;
-import com.webfirmframework.wffweb.tag.html.formsandinputs.Label;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Input;
+import com.webfirmframework.wffweb.tag.html.formsandinputs.Label;
 import com.webfirmframework.wffweb.tag.html.links.A;
 import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.programming.Script;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Span;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
+import com.wffwebdemo.wffwebdemoproject.common.util.ScheduledThreadPool;
 import com.wffwebdemo.wffwebdemoproject.page.model.DocumentModel;
 import com.wffwebdemo.wffwebdemoproject.page.template.LoginTemplate;
 import com.wffwebdemo.wffwebdemoproject.page.template.components.SuggestionSearchInput;
-import com.webfirmframework.wffweb.tag.html.attribute.Rel;
 
 public class IndexPageLayout extends Html {
 
@@ -46,12 +47,12 @@ public class IndexPageLayout extends Html {
 
     private HttpSession httpSession;
     
-    private List<Runnable> allThreads;
+    private List<Runnable> timePrinters;
 
     private Locale locale;
 
     private BrowserPage browserPage;
-
+    
     public IndexPageLayout(HttpSession httpSession, Locale locale, BrowserPage browserPage) {
         super(null);
         this.httpSession = httpSession;
@@ -59,7 +60,7 @@ public class IndexPageLayout extends Html {
         this.browserPage = browserPage;
         super.setPrependDocType(true);
         
-        allThreads = new ArrayList<Runnable>();
+        timePrinters = new ArrayList<Runnable>();
         develop();
     }
 
@@ -139,11 +140,11 @@ public class IndexPageLayout extends Html {
 
                         final Span timeSpan = new Span(this);
 
-                        Runnable thread = new Runnable() {
+                        Runnable timePrinter = new Runnable() {
 
                             @Override
                             public void run() {
-                                while (!Thread.interrupted()) {
+                                if (browserPage.getTagRepository().exists(timeSpan)) {
                                     try {
                                         timeSpan.addInnerHtml(new NoTag(null,
                                                 new Date().toString()));
@@ -151,16 +152,22 @@ public class IndexPageLayout extends Html {
                                                 + ", locale " + locale);
                                         Thread.sleep(1000);
                                     } catch (InterruptedException e) {
-                                        break;
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    try {
+                                        ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.cancel(this, false);
+                                    } catch (IllegalAccessException e) {
+                                        e.printStackTrace();
                                     }
                                 }
 
-                                LOGGER.info(
-                                        "Server time printing thread stopped");
+                                
                             }
                         };
 
-                        allThreads.add(thread);
+                        
+                        timePrinters.add(timePrinter);
                     }
                 };
                 
@@ -194,8 +201,8 @@ public class IndexPageLayout extends Html {
 
     }
     
-    public List<Runnable> getAllThreads() {
-        return allThreads;
+    public List<Runnable> getTimers() {
+        return timePrinters;
     }
 
 }
