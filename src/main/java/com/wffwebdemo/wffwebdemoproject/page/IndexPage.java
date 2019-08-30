@@ -76,8 +76,6 @@ public class IndexPage extends BrowserPage implements Threaded {
         //to add a custom server method
         super.addServerMethod("testServerMethod", new CustomServerMethod(httpSession));
         
-        TOTAL_ONLINE_USERS.incrementAndGet();
-        initTimerThread();
         
         // here we should return the object IndexPageLayout
 
@@ -89,6 +87,9 @@ public class IndexPage extends BrowserPage implements Threaded {
 
     @Override
     public void startAllThreads() {
+        
+        TOTAL_ONLINE_USERS.incrementAndGet();
+        initTimerThread();
         
         
 //        for (Runnable runnable : indexPageLayout.getTimers()) {
