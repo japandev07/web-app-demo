@@ -148,6 +148,8 @@ public class IndexPageLayout extends Html {
                                 LOGGER.info("Server Time " + new Date()
                                       + ", locale " + locale);
                                 return new Content<String>(content.getContent().toString(), false);
+                            } else {
+                                timeSpan.removeSharedTagContent(false);
                             }
                             return null;
                             
