@@ -78,7 +78,6 @@ public class IndexPage extends BrowserPage implements Threaded {
         
         
         // here we should return the object IndexPageLayout
-
         indexPageLayout = new IndexPageLayout(httpSession, locale, this);
         return indexPageLayout;
     }
@@ -87,32 +86,16 @@ public class IndexPage extends BrowserPage implements Threaded {
 
     @Override
     public void startAllThreads() {
-        
         TOTAL_ONLINE_USERS.incrementAndGet();
         initTimerThread();
-        
-        
-//        for (Runnable runnable : indexPageLayout.getTimers()) {
-//            ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.scheduleAtFixedRate(runnable, 1, 1, TimeUnit.SECONDS);
-//        }
     }
 
     @Override
     public void stopAllThreads() {
-        
         final int count = TOTAL_ONLINE_USERS.decrementAndGet();
         if (count == 0) {
             stopTimerThread();
         }
-        
-//        for (Runnable runnable : indexPageLayout.getTimers()) {
-//            try {
-//                ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.cancel(runnable, true);
-//            } catch (IllegalAccessException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//        }
     }
     
     @Override
@@ -125,7 +108,6 @@ public class IndexPage extends BrowserPage implements Threaded {
         super.removedFromContext();
         
         stopAllThreads();
-        
     }
 
 }

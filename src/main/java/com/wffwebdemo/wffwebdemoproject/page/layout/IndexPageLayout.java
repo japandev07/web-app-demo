@@ -150,41 +150,9 @@ public class IndexPageLayout extends Html {
                                 
                             }
                             return new Content<String>(content.getContent().toString(), false);
-                            
                         });
-
-//                        Runnable timePrinter = new Runnable() {
-//
-//                            @Override
-//                            public void run() {
-//                                if (browserPage.getTagRepository().exists(timeSpan)) {
-//                                    try {
-//                                        timeSpan.addInnerHtml(new NoTag(null,
-//                                                new Date().toString()));
-//                                        LOGGER.info("Server Time " + new Date()
-//                                                + ", locale " + locale);
-//                                        Thread.sleep(1000);
-//                                    } catch (InterruptedException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                } else {
-//                                    try {
-//                                        ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.cancel(this, false);
-//                                    } catch (IllegalAccessException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//
-//                                
-//                            }
-//                        };
-
-                        
-//                        timePrinters.add(timePrinter);
                     }
                 };
-                
-                
                 
                 
                 new Br(this);
@@ -213,9 +181,5 @@ public class IndexPageLayout extends Html {
         };
 
     }
-    
-//    public List<Runnable> getTimers() {
-//        return timePrinters;
-//    }
 
 }
