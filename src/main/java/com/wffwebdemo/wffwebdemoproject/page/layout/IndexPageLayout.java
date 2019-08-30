@@ -147,9 +147,9 @@ public class IndexPageLayout extends Html {
                             if (browserPage.getTagRepository().exists(timeSpan)) {
                                 LOGGER.info("Server Time " + new Date()
                                       + ", locale " + locale);
-                                return new Content<String>(content.getContent().toString(), false);
+                                
                             }
-                            return null;
+                            return new Content<String>(content.getContent().toString(), false);
                             
                         });
 
