@@ -1,9 +1,8 @@
 package com.wffwebdemo.wffwebdemoproject.page.layout;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +11,7 @@ import com.webfirmframework.wffweb.tag.html.Body;
 import com.webfirmframework.wffweb.tag.html.Br;
 import com.webfirmframework.wffweb.tag.html.H4;
 import com.webfirmframework.wffweb.tag.html.Html;
+import com.webfirmframework.wffweb.tag.html.SharedTagContent.Content;
 import com.webfirmframework.wffweb.tag.html.TitleTag;
 import com.webfirmframework.wffweb.tag.html.attribute.For;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
@@ -34,12 +34,14 @@ import com.webfirmframework.wffweb.tag.html.programming.Script;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Span;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
-import com.wffwebdemo.wffwebdemoproject.common.util.ScheduledThreadPool;
+import com.wffwebdemo.wffwebdemoproject.page.IndexPage;
 import com.wffwebdemo.wffwebdemoproject.page.model.DocumentModel;
 import com.wffwebdemo.wffwebdemoproject.page.template.LoginTemplate;
 import com.wffwebdemo.wffwebdemoproject.page.template.components.SuggestionSearchInput;
 
 public class IndexPageLayout extends Html {
+    
+    private static final Logger LOGGER = Logger.getLogger(IndexPageLayout.class.getName());
 
     private static final long serialVersionUID = 1L;
 
@@ -47,11 +49,11 @@ public class IndexPageLayout extends Html {
 
     private HttpSession httpSession;
     
-    private List<Runnable> timePrinters;
+//    private List<Runnable> timePrinters;
 
     private Locale locale;
 
-    private BrowserPage browserPage;
+    private BrowserPage browserPage;    
     
     public IndexPageLayout(HttpSession httpSession, Locale locale, BrowserPage browserPage) {
         super(null);
@@ -60,7 +62,7 @@ public class IndexPageLayout extends Html {
         this.browserPage = browserPage;
         super.setPrependDocType(true);
         
-        timePrinters = new ArrayList<Runnable>();
+//        timePrinters = new ArrayList<Runnable>();
         develop();
     }
 
@@ -139,35 +141,46 @@ public class IndexPageLayout extends Html {
                         new NoTag(this, "Server time : ");
 
                         final Span timeSpan = new Span(this);
+                        
+                        timeSpan.subscribeTo(IndexPage.CURRENT_DATE_TIME_STC, (content) -> {
 
-                        Runnable timePrinter = new Runnable() {
-
-                            @Override
-                            public void run() {
-                                if (browserPage.getTagRepository().exists(timeSpan)) {
-                                    try {
-                                        timeSpan.addInnerHtml(new NoTag(null,
-                                                new Date().toString()));
-                                        LOGGER.info("Server Time " + new Date()
-                                                + ", locale " + locale);
-                                        Thread.sleep(1000);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    try {
-                                        ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.cancel(this, false);
-                                    } catch (IllegalAccessException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                
+                            if (browserPage.getTagRepository().exists(timeSpan)) {
+                                LOGGER.info("Server Time " + new Date()
+                                      + ", locale " + locale);
+                                return new Content<String>(content.getContent().toString(), false);
                             }
-                        };
+                            return null;
+                            
+                        });
+
+//                        Runnable timePrinter = new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                if (browserPage.getTagRepository().exists(timeSpan)) {
+//                                    try {
+//                                        timeSpan.addInnerHtml(new NoTag(null,
+//                                                new Date().toString()));
+//                                        LOGGER.info("Server Time " + new Date()
+//                                                + ", locale " + locale);
+//                                        Thread.sleep(1000);
+//                                    } catch (InterruptedException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                } else {
+//                                    try {
+//                                        ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.cancel(this, false);
+//                                    } catch (IllegalAccessException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//
+//                                
+//                            }
+//                        };
 
                         
-                        timePrinters.add(timePrinter);
+//                        timePrinters.add(timePrinter);
                     }
                 };
                 
@@ -201,8 +214,8 @@ public class IndexPageLayout extends Html {
 
     }
     
-    public List<Runnable> getTimers() {
-        return timePrinters;
-    }
+//    public List<Runnable> getTimers() {
+//        return timePrinters;
+//    }
 
 }

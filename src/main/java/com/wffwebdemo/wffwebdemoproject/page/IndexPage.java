@@ -1,13 +1,18 @@
 package com.wffwebdemo.wffwebdemoproject.page;
 
+import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
 
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
+import com.webfirmframework.wffweb.tag.html.SharedTagContent;
+import com.webfirmframework.wffweb.tag.html.SharedTagContent.UpdateClientNature;
 import com.wffwebdemo.wffwebdemoproject.common.util.ScheduledThreadPool;
 import com.wffwebdemo.wffwebdemoproject.page.layout.IndexPageLayout;
 
@@ -18,11 +23,15 @@ public class IndexPage extends BrowserPage implements Threaded {
     private static final Logger LOGGER = Logger
             .getLogger(IndexPage.class.getName());
     
+    public static final SharedTagContent<Date> CURRENT_DATE_TIME_STC = new SharedTagContent<>(UpdateClientNature.SEQUENTIAL, new Date());
+    
+    private static volatile ScheduledFuture<?> TIME_PRINTING_THREAD;
+    
+    private static final AtomicInteger TOTAL_ONLINE_USERS = new AtomicInteger(0);
+    
     private final HttpSession httpSession;
     private IndexPageLayout indexPageLayout;
     private Locale locale;
-    
-    
 
     @Override
     public String webSocketUrl() {
@@ -32,6 +41,27 @@ public class IndexPage extends BrowserPage implements Threaded {
     public IndexPage(final HttpSession httpSession, Locale locale) {
         this.httpSession = httpSession;
         this.locale = locale;
+    }
+    
+    private static void initTimerThread() {
+        if (TIME_PRINTING_THREAD == null) {
+            synchronized (IndexPage.class) {
+                if (TIME_PRINTING_THREAD == null) {
+                    TIME_PRINTING_THREAD = ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.scheduleAtFixedRate(() -> CURRENT_DATE_TIME_STC.setContent(new Date()), 1, 1, TimeUnit.SECONDS);            
+                }
+            }
+        }        
+    }
+    
+    private static void stopTimerThread() {
+        if (TIME_PRINTING_THREAD != null) {
+            synchronized (IndexPage.class) {
+                if (TIME_PRINTING_THREAD != null && TOTAL_ONLINE_USERS.get() == 0) {
+                    TIME_PRINTING_THREAD.cancel(true);
+                    TIME_PRINTING_THREAD = null;            
+                }
+            }
+        }        
     }
 
     @Override
@@ -46,6 +76,9 @@ public class IndexPage extends BrowserPage implements Threaded {
         //to add a custom server method
         super.addServerMethod("testServerMethod", new CustomServerMethod(httpSession));
         
+        TOTAL_ONLINE_USERS.incrementAndGet();
+        initTimerThread();
+        
         // here we should return the object IndexPageLayout
 
         indexPageLayout = new IndexPageLayout(httpSession, locale, this);
@@ -56,22 +89,24 @@ public class IndexPage extends BrowserPage implements Threaded {
 
     @Override
     public void startAllThreads() {
-        for (Runnable runnable : indexPageLayout.getTimers()) {
-            ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.scheduleAtFixedRate(runnable, 1, 1, TimeUnit.SECONDS);
-        }
+        
+        
+//        for (Runnable runnable : indexPageLayout.getTimers()) {
+//            ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.scheduleAtFixedRate(runnable, 1, 1, TimeUnit.SECONDS);
+//        }
     }
 
     @Override
     public void stopAllThreads() {
 
-        for (Runnable runnable : indexPageLayout.getTimers()) {
-            try {
-                ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.cancel(runnable, true);
-            } catch (IllegalAccessException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+//        for (Runnable runnable : indexPageLayout.getTimers()) {
+//            try {
+//                ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.cancel(runnable, true);
+//            } catch (IllegalAccessException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//        }
     }
     
     @Override
@@ -82,6 +117,11 @@ public class IndexPage extends BrowserPage implements Threaded {
         // this method will be invoked when this BrowserPage 
         // is removed from BrowserPageContext
         super.removedFromContext();
+        
+        final int count = TOTAL_ONLINE_USERS.decrementAndGet();
+        if (count == 0) {
+            stopTimerThread();
+        }
         
         stopAllThreads();
         
