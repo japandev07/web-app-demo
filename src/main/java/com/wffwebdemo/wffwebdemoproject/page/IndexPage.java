@@ -98,7 +98,12 @@ public class IndexPage extends BrowserPage implements Threaded {
 
     @Override
     public void stopAllThreads() {
-
+        
+        final int count = TOTAL_ONLINE_USERS.decrementAndGet();
+        if (count == 0) {
+            stopTimerThread();
+        }
+        
 //        for (Runnable runnable : indexPageLayout.getTimers()) {
 //            try {
 //                ScheduledThreadPool.NEW_SINGLE_THREAD_SCHEDULED_EXECUTOR.cancel(runnable, true);
@@ -117,11 +122,6 @@ public class IndexPage extends BrowserPage implements Threaded {
         // this method will be invoked when this BrowserPage 
         // is removed from BrowserPageContext
         super.removedFromContext();
-        
-        final int count = TOTAL_ONLINE_USERS.decrementAndGet();
-        if (count == 0) {
-            stopTimerThread();
-        }
         
         stopAllThreads();
         
