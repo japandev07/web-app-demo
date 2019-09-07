@@ -165,7 +165,7 @@ public class IndexPageLayout extends Html {
                             Date time = content.getContent();                            
                             
                             SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");     
-                            sdf.setTimeZone(TimeZone.getTimeZone("US/Eastern"));
+                            sdf.setTimeZone(TimeZone.getTimeZone("EST"));
                             return new Content<String>(sdf.format(time), false);
                         });
                     }
