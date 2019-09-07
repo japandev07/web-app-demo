@@ -1,7 +1,9 @@
 package com.wffwebdemo.wffwebdemoproject.page.layout;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
@@ -138,7 +140,7 @@ public class IndexPageLayout extends Html {
                 //to print server time
                 new H4(this) {
                     {
-                        new NoTag(this, "Server time : ");
+                        new NoTag(this, "Server time in UTC: ");
 
                         final Span timeSpan = new Span(this);
                         
@@ -150,6 +152,21 @@ public class IndexPageLayout extends Html {
                                 
                             }
                             return new Content<String>(content.getContent().toString(), false);
+                        });
+                        
+                        new Br(this);
+                        new Br(this);
+                        new NoTag(this, "Server time in EST: ");
+                        
+                        final Span timeSpan2 = new Span(this);
+                        
+                        timeSpan2.subscribeTo(IndexPage.CURRENT_DATE_TIME_STC, (content) -> {
+
+                            Date time = content.getContent();                            
+                            
+                            SimpleDateFormat sdf = new SimpleDateFormat();     
+                            sdf.setTimeZone(TimeZone.getTimeZone("US/Eastern"));
+                            return new Content<String>(sdf.format(time), false);
                         });
                     }
                 };
