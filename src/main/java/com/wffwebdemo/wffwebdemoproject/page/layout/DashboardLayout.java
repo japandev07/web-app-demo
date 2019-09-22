@@ -40,21 +40,11 @@ public class DashboardLayout extends Div implements ServerAsyncMethod {
         documentModel.getPageTitle()
                 .addInnerHtml(new NoTag(null, "User Dashboard"));
 
-        logoutButton = new Button(this, new OnClick(this)) {
-            {
-                new NoTag(this, "Logout");
-            }
-        };
+        logoutButton = new Button(this, new OnClick(this)).give(logoutBtn -> new NoTag(logoutBtn, "Logout"));
 
-        listUsersButton = new Button(this, new OnClick(this)) {
-            {
-                new B(this) {
-                    {
-                        new NoTag(this, "List Users");
-                    }
-                };
-            }
-        };
+        listUsersButton = new Button(this, new OnClick(this)).give(listUsersBtn -> {
+            new B(listUsersBtn).give(b -> new NoTag(b, "List Users"));
+        });
 
         registerUserButton = new Button(this, new OnClick(this)) {
             {

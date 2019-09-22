@@ -101,39 +101,30 @@ public class IndexPageLayout extends Html {
                 
                 new Br(this);
                 new Br(this);
-                new A(this, new Href("https://github.com/webfirmframework/wffweb-demo-deployment"), new Target(Target.BLANK)) {
-                    {
-                        new NoTag(this, "Find its code in github");
-                    }
-                };
-                new Br(this);
-                new Br(this);
                 
-                new A(this, new Href("server-log"), new Target(Target.BLANK), new Rel("noopener")) {
-                    {
-                        new NoTag(this, "view server log");
-                    }
-                };
+                new A(this, new Href("https://github.com/webfirmframework/wffweb-demo-deployment"), 
+                        new Target(Target.BLANK)).give(a -> new NoTag(a, "Find its code in github"));
                 
                 new Br(this);
                 new Br(this);
                 
-                new H4(this) {{
-                    new NoTag(this, "webfirmframework supports RTL (Right-to-left language), eg Arabic: كيف حالك؟");
-                }};
+                new A(this, new Href("server-log"), new Target(Target.BLANK), new Rel("noopener")).give(a -> new NoTag(a, "view server log"));
                 
-                new Div(this) {{
-                    new Label(this,
-                        new For("rtlTextField")) {{
-                        new NoTag(this, "Arabic ");
-                    }};
-                    new Input(this,
-                        new Type(Type.TEXT),
-			new Dir(Dir.RTL),
-			new Lang("ar"),
-                        new Id("rtlTextField"),
-                        new Value("كيف حالك؟"));
-		}};                
+                new Br(this);
+                new Br(this);
+                
+                new H4(this).give(h4 -> new NoTag(h4, "webfirmframework supports RTL (Right-to-left language), eg Arabic: كيف حالك؟"));
+                
+                new Div(this).give(div -> {
+                    new Label(div,
+                            new For("rtlTextField")).give(lbl -> new NoTag(lbl, "Arabic "));
+                        new Input(div,
+                            new Type(Type.TEXT),
+                            new Dir(Dir.RTL),
+                            new Lang("ar"),
+                            new Id("rtlTextField"),
+                            new Value("كيف حالك؟"));
+                });                
                 
                 new Br(this);
                 
