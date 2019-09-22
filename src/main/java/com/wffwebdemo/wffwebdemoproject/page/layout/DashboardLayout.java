@@ -50,7 +50,7 @@ public class DashboardLayout extends Div implements ServerAsyncMethod {
                 });
 
         registerUserButton = new Button(this, new OnClick(this)).give(btn -> {
-            new B(this).give(b -> new NoTag(b, "Register User"));
+            new B(btn).give(b -> new NoTag(b, "Register User"));
         });
     }
 
