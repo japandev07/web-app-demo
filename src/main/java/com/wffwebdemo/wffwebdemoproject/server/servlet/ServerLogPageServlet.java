@@ -13,12 +13,6 @@ import javax.servlet.http.HttpSession;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.wffwebdemo.wffwebdemoproject.page.ServerLogPage;
-import com.webfirmframework.wffweb.tag.html.Html;
-import com.webfirmframework.wffweb.tag.html.metainfo.Head;
-import com.webfirmframework.wffweb.tag.html.metainfo.Meta;
-import com.webfirmframework.wffweb.tag.html.attribute.HttpEquiv;
-import com.webfirmframework.wffweb.tag.html.html5.attribute.Content;
-import com.webfirmframework.wffweb.tag.html.Body;
 
 /**
  * Servlet implementation class HomePageServlet
