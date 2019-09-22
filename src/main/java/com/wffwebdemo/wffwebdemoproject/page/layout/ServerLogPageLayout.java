@@ -12,9 +12,10 @@ import com.webfirmframework.wffweb.tag.html.metainfo.Head;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 
-@SuppressWarnings("serial")
 public class ServerLogPageLayout extends Html {
 
+    private static final long serialVersionUID = 1L;
+    
     private Body body;
 
     public ServerLogPageLayout() {
@@ -25,27 +26,18 @@ public class ServerLogPageLayout extends Html {
 
     private void develop() {
 
-        new Head(this) {
-            {
-                new TitleTag(this) {
-                    {
-                        new NoTag(this, "Server Log");
-                    }
-                };
-            }
-        };
+        new Head(this).give(head -> {
+            new TitleTag(head).give(title -> new NoTag(title, "Server Log"));
+        });
 
         body = new Body(this, new Style("background:white"));
 
     }
 
-    
     public void log(final String msg) {
-        Div logDiv = new Div(null) {
-            {
-                new NoTag(this, "[" + new Date() + "]$ " + msg);
-            }
-        };
+        Div logDiv = new Div(null)
+                .give(div -> new NoTag(div, "[" + new Date() + "]$ " + msg));
+
         List<AbstractHtml> children = body.getChildren();
         if (children.size() > 50) {
             body.removeChild(children.get(0));
