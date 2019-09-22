@@ -14,8 +14,9 @@ import com.wffwebdemo.wffwebdemoproject.page.template.LoginTemplate;
 import com.wffwebdemo.wffwebdemoproject.page.template.users.ListUsersTempate;
 import com.wffwebdemo.wffwebdemoproject.page.template.users.RegisterUserTempate;
 
-@SuppressWarnings("serial")
 public class DashboardLayout extends Div implements ServerAsyncMethod {
+
+    private static final long serialVersionUID = 1L;
 
     private DocumentModel documentModel;
 
@@ -40,21 +41,17 @@ public class DashboardLayout extends Div implements ServerAsyncMethod {
         documentModel.getPageTitle()
                 .addInnerHtml(new NoTag(null, "User Dashboard"));
 
-        logoutButton = new Button(this, new OnClick(this)).give(logoutBtn -> new NoTag(logoutBtn, "Logout"));
+        logoutButton = new Button(this, new OnClick(this))
+                .give(logoutBtn -> new NoTag(logoutBtn, "Logout"));
 
-        listUsersButton = new Button(this, new OnClick(this)).give(listUsersBtn -> {
-            new B(listUsersBtn).give(b -> new NoTag(b, "List Users"));
+        listUsersButton = new Button(this, new OnClick(this))
+                .give(listUsersBtn -> {
+                    new B(listUsersBtn).give(b -> new NoTag(b, "List Users"));
+                });
+
+        registerUserButton = new Button(this, new OnClick(this)).give(btn -> {
+            new B(this).give(b -> new NoTag(b, "Register User"));
         });
-
-        registerUserButton = new Button(this, new OnClick(this)) {
-            {
-                new B(this) {
-                    {
-                        new NoTag(this, "Register User");
-                    }
-                };
-            }
-        };
     }
 
     @Override
@@ -64,9 +61,9 @@ public class DashboardLayout extends Div implements ServerAsyncMethod {
 
             LoginTemplate loginTemplate = new LoginTemplate(documentModel);
             documentModel.getBodyDiv().addInnerHtml(loginTemplate);
-            
+
             displayInServerLogPage("logoutButton clicked");
-            
+
         } else if (event.getSourceTag().equals(listUsersButton)) {
 
             if (regUser != null) {
@@ -98,7 +95,7 @@ public class DashboardLayout extends Div implements ServerAsyncMethod {
 
         return null;
     }
-    
+
     private void displayInServerLogPage(String msg) {
         Object serverLogPageInstanceId = documentModel.getHttpSession()
                 .getAttribute("serverLogPageInstanceId");
