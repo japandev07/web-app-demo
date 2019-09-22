@@ -68,125 +68,114 @@ public class IndexPageLayout extends Html {
         develop();
     }
 
-    @SuppressWarnings("serial")
     private void develop() {
 
-        new Head(this) {
-            {
-                pageTitle = new TitleTag(this) {
-                    {
-                        new NoTag(this);
-                    }
-                };
-                new Script(this, new Type(Type.TEXT_JAVASCRIPT), new Src("js/util.js"));
-            }
-        };
+        new Head(this).give(head -> {
+                pageTitle = new TitleTag(head).give(title -> new NoTag(title));
+                new Script(head, new Type(Type.TEXT_JAVASCRIPT), new Src("js/util.js"));
+            });
 
-        new Body(this, new Style("background:lightgray")) {
+        new Body(this, new Style("background:lightgray")).give(body -> {
 
-            {
-                
-                new SuggestionSearchInput(this);
-                
-                new Br(this);
-                new Br(this);
-                
-                //invokeServerMethod() is defined in js/util.js
-                
-                new Button(this, new OnClick("invokeServerMethod()")) {
-                    {
-                        new NoTag(this, "Custom Server Method Invocation");
-                    }
-                };
-                
-                new Br(this);
-                new Br(this);
-                
-                new A(this, new Href("https://github.com/webfirmframework/wffweb-demo-deployment"), 
-                        new Target(Target.BLANK)).give(a -> new NoTag(a, "Find its code in github"));
-                
-                new Br(this);
-                new Br(this);
-                
-                new A(this, new Href("server-log"), new Target(Target.BLANK), new Rel("noopener")).give(a -> new NoTag(a, "view server log"));
-                
-                new Br(this);
-                new Br(this);
-                
-                new H4(this).give(h4 -> new NoTag(h4, "webfirmframework supports RTL (Right-to-left language), eg Arabic: كيف حالك؟"));
-                
-                new Div(this).give(div -> {
-                    new Label(div,
-                            new For("rtlTextField")).give(lbl -> new NoTag(lbl, "Arabic "));
-                        new Input(div,
-                            new Type(Type.TEXT),
-                            new Dir(Dir.RTL),
-                            new Lang("ar"),
-                            new Id("rtlTextField"),
-                            new Value("كيف حالك؟"));
-                });                
-                
-                new Br(this);
-                
-                //to print server time
-                new H4(this) {
-                    {
-                        new NoTag(this, "Server time in UTC: ");
+            new SuggestionSearchInput(body);
 
-                        final Span timeSpan = new Span(this);
-                        
-                        timeSpan.subscribeTo(IndexPage.CURRENT_DATE_TIME_STC, (content) -> {
+            new Br(body);
+            new Br(body);
 
-                            if (browserPage.getTagRepository().exists(timeSpan)) {
+            // invokeServerMethod() is defined in js/util.js
+
+            new Button(body, new OnClick("invokeServerMethod()")).give(
+                    btn -> new NoTag(btn, "Custom Server Method Invocation"));
+
+            new Br(body);
+            new Br(body);
+
+            new A(body, new Href(
+                    "https://github.com/webfirmframework/wffweb-demo-deployment"),
+                    new Target(Target.BLANK))
+                            .give(a -> new NoTag(a, "Find its code in github"));
+
+            new Br(body);
+            new Br(body);
+
+            new A(body, new Href("server-log"), new Target(Target.BLANK),
+                    new Rel("noopener"))
+                            .give(a -> new NoTag(a, "view server log"));
+
+            new Br(body);
+            new Br(body);
+
+            new H4(body).give(h4 -> new NoTag(h4,
+                    "webfirmframework supports RTL (Right-to-left language), eg Arabic: كيف حالك؟"));
+
+            new Div(body).give(div -> {
+                new Label(div, new For("rtlTextField"))
+                        .give(lbl -> new NoTag(lbl, "Arabic "));
+                new Input(div, new Type(Type.TEXT), new Dir(Dir.RTL),
+                        new Lang("ar"), new Id("rtlTextField"),
+                        new Value("كيف حالك؟"));
+            });
+
+            new Br(body);
+
+            // to print server time
+            new H4(body).give(h4 -> {
+                new NoTag(h4, "Server time in UTC: ");
+
+                final Span timeSpan = new Span(h4);
+
+                timeSpan.subscribeTo(IndexPage.CURRENT_DATE_TIME_STC,
+                        (content) -> {
+
+                            if (browserPage.getTagRepository()
+                                    .exists(timeSpan)) {
                                 LOGGER.info("Server Time " + new Date()
-                                      + ", locale " + locale);
-                                
-                            }
-                            return new Content<String>(content.getContent().toString(), false);
-                        });
-                        
-                        new Br(this);
-                        new Br(this);
-                        new NoTag(this, "Server time in EST: ");
-                        
-                        final Span timeSpan2 = new Span(this);
-                        
-                        timeSpan2.subscribeTo(IndexPage.CURRENT_DATE_TIME_STC, (content) -> {
+                                        + ", locale " + locale);
 
-                            Date time = content.getContent();                            
-                            
-                            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");     
+                            }
+                            return new Content<String>(
+                                    content.getContent().toString(), false);
+                        });
+
+                new Br(h4);
+                new Br(h4);
+                new NoTag(h4, "Server time in EST: ");
+
+                final Span timeSpan2 = new Span(h4);
+
+                timeSpan2.subscribeTo(IndexPage.CURRENT_DATE_TIME_STC,
+                        (content) -> {
+
+                            Date time = content.getContent();
+
+                            SimpleDateFormat sdf = new SimpleDateFormat(
+                                    "EEE MMM dd HH:mm:ss zzz yyyy");
                             sdf.setTimeZone(TimeZone.getTimeZone("EST"));
                             return new Content<String>(sdf.format(time), false);
                         });
-                    }
-                };
-                
-                
-                new Br(this);
-                new Br(this);
-                
-                new NoTag(this, "Username : demo");
-                new Br(this);
-                new NoTag(this, "Password : demo");
-                
-                new Br(this);
-                new Br(this);
-                
-                DocumentModel documentModel = new DocumentModel(browserPage);
-                
-                Div bodyDiv = new Div(this);
-                documentModel.setBodyDiv(bodyDiv);
-                
-                documentModel.setPageTitle(pageTitle);
-                documentModel.setHttpSession(httpSession);
-                
-                
-                bodyDiv.appendChild(new LoginTemplate(documentModel));
-                
-            }
+            });
 
-        };
+            new Br(body);
+            new Br(body);
+
+            new NoTag(body, "Username : demo");
+            new Br(body);
+            new NoTag(body, "Password : demo");
+
+            new Br(body);
+            new Br(body);
+
+            DocumentModel documentModel = new DocumentModel(browserPage);
+
+            Div bodyDiv = new Div(body);
+            documentModel.setBodyDiv(bodyDiv);
+
+            documentModel.setPageTitle(pageTitle);
+            documentModel.setHttpSession(httpSession);
+
+            bodyDiv.appendChild(new LoginTemplate(documentModel));
+
+        });
 
     }
 
