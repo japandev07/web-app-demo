@@ -91,9 +91,17 @@ public class IndexPageLayout extends Html {
             new Br(body);
 
             new A(body, new Href(
-                    "https://github.com/webfirmframework/wffweb-demo-deployment"),
+                    "https://github.com/webfirmframework/minimal-production-ready-projects"),
                     new Target(Target.BLANK))
-                            .give(a -> new NoTag(a, "Find its code in github"));
+                            .give(a -> new NoTag(a, "Find sample code in github"));
+            
+            new Br(body);
+            new Br(body);
+
+            new A(body, new Href(
+                    "https://www.patreon.com/webfirmframework"),
+                    new Target(Target.BLANK))
+                            .give(a -> new NoTag(a, "You can also download production ready sample code configured for embed tomcat to deploy in Heroku."));
 
             new Br(body);
             new Br(body);
