@@ -127,8 +127,8 @@ public class IndexPageLayout extends Html {
                 timeSpan.subscribeTo(IndexPage.CURRENT_DATE_TIME_STC,
                         (content) -> {
 
-                            if (browserPage.getTagRepository()
-                                    .exists(timeSpan)) {
+                            if (browserPage.getTagRepository() != null 
+                                    && browserPage.getTagRepository().exists(timeSpan)) {
                                 LOGGER.info("Server Time " + new Date()
                                         + ", locale " + locale);
 
