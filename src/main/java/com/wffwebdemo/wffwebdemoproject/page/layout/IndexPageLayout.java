@@ -38,6 +38,7 @@ import com.webfirmframework.wffweb.tag.html.programming.Script;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Span;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
+import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
 import com.wffwebdemo.wffwebdemoproject.page.IndexPage;
 import com.wffwebdemo.wffwebdemoproject.page.model.DocumentModel;
 import com.wffwebdemo.wffwebdemoproject.page.template.LoginTemplate;
@@ -83,7 +84,7 @@ public class IndexPageLayout extends Html {
             
             new NoTag(body, "Show Realtime msg here using the below input, it will be shown in all browsers in realtime: ");
             
-            new Span(body).subscribeTo(REALTIME_MSG);
+            new Span(body, new Style("color:red")).subscribeTo(REALTIME_MSG);
             
             new Br(body);
             
@@ -93,7 +94,7 @@ public class IndexPageLayout extends Html {
                 REALTIME_MSG.setContent((String) data.getValue("val"));
                 
                 return null;
-            }, "return {val: document.getElementById('realtimeMsg').value}", null));
+            }, "return {val: document.getElementById('realtimeMsg').value}", null)).give(TagContent::text, "Publish");
             
             
             new Br(body);
