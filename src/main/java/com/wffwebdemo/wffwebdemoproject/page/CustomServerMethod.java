@@ -173,10 +173,12 @@ public class CustomServerMethod implements ServerAsyncMethod {
         Map<String, BrowserPage> browserPages = BrowserPageContext.INSTANCE.getBrowserPages(httpSession.getId());
 
         for (BrowserPage browserPage : browserPages.values()) {
-            ServerLogPage serverLogPage = (ServerLogPage) browserPage;
-            if (serverLogPage != null) {
-                serverLogPage.log(msg);
-            }
+            if (browserPage instanceof ServerLogPage) {
+                ServerLogPage serverLogPage = (ServerLogPage) browserPage;
+                if (serverLogPage != null) {
+                    serverLogPage.log(msg);
+                }    
+            }            
         }
 
         LOGGER.info(msg);

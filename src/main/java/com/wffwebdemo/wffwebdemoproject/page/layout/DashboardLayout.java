@@ -107,10 +107,12 @@ public class DashboardLayout extends Div implements ServerAsyncMethod {
         Map<String, BrowserPage> browserPages = BrowserPageContext.INSTANCE.getBrowserPages(httpSessionId);
 
         for (BrowserPage browserPage : browserPages.values()) {
-            ServerLogPage serverLogPage = (ServerLogPage) browserPage;
-            if (serverLogPage != null) {
-                serverLogPage.log(msg);
-            }
+            if (browserPage instanceof ServerLogPage) {
+                ServerLogPage serverLogPage = (ServerLogPage) browserPage;
+                if (serverLogPage != null) {
+                    serverLogPage.log(msg);
+                }
+            }            
         }
 
     }
