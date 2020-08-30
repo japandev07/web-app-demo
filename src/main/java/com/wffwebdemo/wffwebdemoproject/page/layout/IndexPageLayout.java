@@ -13,10 +13,12 @@ import com.webfirmframework.wffweb.tag.html.Body;
 import com.webfirmframework.wffweb.tag.html.Br;
 import com.webfirmframework.wffweb.tag.html.H4;
 import com.webfirmframework.wffweb.tag.html.Html;
+import com.webfirmframework.wffweb.tag.html.SharedTagContent;
 import com.webfirmframework.wffweb.tag.html.SharedTagContent.Content;
 import com.webfirmframework.wffweb.tag.html.TitleTag;
 import com.webfirmframework.wffweb.tag.html.attribute.For;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
+import com.webfirmframework.wffweb.tag.html.attribute.MaxLength;
 import com.webfirmframework.wffweb.tag.html.attribute.Rel;
 import com.webfirmframework.wffweb.tag.html.attribute.Src;
 import com.webfirmframework.wffweb.tag.html.attribute.Target;
@@ -55,7 +57,9 @@ public class IndexPageLayout extends Html {
 
     private Locale locale;
 
-    private BrowserPage browserPage;    
+    private BrowserPage browserPage;   
+    
+    private static final SharedTagContent<String> REALTIME_MSG = new SharedTagContent<String>("");
     
     public IndexPageLayout(HttpSession httpSession, Locale locale, BrowserPage browserPage) {
         super(null);
@@ -71,11 +75,29 @@ public class IndexPageLayout extends Html {
     private void develop() {
 
         new Head(this).give(head -> {
-                pageTitle = new TitleTag(head).give(title -> new NoTag(title));
-                new Script(head, new Type(Type.TEXT_JAVASCRIPT), new Src("js/util.js"));
-            });
+            pageTitle = new TitleTag(head).give(title -> new NoTag(title));
+            new Script(head, new Type(Type.TEXT_JAVASCRIPT), new Src("js/util.js"));
+        });
 
         new Body(this, new Style("background:lightgray")).give(body -> {
+            
+            new NoTag(body, "Show Realtime msg here using the below input, it will be shown in all browsers in realtime: ");
+            
+            new Span(body).subscribeTo(REALTIME_MSG);
+            
+            new Br(body);
+            
+            new Input(body, new Id("realtimeMsg"), new Type(Type.TEXT), new MaxLength(15));
+            new Button(body, new Type(Type.BUTTON), new OnClick("return true;", (data, event) -> {
+                
+                REALTIME_MSG.setContent((String) data.getValue("val"));
+                
+                return null;
+            }, "return {val: document.getElementById('realtimeMsg').value}", null));
+            
+            
+            new Br(body);
+            new Br(body);
 
             new SuggestionSearchInput(body);
 
