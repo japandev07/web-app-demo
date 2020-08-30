@@ -43,29 +43,11 @@ public class ServerLogPageServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
 
-            String instanceId = (String) session
-                    .getAttribute("serverLogPageInstanceId");
+           
 
-            BrowserPage browserPage = null;
-            if (instanceId != null) {
-
-                browserPage = BrowserPageContext.INSTANCE
-                        .getBrowserPage(instanceId);
-
-                // if the server is restarted browserPage could be null here
-                // so you could save this instance to db after addBrowserPage
-                // method
-                // and retried from db using browserPage.getInstanceId()
-
-            }
-
-            if (browserPage == null) {
-                browserPage = new ServerLogPage();
-                BrowserPageContext.INSTANCE.addBrowserPage(session.getId(),
-                        browserPage);
-                session.setAttribute("serverLogPageInstanceId",
-                        browserPage.getInstanceId());
-            }
+            BrowserPage browserPage = new ServerLogPage();
+            BrowserPageContext.INSTANCE.addBrowserPage(session.getId(),
+                    browserPage);
 
             browserPage.toOutputStream(os, "UTF-8");
         }	

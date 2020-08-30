@@ -78,30 +78,12 @@ public class IndexPageServlet extends HttpServlet {
         try (OutputStream os = response.getOutputStream();) {
 
             HttpSession session = request.getSession();
+            
 
-            String instanceId = (String) session
-                    .getAttribute("indexPageInstanceId");
-
-            BrowserPage browserPage = null;
-            if (instanceId != null) {
-
-                browserPage = BrowserPageContext.INSTANCE
-                        .getBrowserPage(instanceId);
-
-                // if the server is restarted browserPage could be null here
-                // so you could save this instance to db after addBrowserPage
-                // method
-                // and retried from db using browserPage.getInstanceId()
-
-            }
-
-            if (browserPage == null) {
-                browserPage = new IndexPage(session, locale);
-                BrowserPageContext.INSTANCE.addBrowserPage(session.getId(),
-                        browserPage);
-                session.setAttribute("indexPageInstanceId",
-                        browserPage.getInstanceId());
-            }
+            BrowserPage  browserPage = new IndexPage(session, locale);
+            BrowserPageContext.INSTANCE.addBrowserPage(session.getId(),
+                    browserPage);
+            
 
             browserPage.toOutputStream(os, "UTF-8");
         }
