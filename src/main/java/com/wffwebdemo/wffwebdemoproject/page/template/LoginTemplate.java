@@ -47,10 +47,13 @@ public class LoginTemplate extends Div implements ServerAsyncMethod {
     
     private OnClick loginButtonOnClick;
 
-    public LoginTemplate(DocumentModel documentModel) {
+    private String httpSessionId;
+
+    public LoginTemplate(DocumentModel documentModel, String httpSessionId) {
         super(null, new Style(
                 "top:50%;left:50%;width:600px;background:lightblue;position:absolute;z-index:15;margin: 0px 0px 0px -155px;"));
         this.documentModel = documentModel;
+        this.httpSessionId = httpSessionId;
 
         develop();
     }
@@ -172,7 +175,7 @@ public class LoginTemplate extends Div implements ServerAsyncMethod {
                     displayInServerLogPage("login success");
                     // parent.addInnerHtml(new NoTag(null, "login success"));
                     DashboardLayout dashboard = new DashboardLayout(
-                            documentModel);
+                            documentModel, httpSessionId);
                     documentModel.getBodyDiv().addInnerHtml(dashboard);
 
                 } else {

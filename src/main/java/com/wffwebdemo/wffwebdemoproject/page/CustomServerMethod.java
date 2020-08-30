@@ -2,10 +2,12 @@ package com.wffwebdemo.wffwebdemoproject.page;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpSession;
 
+import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.tag.html.attribute.event.ServerAsyncMethod;
 import com.webfirmframework.wffweb.wffbm.data.BMValueType;
@@ -167,16 +169,16 @@ public class CustomServerMethod implements ServerAsyncMethod {
     }
     
     private void displayInServerLogPage(String msg) {
-        Object serverLogPageInstanceId = httpSession
-                .getAttribute("serverLogPageInstanceId");
-        if (serverLogPageInstanceId != null) {
-            ServerLogPage serverLogPage = (ServerLogPage) BrowserPageContext.INSTANCE
-                    .getBrowserPage(serverLogPageInstanceId.toString());
+
+        Map<String, BrowserPage> browserPages = BrowserPageContext.INSTANCE.getBrowserPages(httpSession.getId());
+
+        for (BrowserPage browserPage : browserPages.values()) {
+            ServerLogPage serverLogPage = (ServerLogPage) browserPage;
             if (serverLogPage != null) {
                 serverLogPage.log(msg);
             }
         }
-        
+
         LOGGER.info(msg);
     }
 }

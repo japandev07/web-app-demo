@@ -1,5 +1,8 @@
 package com.wffwebdemo.wffwebdemoproject.page.layout;
 
+import java.util.Map;
+
+import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.tag.html.attribute.event.ServerAsyncMethod;
 import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
@@ -30,9 +33,12 @@ public class DashboardLayout extends Div implements ServerAsyncMethod {
 
     private RegisterUserTempate regUser;
 
-    public DashboardLayout(DocumentModel documentModel) {
+    private String httpSessionId;
+
+    public DashboardLayout(DocumentModel documentModel, String httpSessionId) {
         super(null);
         this.documentModel = documentModel;
+        this.httpSessionId = httpSessionId;
 
         develop();
     }
@@ -59,7 +65,7 @@ public class DashboardLayout extends Div implements ServerAsyncMethod {
 
         if (event.getSourceTag().equals(logoutButton)) {
 
-            LoginTemplate loginTemplate = new LoginTemplate(documentModel);
+            LoginTemplate loginTemplate = new LoginTemplate(documentModel, httpSessionId);
             documentModel.getBodyDiv().addInnerHtml(loginTemplate);
 
             displayInServerLogPage("logoutButton clicked");
@@ -97,15 +103,16 @@ public class DashboardLayout extends Div implements ServerAsyncMethod {
     }
 
     private void displayInServerLogPage(String msg) {
-        Object serverLogPageInstanceId = documentModel.getHttpSession()
-                .getAttribute("serverLogPageInstanceId");
-        if (serverLogPageInstanceId != null) {
-            ServerLogPage serverLogPage = (ServerLogPage) BrowserPageContext.INSTANCE
-                    .getBrowserPage(serverLogPageInstanceId.toString());
+
+        Map<String, BrowserPage> browserPages = BrowserPageContext.INSTANCE.getBrowserPages(httpSessionId);
+
+        for (BrowserPage browserPage : browserPages.values()) {
+            ServerLogPage serverLogPage = (ServerLogPage) browserPage;
             if (serverLogPage != null) {
                 serverLogPage.log(msg);
             }
         }
+
     }
 
 }

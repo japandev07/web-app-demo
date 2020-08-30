@@ -204,7 +204,7 @@ public class IndexPageLayout extends Html {
             documentModel.setPageTitle(pageTitle);
             documentModel.setHttpSession(httpSession);
 
-            bodyDiv.appendChild(new LoginTemplate(documentModel));
+            bodyDiv.appendChild(new LoginTemplate(documentModel, httpSession.getId()));
 
         });
 
