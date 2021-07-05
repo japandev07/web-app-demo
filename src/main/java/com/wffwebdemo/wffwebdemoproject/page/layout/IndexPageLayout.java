@@ -121,14 +121,6 @@ public class IndexPageLayout extends Html {
             new Br(body);
             new Br(body);
 
-            new A(body, new Href(
-                    "https://www.patreon.com/webfirmframework"),
-                    new Target(Target.BLANK))
-                            .give(a -> new NoTag(a, "You can also download production ready sample code configured for embed tomcat to deploy in Heroku."));
-
-            new Br(body);
-            new Br(body);
-
             new A(body, new Href("server-log"), new Target(Target.BLANK),
                     new Rel("noopener"))
                             .give(a -> new NoTag(a, "view server log"));
