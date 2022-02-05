@@ -38,8 +38,8 @@ public class IndexPageServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         // optional
-        TagRegistry.loadAllTagClasses();
-        AttributeRegistry.loadAllAttributeClasses();
+//        TagRegistry.loadAllTagClasses();
+//        AttributeRegistry.loadAllAttributeClasses();
         LOGGER.info("Loaded all wffweb classes");
         ServerConstants.CONTEXT_PATH = getServletContext().getContextPath();
     }
