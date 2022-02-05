@@ -2,6 +2,6 @@
   "name": "wffweb",
   "description": "wffweb demo project",
   "website": "https://github.com/webfirmframework/wffweb-demo-deployment",
-  "success_url": "/",
+  "success_url": "/ui",
   "keywords": ["java", "webfirmframework", "wffweb", "demo"]
 }
