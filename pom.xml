@@ -79,7 +79,7 @@
 				<artifactId>appassembler-maven-plugin</artifactId>
 				<version>2.1.0</version>
 				<configuration>
-					<extraJvmArguments>-Xms64m -Xmx256m -XX:+ShowCodeDetailsInExceptionMessages</extraJvmArguments>
+					<extraJvmArguments>-Xms96m -XX:+ShowCodeDetailsInExceptionMessages</extraJvmArguments>
 					<assembleDirectory>target</assembleDirectory>
 					<programs>
 						<program>
