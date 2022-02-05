@@ -3,30 +3,13 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
-
-	<display-name>webfirmframework-wffweb</display-name>
+	<display-name>production-sample-with-foundation-css-framework</display-name>
 	<welcome-file-list>
+		<welcome-file>ui</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
-
-	<servlet>
-		<servlet-name>MainServlet</servlet-name>
-		<servlet-class>com.wffwebdemo.wffwebdemoproject.server.servlet.IndexPageServlet</servlet-class>
-	</servlet>
-	<!-- <servlet> <servlet-name>JettyWSServerForIndexPageServlet</servlet-name> 
-		<servlet-class>com.wffwebdemo.wffwebdemoproject.server.ws.servlet.JettyWSServerForIndexPageServlet</servlet-class> 
-		</servlet> <servlet-mapping> <servlet-name>JettyWSServerForIndexPageServlet</servlet-name> 
-		<url-pattern>/ws-for-index-page</url-pattern> </servlet-mapping> -->
-
-	<servlet-mapping>
-		<servlet-name>MainServlet</servlet-name>
-		<url-pattern>/index</url-pattern>
-	</servlet-mapping>
-
 	<session-config>
-		<session-timeout>30</session-timeout>
+		<session-timeout>5</session-timeout>
 	</session-config>
-
 </web-app>

@@ -3,18 +3,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.example</groupId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<artifactId>wffwebappdemo</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<properties>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<release>1.8</release>
-		<jetty-version>9.2.9.v20150224</jetty-version>
+		<java.version>17</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<tomcat.version>10.0.16</tomcat.version>
 	</properties>
 
 	<repositories>
@@ -32,58 +32,79 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-runner</artifactId>
-			<version>${jetty-version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.webfirmframework</groupId>
 			<artifactId>wffweb</artifactId>
-			<version>3.1.0-SNAPSHOT</version>
+			<version>12.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-websocket</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-el</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jsp-api</artifactId>
+			<version>${tomcat.version}</version>
 		</dependency>
 	</dependencies>
 
 	<build>
+		<finalName>minimalproductionsample</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
-				<groupId>com.heroku.sdk</groupId>
-				<artifactId>heroku-maven-plugin</artifactId>
-				<version>1.1.1</version>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>2.1.0</version>
 				<configuration>
-					<includes>
-						<include>target/dependency/jetty-runner.jar</include>
-					</includes>
+					<extraJvmArguments>-Xms64m -Xmx256m -XX:+ShowCodeDetailsInExceptionMessages -XX:+UseNUMA</extraJvmArguments>
+					<assembleDirectory>target</assembleDirectory>
+					<programs>
+						<program>
+							<mainClass>com.webfirmframework.web.launcher.Main</mainClass>
+							<id>webapp</id>
+						</program>
+					</programs>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.3</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
 						<goals>
-							<goal>copy</goal>
+							<goal>assemble</goal>
 						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.eclipse.jetty</groupId>
-									<artifactId>jetty-runner</artifactId>
-									<version>${jetty-version}</version>
-									<destFileName>jetty-runner.jar</destFileName>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
