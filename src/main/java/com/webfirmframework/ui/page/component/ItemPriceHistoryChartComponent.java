@@ -24,7 +24,7 @@ public class ItemPriceHistoryChartComponent extends Div {
     private static final ScheduledExecutorService SCHEDULED_THREAD_POOL = Executors.newScheduledThreadPool(1);
 
     private final DocumentModel documentModel;
-    private ScheduledFuture<?> scheduledFuture;
+    private volatile ScheduledFuture<?> scheduledFuture;
 
     public ItemPriceHistoryChartComponent(DocumentModel documentModel) {
         super(null);
@@ -96,9 +96,7 @@ public class ItemPriceHistoryChartComponent extends Div {
                             d + "])};";
                     documentModel.browserPage().getTagRepository().executeJs(js);
                 } else {
-                    synchronized (this) {
-                        scheduledFuture.cancel(true);
-                    }
+                    scheduledFuture.cancel(true);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

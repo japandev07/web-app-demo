@@ -1,5 +1,6 @@
 package com.webfirmframework.web.launcher;
 
+import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.WebResourceSet;
@@ -48,7 +49,7 @@ public class Main {
 
         //The port that we should run on can be set into an environment variable
         //Look for that variable and default to 8080 if it isn't there.
-        String webPort = "8080";
+        String webPort = ServerConstants.LOCAL_MACHINE_PORT;
 
         int port = Integer.parseInt(webPort);
         final Properties systemProperties = System.getProperties();
