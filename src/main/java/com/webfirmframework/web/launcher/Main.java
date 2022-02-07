@@ -114,7 +114,9 @@ public class Main {
         resources.addPreResources(resourceSet);
         ctx.setResources(resources);
 
-
+        ctx.setDisplayName("wffweb demo");
+        ctx.addWelcomeFile("/index.jsp");
+        ctx.setSessionTimeout(ServerConstants.SESSION_TIMEOUT);
 
         tomcat.start();
 
