@@ -14,6 +14,6 @@ After deployed to Heroku, set the following config vars in Heroku Settings
 | SESSION_TIMEOUT  (Optional)  |         5                                       |
 
 
-##### This demo project is deployed at [demo.webfirmframework.com](http://demo.webfirmframework.com)
+##### This demo project is deployed at [wffweb.herokuapp.com](https://wffweb.herokuapp.com)
 
-###### Anybody can contribute to this repository. Any changes made to this demo app will be reflected in [demo.webfirmframework.com](http://demo.webfirmframework.com).
+###### Anybody can contribute to this repository. Any changes made to this demo app will be reflected in [wffweb.herokuapp.com](https://wffweb.herokuapp.com).
