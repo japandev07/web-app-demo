@@ -7,9 +7,7 @@ import com.webfirmframework.ui.page.template.SampleTemplate1;
 import com.webfirmframework.ui.page.template.SampleTemplate2;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
-import com.webfirmframework.wffweb.tag.html.AbstractHtml;
-import com.webfirmframework.wffweb.tag.html.Br;
-import com.webfirmframework.wffweb.tag.html.URIStateSwitch;
+import com.webfirmframework.wffweb.tag.html.*;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
 import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Button;
@@ -17,8 +15,10 @@ import com.webfirmframework.wffweb.tag.html.links.A;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
+import com.webfirmframework.wffweb.util.URIUtil;
 
 import java.util.Collection;
+import java.util.Map;
 
 public class UserAccountComponent extends Div {
 
@@ -90,7 +90,7 @@ public class UserAccountComponent extends Div {
                         event.preventDefault();
                         loadingIcon.hidden = false;
                         return true;""", event -> {
-                    documentModel.browserPage().setURI(NavigationURI.ITEM_PRICE_HISTORY_CHART.getUri(documentModel));
+                    documentModel.browserPage().setURI(NavigationURI.ITEM_PRICE_HISTORY_CHART.getUri(documentModel).replace("{itemId}", "2"));
                     return null;
                 }, null, "loadingIcon.hidden = true;"))
                 .give(TagContent::text, "Item 2 Price History");
@@ -125,8 +125,20 @@ public class UserAccountComponent extends Div {
                 () -> {
                     documentModel.browserPage().getTagRepository().findTitleTag().give(
                             TagContent::text, "Item Price History | User Account | wffweb demo");
-                    if (!(widgetDivCurrentChild instanceof ItemPriceHistoryChartComponent)) {
-                        widgetDivCurrentChild = new ItemPriceHistoryChartComponent(documentModel);
+                    //Note: URIUtil class will be available since 12.0.0-beta.2
+                    Map<String, String> pathParams = URIUtil.parseValues(NavigationURI.ITEM_PRICE_HISTORY_CHART.getUri(documentModel), documentModel.browserPage().getURI());
+                    long itemId = 0;
+                    try {
+                        itemId = Long.parseLong(pathParams.get("itemId"));
+                    } catch (NumberFormatException e) {
+                        return new AbstractHtml[]{new H6(null).give(TagContent::text, "Invalid Item Id")};
+                    }
+                    if (widgetDivCurrentChild instanceof ItemPriceHistoryChartComponent component) {
+                        if (component.getItemId() != itemId) {
+                            widgetDivCurrentChild = new ItemPriceHistoryChartComponent(documentModel, itemId);
+                        }
+                    } else {
+                        widgetDivCurrentChild = new ItemPriceHistoryChartComponent(documentModel, itemId);
                     }
                     return new AbstractHtml[]{widgetDivCurrentChild};
                 });

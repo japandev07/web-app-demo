@@ -24,17 +24,19 @@ public class ItemPriceHistoryChartComponent extends Div {
     private static final ScheduledExecutorService SCHEDULED_THREAD_POOL = Executors.newScheduledThreadPool(1);
 
     private final DocumentModel documentModel;
+    private final long itemId;
     private volatile ScheduledFuture<?> scheduledFuture;
 
-    public ItemPriceHistoryChartComponent(DocumentModel documentModel) {
+    public ItemPriceHistoryChartComponent(DocumentModel documentModel, long itemId) {
         super(null);
         this.documentModel = documentModel;
+        this.itemId = itemId;
         develop();
     }
 
     private void develop() {
 
-        new H1(this).give(TagContent::text, "Item Price History Live data");
+        new H1(this).give(TagContent::text, String.format("Item %s Price History Live data", itemId));
         new Hr(this);
 
         new Div(this, new Id("chart_div"), new Style("width: 100%; height: 500px;"));
@@ -105,5 +107,9 @@ public class ItemPriceHistoryChartComponent extends Div {
         }, 2, 1, TimeUnit.SECONDS);
 
 
+    }
+
+    public long getItemId() {
+        return itemId;
     }
 }
