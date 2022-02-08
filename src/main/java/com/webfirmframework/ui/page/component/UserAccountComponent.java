@@ -7,7 +7,10 @@ import com.webfirmframework.ui.page.template.SampleTemplate1;
 import com.webfirmframework.ui.page.template.SampleTemplate2;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
-import com.webfirmframework.wffweb.tag.html.*;
+import com.webfirmframework.wffweb.tag.html.AbstractHtml;
+import com.webfirmframework.wffweb.tag.html.Br;
+import com.webfirmframework.wffweb.tag.html.H6;
+import com.webfirmframework.wffweb.tag.html.URIStateSwitch;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
 import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Button;
@@ -55,20 +58,21 @@ public class UserAccountComponent extends Div {
         new Br(this);
 
         //navigation using client side setURI method
-        final String itemsNavigationURI = NavigationURI.VIEW_ITEMS.getUri(documentModel);
+        final String itemsURI = NavigationURI.VIEW_ITEMS.getUri(documentModel);
         new A(this,
                 Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
-                new Href(itemsNavigationURI),
-                new OnClick("event.preventDefault(); wffAsync.setURI('" + itemsNavigationURI + "');"))
+                new Href(itemsURI),
+                new OnClick("event.preventDefault(); wffAsync.setURI('" + itemsURI + "');"))
                 .give(TagContent::text, "View Items");
 
         new Br(this);
         new Br(this);
 
+        final String addItemURI = NavigationURI.ADD_ITEM.getUri(documentModel);
         //navigation using server side setURI method
         new A(this,
                 Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
-                new Href(itemsNavigationURI),
+                new Href(addItemURI),
                 new OnClick("""
                         event.preventDefault();
                         loadingIcon.hidden = false;
@@ -82,15 +86,16 @@ public class UserAccountComponent extends Div {
         new Br(this);
         new Br(this);
 
+        final String priceHistoryURI = NavigationURI.ITEM_PRICE_HISTORY_CHART.getUri(documentModel).replace("{itemId}", "2");
         //navigation using server side setURI method
         new A(this,
                 Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
-                new Href(itemsNavigationURI),
+                new Href(priceHistoryURI),
                 new OnClick("""
                         event.preventDefault();
                         loadingIcon.hidden = false;
                         return true;""", event -> {
-                    documentModel.browserPage().setURI(NavigationURI.ITEM_PRICE_HISTORY_CHART.getUri(documentModel).replace("{itemId}", "2"));
+                    documentModel.browserPage().setURI(priceHistoryURI);
                     return null;
                 }, null, "loadingIcon.hidden = true;"))
                 .give(TagContent::text, "Item 2 Price History");
