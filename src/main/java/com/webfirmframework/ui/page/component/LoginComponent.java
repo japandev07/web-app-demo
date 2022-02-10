@@ -8,6 +8,7 @@ import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.tag.html.attribute.AttributeNameConstants;
 import com.webfirmframework.wffweb.tag.html.attribute.Name;
 import com.webfirmframework.wffweb.tag.html.attribute.Type;
+import com.webfirmframework.wffweb.tag.html.attribute.Value;
 import com.webfirmframework.wffweb.tag.html.attribute.event.form.OnSubmit;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Button;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Form;
@@ -57,10 +58,10 @@ public class LoginComponent extends Div {
         }, "loadingIcon.hidden = false; return {username: username.value, password: password.value};", "loadingIcon.hidden = true;")).give(form -> {
 
             new Label(form).give(TagContent::text, "Username: test ");
-            new Input(form, new Type(Type.TEXT), new Name("username"), new Placeholder("test"));
+            new Input(form, new Type(Type.TEXT), new Name("username"), new Placeholder("test"), new Value("test"));
 
             new Label(form).give(TagContent::text, "Password: test ");
-            new Input(form, new Type(Type.PASSWORD), new Name("password"), new Placeholder("test"));
+            new Input(form, new Type(Type.PASSWORD), new Name("password"), new Placeholder("test"), new Value("test"));
 
             new Button(form, new Type(Type.SUBMIT), Bootstrap5CssClass.BTN_SECONDARY.getAttribute()).give(TagContent::text, "Login");
 
