@@ -91,10 +91,10 @@ public class UserAccountComponent extends Div {
         new A(this,
                 Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
                 new Href(priceHistoryURI),
-                new OnClick(true, "return true;", event -> {
+                new OnClick(true, event -> {
                     documentModel.browserPage().setURI(priceHistoryURI);
                     return null;
-                }, null, null))
+                }))
                 .give(TagContent::text, "Item 2 Price History");
 
         new Br(this);
