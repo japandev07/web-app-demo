@@ -22,7 +22,9 @@ public enum NavigationURI {
 
     SAMPLE_TEMPLATE1("/ui/user/sampletemplate1", false, false, true),
 
-    SAMPLE_TEMPLATE2("/ui/user/sampletemplate2", false, false, true);
+    SAMPLE_TEMPLATE2("/ui/user/sampletemplate2", false, false, true),
+
+    REALTIME_CLOCK("/ui/user/realtimeclock", false, false, true);
 
     private final String uri;
 

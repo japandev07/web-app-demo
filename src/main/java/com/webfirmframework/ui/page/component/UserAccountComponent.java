@@ -103,6 +103,23 @@ public class UserAccountComponent extends Div {
         new Br(this);
         new Br(this);
 
+        final String realtimeClockURI = NavigationURI.REALTIME_CLOCK.getUri(documentModel);
+        //navigation using server side setURI method
+        new A(this,
+                Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
+                new Href(realtimeClockURI),
+                new OnClick("""
+                        event.preventDefault();
+                        loadingIcon.hidden = false;
+                        return true;""", event -> {
+                    documentModel.browserPage().setURI(realtimeClockURI);
+                    return null;
+                }, null, "loadingIcon.hidden = true;"))
+                .give(TagContent::text, "Realtime Server Clock");
+
+        new Br(this);
+        new Br(this);
+
 
         URIStateSwitch widgetDiv = new Div(this);
 
@@ -164,6 +181,16 @@ public class UserAccountComponent extends Div {
                             TagContent::text, "SampleTemplate2 | User Account | wffweb demo");
                     if (!(widgetDivCurrentChild instanceof SampleTemplate2)) {
                         widgetDivCurrentChild = new SampleTemplate2(documentModel);
+                    }
+                    return new AbstractHtml[]{widgetDivCurrentChild};
+                });
+
+        widgetDiv.whenURI(NavigationURI.REALTIME_CLOCK.getPredicate(documentModel),
+                () -> {
+                    documentModel.browserPage().getTagRepository().findTitleTag().give(
+                            TagContent::text, "RealtimeClock | User Account | wffweb demo");
+                    if (!(widgetDivCurrentChild instanceof RealtimeClock)) {
+                        widgetDivCurrentChild = new RealtimeClock(documentModel);
                     }
                     return new AbstractHtml[]{widgetDivCurrentChild};
                 });
