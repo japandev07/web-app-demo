@@ -16,4 +16,6 @@ After deployed to Heroku, set the following config vars in Heroku Settings
 
 ##### This demo project is deployed at [wffweb.herokuapp.com](https://wffweb.herokuapp.com)
 
+##### To run this project in your local machine, open this project with IntelliJ IDEA as a maven project and run `com.webfirmframework.web.launcher.Main.main` method.
+
 ###### Anybody can contribute to this repository. Any changes made to this demo app will be reflected in [wffweb.herokuapp.com](https://wffweb.herokuapp.com).
