@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ClockSharedTagContent {
 
-    public static final SharedTagContent<ZonedDateTime> CLOCK = new SharedTagContent<>(null);
+    public static final SharedTagContent<ZonedDateTime> CLOCK = new SharedTagContent<>(ZonedDateTime.now(Clock.systemUTC()));
 
     static {
         Executors.newScheduledThreadPool(1)

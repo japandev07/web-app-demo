@@ -22,11 +22,7 @@ public class RealtimeClock extends Div {
 
     private void develop() {
         new H1(this).give(TagContent::text, "Server time in realtime: ");
-        new H2(this).subscribeTo(ClockSharedTagContent.CLOCK, content -> {
-            if (content.content() == null) {
-                return null;
-            }
-            return new SharedTagContent.Content<>(content.content().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")), content.contentTypeHtml());
-        });
+        new H2(this).subscribeTo(ClockSharedTagContent.CLOCK,
+                content -> new SharedTagContent.Content<>(content.content().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")), content.contentTypeHtml()));
     }
 }

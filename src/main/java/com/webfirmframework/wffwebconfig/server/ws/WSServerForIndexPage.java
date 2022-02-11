@@ -120,7 +120,7 @@ public class WSServerForIndexPage extends Configurator {
         }
 
         List<String> wffInstanceIds = session.getRequestParameterMap()
-                .get("wffInstanceId");
+                .get(BrowserPage.WFF_INSTANCE_ID);
 
         String instanceId = wffInstanceIds.get(0);
 
@@ -256,7 +256,7 @@ public class WSServerForIndexPage extends Configurator {
 
         LOGGER.info("Session " + session.getId() + " closed");
         List<String> wffInstanceIds = session.getRequestParameterMap()
-                .get("wffInstanceId");
+                .get(BrowserPage.WFF_INSTANCE_ID);
 
         String instanceId = wffInstanceIds.get(0);
         BrowserPageContext.INSTANCE.webSocketClosed(instanceId,
