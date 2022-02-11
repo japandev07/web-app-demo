@@ -1,7 +1,6 @@
 package com.webfirmframework.wffwebconfig.server.session.listener;
 
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
-import com.webfirmframework.wffwebconfig.page.IndexPage;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
@@ -21,21 +20,11 @@ public class SessionListener implements HttpSessionListener {
         // NOP
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void sessionDestroyed(HttpSessionEvent sessionEvent) {
         LOGGER.info("SessionListener.sessionDestroyed()");
 
         HttpSession session = sessionEvent.getSession();
-        Object attrValue = session.getAttribute("indexPageInstanceId");
-
-        if (attrValue != null) {
-            String indexPageInstanceId = attrValue.toString();
-            IndexPage indexPage = (IndexPage) BrowserPageContext.INSTANCE
-                    .getBrowserPage(indexPageInstanceId);
-
-        }
-
         BrowserPageContext.INSTANCE.httpSessionClosed(session.getId());
     }
 

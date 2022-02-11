@@ -7,10 +7,7 @@ import com.webfirmframework.wffweb.util.ByteBufferUtil;
 import com.webfirmframework.wffwebconfig.AppSettings;
 import com.webfirmframework.wffwebconfig.page.IndexPage;
 import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
-import jakarta.servlet.ServletRequestEvent;
-import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.annotation.WebListener;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.*;
 import jakarta.websocket.server.HandshakeRequest;
@@ -32,13 +29,10 @@ import java.util.logging.Logger;
  */
 @ServerEndpoint(value = ServerConstants.INDEX_PAGE_WS_URI, configurator = WSServerForIndexPage.class)
 @WebListener
-public class WSServerForIndexPage extends Configurator
-        implements ServletRequestListener {
+public class WSServerForIndexPage extends Configurator {
 
     private static final Logger LOGGER = Logger
             .getLogger(WSServerForIndexPage.class.getName());
-
-    private BrowserPage browserPage;
 
     private HttpSession httpSession;
 
@@ -61,7 +55,7 @@ public class WSServerForIndexPage extends Configurator
         List<String> wffInstanceIds = parameterMap
                 .get(BrowserPage.WFF_INSTANCE_ID);
         String instanceId = wffInstanceIds.get(0);
-        browserPage = BrowserPageContext.INSTANCE.webSocketOpened(instanceId);
+        BrowserPage browserPage = BrowserPageContext.INSTANCE.webSocketOpened(instanceId);
 
         if (browserPage instanceof IndexPage) {
             IndexPage indexPage = (IndexPage) browserPage;
@@ -134,6 +128,7 @@ public class WSServerForIndexPage extends Configurator
                 k -> new HeartbeatManager(AppSettings.CACHED_THREAD_POOL,
                         HTTP_SESSION_HEARTBEAT_INTERVAL, new HeartbeatRunnable(k)));
         HeartbeatManager hbm = null;
+        BrowserPage browserPage = null;
         if (webSocketOpenedRecord != null) {
             browserPage = webSocketOpenedRecord.browserPage();
             hbm = webSocketOpenedRecord.heartbeatManager();
@@ -278,18 +273,4 @@ public class WSServerForIndexPage extends Configurator
         // }
     }
 
-    @Override
-    public void requestDestroyed(ServletRequestEvent sre) {
-        httpSession = ((HttpServletRequest) sre.getServletRequest())
-                .getSession();
-        LOGGER.info("requestDestroyed httpSession " + httpSession);
-
-    }
-
-    @Override
-    public void requestInitialized(ServletRequestEvent sre) {
-        httpSession = ((HttpServletRequest) sre.getServletRequest())
-                .getSession();
-        LOGGER.info("requestInitialized httpSession " + httpSession);
-    }
 }
