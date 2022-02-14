@@ -24,7 +24,9 @@ public enum NavigationURI {
 
     SAMPLE_TEMPLATE2("/ui/user/sampletemplate2", false, false, true),
 
-    REALTIME_CLOCK("/ui/user/realtimeclock", false, false, true);
+    REALTIME_CLOCK("/ui/user/realtimeclock", false, false, true),
+
+    REALTIME_SERVER_LOG("/ui/realtime-server-log", false, false, true);
 
     private final String uri;
 

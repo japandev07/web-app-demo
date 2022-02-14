@@ -1,5 +1,6 @@
 package com.webfirmframework.ui.page.component;
 
+import com.webfirmframework.ui.page.common.GlobalSTC;
 import com.webfirmframework.ui.page.css.Bootstrap5CssClass;
 import com.webfirmframework.wffweb.tag.html.H1;
 import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
@@ -9,6 +10,7 @@ import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.html.tables.*;
 import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
 
+import java.time.Clock;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +19,9 @@ public class ViewItemsComponent extends Div {
 
     public ViewItemsComponent() {
         super(null);
-
+        GlobalSTC.LOGGER_STC.setContent(
+                ZonedDateTime.now(Clock.systemUTC()).format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) +
+                        ":~$ created new ViewItemsComponent");
         develop();
     }
 

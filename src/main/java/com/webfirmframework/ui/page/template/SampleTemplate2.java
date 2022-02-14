@@ -1,5 +1,6 @@
 package com.webfirmframework.ui.page.template;
 
+import com.webfirmframework.ui.page.common.GlobalSTC;
 import com.webfirmframework.ui.page.css.Bootstrap5CssClass;
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
 import com.webfirmframework.wffweb.tag.html.H3;
@@ -22,6 +23,10 @@ import com.webfirmframework.wffweb.wffbm.data.BMValueType;
 import com.webfirmframework.wffweb.wffbm.data.WffBMObject;
 import com.webfirmframework.ui.page.model.DocumentModel;
 
+import java.time.Clock;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class SampleTemplate2 extends Div implements ServerMethod {
 
     private DocumentModel documentModel;
@@ -29,6 +34,9 @@ public class SampleTemplate2 extends Div implements ServerMethod {
     public SampleTemplate2(DocumentModel documentModel) {
         super(null, Bootstrap5CssClass.CONTAINER.getAttribute());
         this.documentModel = documentModel;
+        GlobalSTC.LOGGER_STC.setContent(
+                ZonedDateTime.now(Clock.systemUTC()).format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) +
+                        ":~$ created new SampleTemplate2");
         develop();
     }
 

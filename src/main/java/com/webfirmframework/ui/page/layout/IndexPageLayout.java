@@ -2,6 +2,7 @@ package com.webfirmframework.ui.page.layout;
 
 import com.webfirmframework.ui.page.common.NavigationURI;
 import com.webfirmframework.ui.page.component.LoginComponent;
+import com.webfirmframework.ui.page.component.RealtimeServerLogComponent;
 import com.webfirmframework.ui.page.component.UserAccountComponent;
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
@@ -114,6 +115,16 @@ public class IndexPageLayout extends Html {
                     }
                     documentModel.browserPage().getTagRepository().findTitleTag().give(
                             TagContent::text, "Login | wffweb demo");
+                    return new AbstractHtml[]{componentDivCurrentChild};
+                });
+
+        componentDiv.whenURI(NavigationURI.REALTIME_SERVER_LOG.getPredicate(documentModel),
+                () -> {
+                    documentModel.browserPage().getTagRepository().findTitleTag().give(
+                            TagContent::text, "Server Log | User Account | wffweb demo");
+                    if (!(componentDivCurrentChild instanceof RealtimeServerLogComponent)) {
+                        componentDivCurrentChild = new RealtimeServerLogComponent();
+                    }
                     return new AbstractHtml[]{componentDivCurrentChild};
                 });
 

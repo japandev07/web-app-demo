@@ -132,6 +132,8 @@ public enum Bootstrap5CssClass implements CssClass {
 
     CONTAINER("container"),
 
+    LINK_PRIMARY("link-primary")
+
     ;
 
     private final String[] classNames;

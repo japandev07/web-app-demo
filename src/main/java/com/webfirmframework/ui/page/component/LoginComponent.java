@@ -1,5 +1,6 @@
 package com.webfirmframework.ui.page.component;
 
+import com.webfirmframework.ui.page.common.GlobalSTC;
 import com.webfirmframework.ui.page.common.NavigationURI;
 import com.webfirmframework.ui.page.css.Bootstrap5CssClass;
 import com.webfirmframework.ui.page.model.DocumentModel;
@@ -18,6 +19,10 @@ import com.webfirmframework.wffweb.tag.html.html5.attribute.Placeholder;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
 
+import java.time.Clock;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class LoginComponent extends Div {
 
     private final DocumentModel documentModel;
@@ -25,6 +30,9 @@ public class LoginComponent extends Div {
     public LoginComponent(DocumentModel documentModel) {
         super(null);
         this.documentModel = documentModel;
+        GlobalSTC.LOGGER_STC.setContent(
+                ZonedDateTime.now(Clock.systemUTC()).format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) +
+                        ":~$ created new LoginComponent");
         develop();
     }
 

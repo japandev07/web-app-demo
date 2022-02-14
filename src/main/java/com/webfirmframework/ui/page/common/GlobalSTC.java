@@ -7,7 +7,9 @@ import java.time.ZonedDateTime;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class ClockSharedTagContent {
+public class GlobalSTC {
+
+    public static final SharedTagContent<String> LOGGER_STC = new SharedTagContent<>("");
 
     public static final SharedTagContent<ZonedDateTime> CLOCK = new SharedTagContent<>(ZonedDateTime.now(Clock.systemUTC()));
 

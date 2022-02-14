@@ -1,5 +1,6 @@
 package com.webfirmframework.ui.page.component;
 
+import com.webfirmframework.ui.page.common.GlobalSTC;
 import com.webfirmframework.ui.page.common.NavigationURI;
 import com.webfirmframework.ui.page.css.Bootstrap5CssClass;
 import com.webfirmframework.ui.page.model.DocumentModel;
@@ -12,6 +13,7 @@ import com.webfirmframework.wffweb.tag.html.Br;
 import com.webfirmframework.wffweb.tag.html.H6;
 import com.webfirmframework.wffweb.tag.html.URIStateSwitch;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
+import com.webfirmframework.wffweb.tag.html.attribute.Target;
 import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
 import com.webfirmframework.wffweb.tag.html.formsandinputs.Button;
 import com.webfirmframework.wffweb.tag.html.links.A;
@@ -20,6 +22,9 @@ import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
 import com.webfirmframework.wffweb.util.URIUtil;
 
+import java.time.Clock;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Map;
 
@@ -34,6 +39,9 @@ public class UserAccountComponent extends Div {
     public UserAccountComponent(DocumentModel documentModel) {
         super(null);
         this.documentModel = documentModel;
+        GlobalSTC.LOGGER_STC.setContent(
+                ZonedDateTime.now(Clock.systemUTC()).format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) +
+                        ":~$ created new UserAccountComponent");
         develop();
     }
 
@@ -53,6 +61,17 @@ public class UserAccountComponent extends Div {
                 }))
                 .give(TagContent::text, "Logout");
 
+
+        new Br(this);
+        new Br(this);
+
+        final String realtimeLogURI = NavigationURI.REALTIME_SERVER_LOG.getUri(documentModel);
+        //navigation using server side setURI method
+        new A(this,
+                Bootstrap5CssClass.LINK_PRIMARY.getAttribute(),
+                new Href(realtimeLogURI),
+                new Target(Target.BLANK))
+                .give(TagContent::text, "Realtime Server Log");
 
         new Br(this);
         new Br(this);
@@ -119,6 +138,8 @@ public class UserAccountComponent extends Div {
 
         new Br(this);
         new Br(this);
+
+
 
 
         URIStateSwitch widgetDiv = new Div(this);
@@ -194,6 +215,8 @@ public class UserAccountComponent extends Div {
                     }
                     return new AbstractHtml[]{widgetDivCurrentChild};
                 });
+
+
 
         sampleTemplateButtons();
     }

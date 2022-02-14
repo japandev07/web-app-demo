@@ -78,18 +78,4 @@ public class IndexPage extends BrowserPage {
         return httpSession;
     }
 
-    @Override
-    protected void beforeURIChange(String uriBefore, String uriAfter) {
-//        System.out.println("IndexPage.beforeURIChange");
-//        System.out.println("uriBefore = " + uriBefore);
-//        System.out.println("uriAfter = " + uriAfter);
-    }
-
-    @Override
-    protected void uriChanged(String uriBefore, String uriAfter) {
-//        System.out.println("IndexPage.uriChanged");
-//        System.out.println("uriBefore = " + uriBefore);
-//        System.out.println("uriAfter = " + uriAfter);
-    }
-
 }
