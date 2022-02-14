@@ -1,6 +1,5 @@
 package com.webfirmframework.ui.page.component;
 
-import com.webfirmframework.ui.page.common.ClockSharedTagContent;
 import com.webfirmframework.ui.page.common.GlobalSTC;
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.tag.html.H1;
