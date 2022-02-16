@@ -18,10 +18,14 @@ import com.webfirmframework.wffweb.tag.html.formsandinputs.Label;
 import com.webfirmframework.wffweb.tag.html.html5.attribute.Placeholder;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
+import com.webfirmframework.wffweb.wffbm.data.WffBMByteArray;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.time.Clock;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class LoginComponent extends Div {
 
@@ -38,19 +42,28 @@ public class LoginComponent extends Div {
 
     private void develop() {
         Div msgDiv = new Div(null);
+
+        // using this wff utf-8 encoder is cross browser
+        // Eg: var utf8Bytes = wffGlobal.encoder.encode("こんにちは webfirmframework");
+
         new Form(this, new OnSubmit(true, event -> {
 
             msgDiv.removeAllChildren();
             msgDiv.removeAttributes(AttributeNameConstants.CLASS);
 
             String username = (String) event.data().getValue("username");
-            String password = (String) event.data().getValue("password");
 
-            if ("test".equals(username) && "test".equals(password)) {
+            //to receive password as byte array instead of string for extra level of security
+            WffBMByteArray password = (WffBMByteArray) event.data().getValue("password");
+
+            //to convert UTF-8 byte array to char array
+            char[] passwordChars = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(password.toByteArray())).array();
+
+            if ("test".equals(username) && Arrays.equals("test".toCharArray(), passwordChars)) {
                 documentModel.httpSession().setAttribute("loginStatus", "true");
                 documentModel.browserPage().setURI(NavigationURI.USER.getUri(documentModel));
 
-                //navigate to user account page in all other opened tabs
+                //navigate to user account page in all the other opened tabs
                 for (BrowserPage browserPage : BrowserPageContext.INSTANCE.getBrowserPages(documentModel.httpSession().getId()).values()) {
                     if (BrowserPageContext.INSTANCE.existsAndValid(browserPage)) {
                         browserPage.setURI(NavigationURI.USER.getUri(documentModel));
@@ -63,7 +76,7 @@ public class LoginComponent extends Div {
             msgDiv.give(TagContent::text, "Incorrect username or password!");
 
             return null;
-        }, "loadingIcon.hidden = false; return {username: username.value, password: password.value};", "loadingIcon.hidden = true;")).give(form -> {
+        }, "loadingIcon.hidden = false; return {username: username.value, password: wffGlobal.encoder.encode(password.value)};", "loadingIcon.hidden = true;")).give(form -> {
 
             new Label(form).give(TagContent::text, "Username: test ");
             new Input(form, new Type(Type.TEXT), new Name("username"), new Placeholder("test"), new Value("test"));
