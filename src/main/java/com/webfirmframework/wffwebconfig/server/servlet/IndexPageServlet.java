@@ -1,20 +1,19 @@
 package com.webfirmframework.wffwebconfig.server.servlet;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.logging.Logger;
+
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
-import com.webfirmframework.wffweb.tag.html.attribute.core.AttributeRegistry;
-import com.webfirmframework.wffweb.tag.html.core.TagRegistry;
 import com.webfirmframework.wffwebconfig.page.IndexPage;
 import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.logging.Logger;
 
 /**
  * Servlet implementation class HomePageServlet
@@ -61,6 +60,8 @@ public class IndexPageServlet extends HttpServlet {
         }
 
         response.setContentType("text/html;charset=utf-8");
+        //NB: it is required to work "Reopen Closed Tab"
+        response.setHeader("Cache-Control", "no-store");
 
         try (OutputStream os = response.getOutputStream();) {
 
