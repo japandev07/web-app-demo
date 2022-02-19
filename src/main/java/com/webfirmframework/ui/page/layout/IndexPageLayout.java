@@ -31,6 +31,7 @@ public class IndexPageLayout extends Html {
             .getLogger(IndexPageLayout.class.getName());
 
     private final DocumentModel documentModel;
+
     private final String contextPath;
 
     private Div mainDiv;

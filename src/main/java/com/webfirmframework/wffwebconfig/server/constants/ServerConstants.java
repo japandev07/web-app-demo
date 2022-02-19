@@ -23,7 +23,7 @@ public final class ServerConstants {
     /**
      * must be null initially
      */
-    public static String CONTEXT_PATH = null;
+    public static volatile String CONTEXT_PATH = null;
 
     static {
 

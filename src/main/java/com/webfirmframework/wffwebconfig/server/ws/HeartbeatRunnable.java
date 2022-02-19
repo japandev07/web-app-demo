@@ -14,7 +14,7 @@ public class HeartbeatRunnable implements Runnable {
     private static final Logger LOGGER = Logger
             .getLogger(HeartbeatRunnable.class.getName());
     
-    private String httpSessionId;
+    private final String httpSessionId;
     
     public HeartbeatRunnable(String httpSessionId) {
         this.httpSessionId = httpSessionId;
