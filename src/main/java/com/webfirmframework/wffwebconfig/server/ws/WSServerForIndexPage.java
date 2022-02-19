@@ -33,10 +33,10 @@ public class WSServerForIndexPage extends Configurator {
     private static final Logger LOGGER = Logger
             .getLogger(WSServerForIndexPage.class.getName());
 
-    private volatile PayloadProcessor payloadProcessor;
-
     private static final long HTTP_SESSION_HEARTBEAT_INTERVAL = ServerConstants.SESSION_TIMEOUT_MILLISECONDS
             - (1000 * 60 * 2);
+
+    private volatile PayloadProcessor payloadProcessor;
 
     private volatile HeartbeatManager heartbeatManager;
 
@@ -55,9 +55,10 @@ public class WSServerForIndexPage extends Configurator {
                 .get(BrowserPage.WFF_INSTANCE_ID);
         String instanceId = wffInstanceIds.get(0);
 
-        WebSocketOpenedRecord webSocketOpenedRecord = BrowserPageContext.INSTANCE.webSocketOpened(instanceId);
-        if (webSocketOpenedRecord != null) {
-            httpSession = (HttpSession) webSocketOpenedRecord.session().getWeakProperty("httpSession");
+        //httpSession is not required here but if required for some other purpose, it can be got as follows
+        final BrowserPageSession bpSession = BrowserPageContext.INSTANCE.getSessionByInstanceId(instanceId);
+        if (bpSession != null) {
+            httpSession = (HttpSession) bpSession.getWeakProperty("httpSession");
         }
 
         super.modifyHandshake(config, request, response);
