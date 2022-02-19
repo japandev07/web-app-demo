@@ -6,6 +6,7 @@ import com.webfirmframework.ui.page.component.RealtimeServerLogComponent;
 import com.webfirmframework.ui.page.component.UserAccountComponent;
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
+import com.webfirmframework.wffweb.server.page.BrowserPageSession;
 import com.webfirmframework.wffweb.tag.html.*;
 import com.webfirmframework.wffweb.tag.html.attribute.*;
 import com.webfirmframework.wffweb.tag.html.attribute.global.ClassAttribute;
@@ -21,7 +22,6 @@ import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Span;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.logging.Logger;
 
@@ -39,13 +39,12 @@ public class IndexPageLayout extends Html {
     // the value is assigned via a custom thread.
     private AbstractHtml componentDivCurrentChild;
 
-    public IndexPageLayout(BrowserPage browserPage, HttpSession httpSession) {
+    public IndexPageLayout(BrowserPage browserPage, BrowserPageSession session, String contextPath) {
         super(null);
         super.setPrependDocType(true);
-        this.documentModel = new DocumentModel(httpSession, browserPage);
+        this.documentModel = new DocumentModel(session, browserPage, contextPath);
         super.setSharedData(documentModel);
-
-        contextPath = documentModel.httpSession().getServletContext().getContextPath();
+        this.contextPath = contextPath;
         develop();
     }
 
@@ -140,7 +139,7 @@ public class IndexPageLayout extends Html {
                 event -> {
 
                     //if already logged in then navigate to user account page otherwise navigate to login page
-                    if ("true".equals(documentModel.httpSession().getAttribute("loginStatus"))) {
+                    if ("true".equals(documentModel.session().userProperties().get("loginStatus"))) {
                         documentModel.browserPage().setURI(NavigationURI.USER.getUri(documentModel));
                     } else {
                         documentModel.browserPage().setURI(NavigationURI.LOGIN.getUri(documentModel));

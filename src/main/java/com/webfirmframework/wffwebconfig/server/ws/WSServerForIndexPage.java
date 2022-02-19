@@ -5,7 +5,6 @@ import com.webfirmframework.wffweb.server.page.*;
 import com.webfirmframework.wffweb.server.page.action.BrowserPageAction;
 import com.webfirmframework.wffweb.util.ByteBufferUtil;
 import com.webfirmframework.wffwebconfig.AppSettings;
-import com.webfirmframework.wffwebconfig.page.IndexPage;
 import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSession;
@@ -34,14 +33,14 @@ public class WSServerForIndexPage extends Configurator {
     private static final Logger LOGGER = Logger
             .getLogger(WSServerForIndexPage.class.getName());
 
-    private HttpSession httpSession;
-
-    private PayloadProcessor payloadProcessor;
+    private volatile PayloadProcessor payloadProcessor;
 
     private static final long HTTP_SESSION_HEARTBEAT_INTERVAL = ServerConstants.SESSION_TIMEOUT_MILLISECONDS
             - (1000 * 60 * 2);
 
     private volatile HeartbeatManager heartbeatManager;
+
+    private volatile BrowserPageSession bpSession;
 
     @Override
     public void modifyHandshake(ServerEndpointConfig config,
@@ -55,30 +54,20 @@ public class WSServerForIndexPage extends Configurator {
         List<String> wffInstanceIds = parameterMap
                 .get(BrowserPage.WFF_INSTANCE_ID);
         String instanceId = wffInstanceIds.get(0);
-        BrowserPage browserPage = BrowserPageContext.INSTANCE.webSocketOpened(instanceId);
 
-        if (browserPage instanceof IndexPage) {
-            IndexPage indexPage = (IndexPage) browserPage;
-            httpSession = indexPage.getHttpSession();
+        WebSocketOpenedRecord webSocketOpenedRecord = BrowserPageContext.INSTANCE.webSocketOpened(instanceId);
+        if (webSocketOpenedRecord != null) {
+            httpSession = (HttpSession) webSocketOpenedRecord.session().getWeakProperty("httpSession");
         }
 
         super.modifyHandshake(config, request, response);
 
-        // in a worst case if the httpSession is null
         if (httpSession == null) {
-            LOGGER.info(
-                    "httpSession == null after modifyHandshake so httpSession = (HttpSession) request.getHttpSession()");
-            httpSession = (HttpSession) request.getHttpSession();
-        }
-
-        if (httpSession == null) {
-            LOGGER.info("httpSession == null");
+            LOGGER.info("session == null");
             return;
         }
 
-        config.getUserProperties().put("httpSession", httpSession);
         LOGGER.info("modifyHandshake " + httpSession.getId());
-
     }
 
     /**
@@ -93,32 +82,6 @@ public class WSServerForIndexPage extends Configurator {
 
         session.setMaxIdleTimeout(ServerConstants.SESSION_TIMEOUT_MILLISECONDS);
 
-        httpSession = (HttpSession) config.getUserProperties()
-                .get("httpSession");
-
-        if (httpSession != null) {
-
-            LOGGER.info("websocket session id " + session.getId()
-                    + " has opened a connection for httpsession id "
-                    + httpSession.getId());
-
-            Object totalCons = httpSession.getAttribute("totalConnections");
-
-            int totalConnections = 0;
-
-            if (totalCons != null) {
-                totalConnections = (int) totalCons;
-            }
-
-            totalConnections++;
-            httpSession.setAttribute("totalConnections", totalConnections);
-
-            // never to close the session on inactivity
-            httpSession.setMaxInactiveInterval(-1);
-            LOGGER.info("httpSession.setMaxInactiveInterval(-1)");
-
-        }
-
         List<String> wffInstanceIds = session.getRequestParameterMap()
                 .get(BrowserPage.WFF_INSTANCE_ID);
 
@@ -129,9 +92,21 @@ public class WSServerForIndexPage extends Configurator {
                         HTTP_SESSION_HEARTBEAT_INTERVAL, new HeartbeatRunnable(k)));
         HeartbeatManager hbm = null;
         BrowserPage browserPage = null;
+        HttpSession httpSession = null;
         if (webSocketOpenedRecord != null) {
             browserPage = webSocketOpenedRecord.browserPage();
             hbm = webSocketOpenedRecord.heartbeatManager();
+            bpSession = webSocketOpenedRecord.session();
+            bpSession.userProperties().compute("totalConnections", (k, v) -> {
+                int totalConnections = 0;
+                if (v != null) {
+                    totalConnections = (int) v;
+                }
+                totalConnections++;
+                return totalConnections;
+            });
+
+            httpSession = (HttpSession) bpSession.getWeakProperty("httpSession");
         }
         heartbeatManager = hbm;
         //NB: if the server restarted the hbm could be null as the modifyHandshake may not be invoked.
@@ -139,8 +114,17 @@ public class WSServerForIndexPage extends Configurator {
             hbm.runAsync();
         }
 
-        if (browserPage == null) {
+        if (httpSession != null) {
+            LOGGER.info("websocket session id " + session.getId()
+                    + " has opened a connection for httpsession id "
+                    + httpSession.getId());
 
+            // never to close the session on inactivity
+            httpSession.setMaxInactiveInterval(-1);
+            LOGGER.info("session.setMaxInactiveInterval(-1)");
+        }
+
+        if (browserPage == null) {
             try {
                 // or refresh the browser
                 session.getBasicRemote().sendBinary(
@@ -150,7 +134,6 @@ public class WSServerForIndexPage extends Configurator {
             } catch (IOException e) {
                 // NOP
             }
-
         }
 
         // Internally it may contain a volatile variable
@@ -229,29 +212,29 @@ public class WSServerForIndexPage extends Configurator {
         // it's valid only when the browser is closed
         // because client will be trying to reconnect.
         // The value is in seconds.
-        if (httpSession != null) {
+        if (bpSession != null) {
 
-            Object totalCons = httpSession.getAttribute("totalConnections");
+            final int totalConnections = (int) bpSession.userProperties().compute("totalConnections", (k, v) -> {
+                int totalConnectionsTmp = 0;
+                if (v != null) {
+                    totalConnectionsTmp = (int) v;
+                }
+                if (totalConnectionsTmp > 0) {
+                    totalConnectionsTmp--;
+                }
+                return totalConnectionsTmp;
+            });
 
-            int totalConnections = 0;
-
-            if (totalCons != null) {
-                totalConnections = (int) totalCons;
-                totalConnections--;
-            }
-
-            httpSession.setAttribute("totalConnections", totalConnections);
-
-            if (totalConnections == 0) {
+            final HttpSession httpSession = (HttpSession) bpSession.getWeakProperty("httpSession");
+            if (httpSession != null && totalConnections == 0) {
                 httpSession.setMaxInactiveInterval(
                         ServerConstants.SESSION_TIMEOUT_SECONDS);
+                LOGGER.info("session.setMaxInactiveInterval(" + ServerConstants.SESSION_TIMEOUT_SECONDS + ")");
                 HeartbeatManager hbm = heartbeatManager;
                 if (hbm != null) {
                     hbm.runAsync();
                 }
             }
-
-            LOGGER.info("httpSession.setMaxInactiveInterval(60 * 30)");
         }
 
         LOGGER.info("Session " + session.getId() + " closed");

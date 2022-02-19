@@ -1,19 +1,19 @@
 package com.webfirmframework.wffwebconfig.server.servlet;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.logging.Logger;
-
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
+import com.webfirmframework.wffweb.server.page.BrowserPageSession;
 import com.webfirmframework.wffwebconfig.page.IndexPage;
 import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.logging.Logger;
 
 /**
  * Servlet implementation class HomePageServlet
@@ -69,7 +69,10 @@ public class IndexPageServlet extends HttpServlet {
 
             session.setMaxInactiveInterval(ServerConstants.SESSION_TIMEOUT_SECONDS);
 
-            IndexPage indexPage = new IndexPage(request.getSession(), request.getRequestURI());
+            BrowserPageSession bpSession = BrowserPageContext.INSTANCE.getSession(session.getId(), true);
+            bpSession.setWeakProperty("httpSession", session);
+
+            IndexPage indexPage = new IndexPage(session.getServletContext().getContextPath(), bpSession, request.getRequestURI());
 
             BrowserPageContext.INSTANCE.addBrowserPage(session.getId(),
                     indexPage);

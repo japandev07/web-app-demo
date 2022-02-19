@@ -49,9 +49,9 @@ public class UserAccountComponent extends Div {
         new Button(this,
                 Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
                 new OnClick(event -> {
-                    documentModel.httpSession().removeAttribute("loginStatus");
+                    documentModel.session().userProperties().remove("loginStatus");
                     //gets all browser pages associated with this session and navigate to login page
-                    Collection<BrowserPage> browserPages = BrowserPageContext.INSTANCE.getBrowserPages(documentModel.httpSession().getId()).values();
+                    Collection<BrowserPage> browserPages = BrowserPageContext.INSTANCE.getBrowserPages(documentModel.session().httpSessionId()).values();
                     for (BrowserPage browserPage : browserPages) {
                         if (BrowserPageContext.INSTANCE.existsAndValid(browserPage)) {
                             browserPage.setURI(NavigationURI.LOGIN.getUri(documentModel));

@@ -2,8 +2,8 @@ package com.webfirmframework.ui.page.common;
 
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.InvalidValueException;
+import com.webfirmframework.wffweb.server.page.BrowserPageSession;
 import com.webfirmframework.wffweb.util.URIUtil;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.Map;
 import java.util.function.Predicate;
@@ -47,10 +47,11 @@ public enum NavigationURI {
 
         //Note: URIUtil class will be available since 12.0.0-beta.2
 
-        HttpSession httpSession = documentModel.httpSession();
-        String contextPath = httpSession.getServletContext().getContextPath();
+        BrowserPageSession session = documentModel.session();
+        Map<String, Object> userProperties = session.userProperties();
+        String contextPath = documentModel.contextPath();
         if (NavigationURI.LOGIN.equals(this)) {
-            return uri -> !"true".equals(httpSession.getAttribute("loginStatus")) && contextPath.concat(this.uri).equals(uri);
+            return uri -> !"true".equals(userProperties.get("loginStatus")) && contextPath.concat(this.uri).equals(uri);
         }
         if (!loginRequired && !parentPath) {
             if (patternType) {
@@ -69,18 +70,18 @@ public enum NavigationURI {
         }
         if (loginRequired && parentPath) {
             if (patternType) {
-                return uri -> "true".equals(httpSession.getAttribute("loginStatus")) && URIUtil.patternMatchesBase(this.uri, uri);
+                return uri -> "true".equals(userProperties.get("loginStatus")) && URIUtil.patternMatchesBase(this.uri, uri);
             }
-            return uri -> "true".equals(httpSession.getAttribute("loginStatus")) && uri.startsWith(contextPath.concat(this.uri));
+            return uri -> "true".equals(userProperties.get("loginStatus")) && uri.startsWith(contextPath.concat(this.uri));
         } else if (loginRequired) {
             if (patternType) {
-                return uri -> "true".equals(httpSession.getAttribute("loginStatus")) && URIUtil.patternMatches(this.uri, uri);
+                return uri -> "true".equals(userProperties.get("loginStatus")) && URIUtil.patternMatches(this.uri, uri);
             }
         }
-        return uri -> "true".equals(httpSession.getAttribute("loginStatus")) && uri.equals(contextPath.concat(this.uri));
+        return uri -> "true".equals(userProperties.get("loginStatus")) && uri.equals(contextPath.concat(this.uri));
     }
 
     public String getUri(DocumentModel documentModel) {
-        return documentModel.httpSession().getServletContext().getContextPath() + uri;
+        return documentModel.contextPath() + uri;
     }
 }

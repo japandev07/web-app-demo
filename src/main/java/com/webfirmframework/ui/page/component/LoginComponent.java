@@ -60,11 +60,11 @@ public class LoginComponent extends Div {
             char[] passwordChars = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(password.toByteArray())).array();
 
             if ("test".equals(username) && Arrays.equals("test".toCharArray(), passwordChars)) {
-                documentModel.httpSession().setAttribute("loginStatus", "true");
+                documentModel.session().userProperties().put("loginStatus", "true");
                 documentModel.browserPage().setURI(NavigationURI.USER.getUri(documentModel));
 
                 //navigate to user account page in all the other opened tabs
-                for (BrowserPage browserPage : BrowserPageContext.INSTANCE.getBrowserPages(documentModel.httpSession().getId()).values()) {
+                for (BrowserPage browserPage : BrowserPageContext.INSTANCE.getBrowserPages(documentModel.session().httpSessionId()).values()) {
                     if (BrowserPageContext.INSTANCE.existsAndValid(browserPage)) {
                         browserPage.setURI(NavigationURI.USER.getUri(documentModel));
                     }
