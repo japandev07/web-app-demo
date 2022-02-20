@@ -55,7 +55,7 @@ public class WSServerForIndexPage extends Configurator {
                 .get(BrowserPage.WFF_INSTANCE_ID);
         String instanceId = wffInstanceIds.get(0);
 
-        //httpSession is not required here but if required for some other purpose, it can be got as follows
+        //httpSession is not required here but if required for some other purpose, it can be obtained as follows
         final BrowserPageSession bpSession = BrowserPageContext.INSTANCE.getSessionByInstanceId(instanceId);
         if (bpSession != null) {
             httpSession = (HttpSession) bpSession.getWeakProperty("httpSession");
