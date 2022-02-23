@@ -1,12 +1,14 @@
 package com.webfirmframework.ui.page.layout;
 
 import com.webfirmframework.ui.page.common.NavigationURI;
+import com.webfirmframework.ui.page.common.TokenUtil;
 import com.webfirmframework.ui.page.component.LoginComponent;
 import com.webfirmframework.ui.page.component.RealtimeServerLogComponent;
 import com.webfirmframework.ui.page.component.UserAccountComponent;
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageSession;
+import com.webfirmframework.wffweb.server.page.LocalStorage;
 import com.webfirmframework.wffweb.tag.html.*;
 import com.webfirmframework.wffweb.tag.html.attribute.*;
 import com.webfirmframework.wffweb.tag.html.attribute.global.ClassAttribute;
@@ -139,15 +141,15 @@ public class IndexPageLayout extends Html {
                 },
                 event -> {
 
+                    LocalStorage.Item token = documentModel.session().localStorage().getToken("jwtToken");
                     //if already logged in then navigate to user account page otherwise navigate to login page
-                    if ("true".equals(documentModel.session().userProperties().get("loginStatus"))) {
+                    if (TokenUtil.isValidJWT(token)) {
                         documentModel.browserPage().setURI(NavigationURI.USER.getUri(documentModel));
                     } else {
                         documentModel.browserPage().setURI(NavigationURI.LOGIN.getUri(documentModel));
                     }
 
                 });
-
     }
 
     // @formatter:on

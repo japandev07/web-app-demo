@@ -2,6 +2,10 @@ package com.webfirmframework.wffwebconfig.server.constants;
 
 public final class ServerConstants {
 
+    public static final boolean MULTI_NODE_MODE = true;
+
+    public static final String WFFWEB_TOKEN_COOKIE = "wffwebtoken";
+
     public static final String DOMAIN_URL;
 
     public static final String DOMAIN_WS_URL;

@@ -2,7 +2,7 @@ package com.webfirmframework.ui.page.common;
 
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.InvalidValueException;
-import com.webfirmframework.wffweb.server.page.BrowserPageSession;
+import com.webfirmframework.wffweb.server.page.LocalStorage;
 import com.webfirmframework.wffweb.util.URIUtil;
 
 import java.util.Map;
@@ -43,15 +43,13 @@ public enum NavigationURI {
         this.loginRequired = loginRequired;
     }
 
+
     public Predicate<String> getPredicate(DocumentModel documentModel) {
 
-        //Note: URIUtil class will be available since 12.0.0-beta.2
-
-        BrowserPageSession session = documentModel.session();
-        Map<String, Object> userProperties = session.userProperties();
+        LocalStorage localStorage = documentModel.session().localStorage();
         String contextPath = documentModel.contextPath();
         if (NavigationURI.LOGIN.equals(this)) {
-            return uri -> !"true".equals(userProperties.get("loginStatus")) && contextPath.concat(this.uri).equals(uri);
+            return uri -> !TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && contextPath.concat(this.uri).equals(uri);
         }
         if (!loginRequired && !parentPath) {
             if (patternType) {
@@ -70,15 +68,15 @@ public enum NavigationURI {
         }
         if (loginRequired && parentPath) {
             if (patternType) {
-                return uri -> "true".equals(userProperties.get("loginStatus")) && URIUtil.patternMatchesBase(this.uri, uri);
+                return uri -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && URIUtil.patternMatchesBase(this.uri, uri);
             }
-            return uri -> "true".equals(userProperties.get("loginStatus")) && uri.startsWith(contextPath.concat(this.uri));
+            return uri -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && uri.startsWith(contextPath.concat(this.uri));
         } else if (loginRequired) {
             if (patternType) {
-                return uri -> "true".equals(userProperties.get("loginStatus")) && URIUtil.patternMatches(this.uri, uri);
+                return uri -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && URIUtil.patternMatches(this.uri, uri);
             }
         }
-        return uri -> "true".equals(userProperties.get("loginStatus")) && uri.equals(contextPath.concat(this.uri));
+        return uri -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && uri.equals(contextPath.concat(this.uri));
     }
 
     public String getUri(DocumentModel documentModel) {

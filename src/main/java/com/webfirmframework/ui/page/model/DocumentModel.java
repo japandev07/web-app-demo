@@ -5,4 +5,5 @@ import com.webfirmframework.wffweb.server.page.BrowserPageSession;
 
 public record DocumentModel(BrowserPageSession session, BrowserPage browserPage,
                             String contextPath) {
+
 }

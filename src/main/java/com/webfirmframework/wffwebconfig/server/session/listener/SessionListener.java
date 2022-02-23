@@ -1,6 +1,7 @@
 package com.webfirmframework.wffwebconfig.server.session.listener;
 
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
+import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
@@ -24,8 +25,12 @@ public class SessionListener implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent sessionEvent) {
         LOGGER.info("SessionListener.sessionDestroyed()");
 
-        HttpSession session = sessionEvent.getSession();
-        BrowserPageContext.INSTANCE.httpSessionClosed(session.getId());
+        if (!ServerConstants.MULTI_NODE_MODE) {
+            //the below code is required only if the multi node mode is disabled.
+            //for multi node mode internally it does nothing.
+            HttpSession session = sessionEvent.getSession();
+            BrowserPageContext.INSTANCE.httpSessionClosed(session.getId());
+        }
     }
 
 }

@@ -88,7 +88,10 @@ public class WSServerForIndexPage extends Configurator {
 
         String instanceId = wffInstanceIds.get(0);
 
-        final WebSocketOpenedRecord webSocketOpenedRecord = BrowserPageContext.INSTANCE.webSocketOpened(instanceId,
+        //if it is multi node mode then hearbeat ping is not required
+        final WebSocketOpenedRecord webSocketOpenedRecord = ServerConstants.MULTI_NODE_MODE ?
+                BrowserPageContext.INSTANCE.webSocketOpened(instanceId)
+                : BrowserPageContext.INSTANCE.webSocketOpened(instanceId,
                 k -> new HeartbeatManager(AppSettings.CACHED_THREAD_POOL,
                         HTTP_SESSION_HEARTBEAT_INTERVAL, new HeartbeatRunnable(k)));
         HeartbeatManager hbm = null;
@@ -98,16 +101,18 @@ public class WSServerForIndexPage extends Configurator {
             browserPage = webSocketOpenedRecord.browserPage();
             hbm = webSocketOpenedRecord.heartbeatManager();
             bpSession = webSocketOpenedRecord.session();
-            bpSession.userProperties().compute("totalConnections", (k, v) -> {
-                int totalConnections = 0;
-                if (v != null) {
-                    totalConnections = (int) v;
-                }
-                totalConnections++;
-                return totalConnections;
-            });
 
-            httpSession = (HttpSession) bpSession.getWeakProperty("httpSession");
+            if (!ServerConstants.MULTI_NODE_MODE) {
+                bpSession.userProperties().compute("totalConnections", (k, v) -> {
+                    int totalConnections = 0;
+                    if (v != null) {
+                        totalConnections = (int) v;
+                    }
+                    totalConnections++;
+                    return totalConnections;
+                });
+                httpSession = (HttpSession) bpSession.getWeakProperty("httpSession");
+            }
         }
         heartbeatManager = hbm;
         //NB: if the server restarted the hbm could be null as the modifyHandshake may not be invoked.
@@ -213,7 +218,7 @@ public class WSServerForIndexPage extends Configurator {
         // it's valid only when the browser is closed
         // because client will be trying to reconnect.
         // The value is in seconds.
-        if (bpSession != null) {
+        if (bpSession != null && !ServerConstants.MULTI_NODE_MODE) {
 
             final int totalConnections = (int) bpSession.userProperties().compute("totalConnections", (k, v) -> {
                 int totalConnectionsTmp = 0;

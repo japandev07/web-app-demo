@@ -49,9 +49,11 @@ public class UserAccountComponent extends Div {
         new Button(this,
                 Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
                 new OnClick(event -> {
-                    documentModel.session().userProperties().remove("loginStatus");
+                    documentModel.session().localStorage().removeToken("jwtToken");
+//                    documentModel.session().localStorage().clearTokens();
                     //gets all browser pages associated with this session and navigate to login page
-                    Collection<BrowserPage> browserPages = BrowserPageContext.INSTANCE.getBrowserPages(documentModel.session().httpSessionId()).values();
+                    //This works well only with single node mode, multi node mode will be provided soon
+                    Collection<BrowserPage> browserPages = BrowserPageContext.INSTANCE.getBrowserPages(documentModel.session().id()).values();
                     for (BrowserPage browserPage : browserPages) {
                         if (BrowserPageContext.INSTANCE.existsAndValid(browserPage)) {
                             browserPage.setURI(NavigationURI.LOGIN.getUri(documentModel));
@@ -140,8 +142,6 @@ public class UserAccountComponent extends Div {
         new Br(this);
 
 
-
-
         URIStateSwitch widgetDiv = new Div(this);
 
         widgetDiv.whenURI(NavigationURI.VIEW_ITEMS.getPredicate(documentModel),
@@ -215,7 +215,6 @@ public class UserAccountComponent extends Div {
                     }
                     return new AbstractHtml[]{widgetDivCurrentChild};
                 });
-
 
 
         sampleTemplateButtons();

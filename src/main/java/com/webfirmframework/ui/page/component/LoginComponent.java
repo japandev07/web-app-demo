@@ -26,6 +26,7 @@ import java.time.Clock;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class LoginComponent extends Div {
 
@@ -60,11 +61,12 @@ public class LoginComponent extends Div {
             char[] passwordChars = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(password.toByteArray())).array();
 
             if ("test".equals(username) && Arrays.equals("test".toCharArray(), passwordChars)) {
-                documentModel.session().userProperties().put("loginStatus", "true");
+                //use real jwt token instead of UUID
+                documentModel.session().localStorage().setToken("jwtToken", UUID.randomUUID().toString());
                 documentModel.browserPage().setURI(NavigationURI.USER.getUri(documentModel));
 
                 //navigate to user account page in all the other opened tabs
-                for (BrowserPage browserPage : BrowserPageContext.INSTANCE.getBrowserPages(documentModel.session().httpSessionId()).values()) {
+                for (BrowserPage browserPage : BrowserPageContext.INSTANCE.getBrowserPages(documentModel.session().id()).values()) {
                     if (BrowserPageContext.INSTANCE.existsAndValid(browserPage)) {
                         browserPage.setURI(NavigationURI.USER.getUri(documentModel));
                     }
