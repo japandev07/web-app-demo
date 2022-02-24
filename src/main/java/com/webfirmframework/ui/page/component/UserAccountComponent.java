@@ -2,16 +2,14 @@ package com.webfirmframework.ui.page.component;
 
 import com.webfirmframework.ui.page.common.GlobalSTC;
 import com.webfirmframework.ui.page.common.NavigationURI;
+import com.webfirmframework.ui.page.common.TokenUtil;
 import com.webfirmframework.ui.page.css.Bootstrap5CssClass;
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.ui.page.template.SampleTemplate1;
 import com.webfirmframework.ui.page.template.SampleTemplate2;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
-import com.webfirmframework.wffweb.tag.html.AbstractHtml;
-import com.webfirmframework.wffweb.tag.html.Br;
-import com.webfirmframework.wffweb.tag.html.H6;
-import com.webfirmframework.wffweb.tag.html.URIStateSwitch;
+import com.webfirmframework.wffweb.tag.html.*;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
 import com.webfirmframework.wffweb.tag.html.attribute.Target;
 import com.webfirmframework.wffweb.tag.html.attribute.event.mouse.OnClick;
@@ -21,6 +19,7 @@ import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
 import com.webfirmframework.wffweb.util.URIUtil;
+import org.json.JSONObject;
 
 import java.time.Clock;
 import java.time.ZonedDateTime;
@@ -46,6 +45,9 @@ public class UserAccountComponent extends Div {
     }
 
     private void develop() {
+        JSONObject user = TokenUtil.getPayloadFromJWT(documentModel.session().localStorage().getToken("jwtToken"));
+        new H1(this).give(TagContent::text, "Welcome " + user.get("username"));
+        new Hr(this);
         new Button(this,
                 Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
                 new OnClick(event -> {

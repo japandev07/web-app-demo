@@ -2,6 +2,7 @@ package com.webfirmframework.ui.page.component;
 
 import com.webfirmframework.ui.page.common.GlobalSTC;
 import com.webfirmframework.ui.page.common.NavigationURI;
+import com.webfirmframework.ui.page.common.TokenUtil;
 import com.webfirmframework.ui.page.css.Bootstrap5CssClass;
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
@@ -26,6 +27,7 @@ import java.time.Clock;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.UUID;
 
 public class LoginComponent extends Div {
@@ -61,8 +63,9 @@ public class LoginComponent extends Div {
             char[] passwordChars = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(password.toByteArray())).array();
 
             if ("test".equals(username) && Arrays.equals("test".toCharArray(), passwordChars)) {
-                //use real jwt token instead of UUID
-                documentModel.session().localStorage().setToken("jwtToken", UUID.randomUUID().toString());
+
+                Map<String, Object> payload = Map.of("userId", 5, "username", "test", "role", "user");
+                documentModel.session().localStorage().setToken("jwtToken", TokenUtil.createJWT(payload));
                 documentModel.browserPage().setURI(NavigationURI.USER.getUri(documentModel));
 
                 //navigate to user account page in all the other opened tabs
