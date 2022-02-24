@@ -12,6 +12,7 @@ After deployed to Heroku, set the following config vars in Heroku Settings
 | ORIGIN_DOMAIN_URL  | same as _DOMAIN_URL_ eg: _https://wffweb.herokuapp.com_   |
 | DOMAIN_WS_URL      | eg: _wss://wffweb.herokuapp.com_                          |
 | SESSION_TIMEOUT  (Optional)  |         5                                       |
+| ENABLE_HEARTBEAT  (required only if Heroku)  |         true                    |
 
 
 ##### This demo project is deployed at [wffweb.herokuapp.com](https://wffweb.herokuapp.com)
