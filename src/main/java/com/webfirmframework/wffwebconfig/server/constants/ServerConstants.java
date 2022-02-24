@@ -18,6 +18,8 @@ public final class ServerConstants {
 
     public static final int SESSION_TIMEOUT_MILLISECONDS;
 
+    public static final boolean ENABLE_HEARTBEAT;
+
     private static final String LOCAL_MACHINE_IP = "localhost";
 
     public static final String LOCAL_MACHINE_PORT;
@@ -35,6 +37,7 @@ public final class ServerConstants {
         String domainWsUrlFromEnv = System.getenv("DOMAIN_WS_URL");
         String originDomainUrlFromEnv = System.getenv("ORIGIN_DOMAIN_URL");
         String sessionTimeoutFromEnv = System.getenv("SESSION_TIMEOUT");
+        String enableHeartbeatFromEnv = System.getenv("ENABLE_HEARTBEAT");
 
         String webPort = System.getenv("PORT");
         LOCAL_MACHINE_PORT = webPort != null && !webPort.isEmpty() ? webPort
@@ -56,6 +59,8 @@ public final class ServerConstants {
 
         SESSION_TIMEOUT_MILLISECONDS = SESSION_TIMEOUT * 1000 * 60;
         SESSION_TIMEOUT_SECONDS = SESSION_TIMEOUT * 60;
+
+        ENABLE_HEARTBEAT = "true".equals(enableHeartbeatFromEnv);
     }
 
 }

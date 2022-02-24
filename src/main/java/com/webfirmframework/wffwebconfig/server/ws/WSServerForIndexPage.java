@@ -49,26 +49,18 @@ public class WSServerForIndexPage extends Configurator {
         final Map<String, List<String>> parameterMap = request
                 .getParameterMap();
 
-        HttpSession httpSession = null;
-
         List<String> wffInstanceIds = parameterMap
                 .get(BrowserPage.WFF_INSTANCE_ID);
         String instanceId = wffInstanceIds.get(0);
 
-        //httpSession is not required here but if required for some other purpose, it can be obtained as follows
+        //Java server HttpSession is not required here but if required for some other purpose, it can be obtained as follows
         final BrowserPageSession bpSession = BrowserPageContext.INSTANCE.getSessionByInstanceId(instanceId);
         if (bpSession != null) {
-            httpSession = (HttpSession) bpSession.getWeakProperty("httpSession");
+            LOGGER.info("modifyHandshake " + bpSession.id());
+            HttpSession httpSession = (HttpSession) bpSession.getWeakProperty("httpSession");
         }
 
         super.modifyHandshake(config, request, response);
-
-        if (httpSession == null) {
-            LOGGER.info("session == null");
-            return;
-        }
-
-        LOGGER.info("modifyHandshake " + httpSession.getId());
     }
 
     /**
@@ -89,7 +81,9 @@ public class WSServerForIndexPage extends Configurator {
         String instanceId = wffInstanceIds.get(0);
 
         //if it is multi node mode then hearbeat ping is not required
-        final WebSocketOpenedRecord webSocketOpenedRecord = ServerConstants.MULTI_NODE_MODE ?
+        //but heartbeat is required for heroku server as it goes down if it is idle for certain time.
+        final WebSocketOpenedRecord webSocketOpenedRecord = ServerConstants.MULTI_NODE_MODE
+                && !ServerConstants.ENABLE_HEARTBEAT ?
                 BrowserPageContext.INSTANCE.webSocketOpened(instanceId)
                 : BrowserPageContext.INSTANCE.webSocketOpened(instanceId,
                 k -> new HeartbeatManager(AppSettings.CACHED_THREAD_POOL,

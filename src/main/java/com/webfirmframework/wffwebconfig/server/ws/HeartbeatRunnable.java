@@ -37,7 +37,10 @@ public class HeartbeatRunnable implements Runnable {
 
             // optional default is GET
             con.setRequestMethod("GET");
-            con.setRequestProperty("Cookie", "JSESSIONID=" + httpSessionId);
+
+            String sessionCookieName = ServerConstants.MULTI_NODE_MODE ? ServerConstants.WFFWEB_TOKEN_COOKIE.concat("=") : "JSESSIONID=";
+
+            con.setRequestProperty("Cookie", sessionCookieName + httpSessionId);
             con.connect();
 
             int responseCode = con.getResponseCode();
