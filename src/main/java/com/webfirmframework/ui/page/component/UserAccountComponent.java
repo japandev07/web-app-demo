@@ -7,8 +7,6 @@ import com.webfirmframework.ui.page.css.Bootstrap5CssClass;
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.ui.page.template.SampleTemplate1;
 import com.webfirmframework.ui.page.template.SampleTemplate2;
-import com.webfirmframework.wffweb.server.page.BrowserPage;
-import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.tag.html.*;
 import com.webfirmframework.wffweb.tag.html.attribute.Href;
 import com.webfirmframework.wffweb.tag.html.attribute.Target;
@@ -24,7 +22,6 @@ import org.json.JSONObject;
 import java.time.Clock;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
 import java.util.Map;
 
 public class UserAccountComponent extends Div {
@@ -51,16 +48,18 @@ public class UserAccountComponent extends Div {
         new Button(this,
                 Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
                 new OnClick(event -> {
-                    documentModel.session().localStorage().removeToken("jwtToken");
-//                    documentModel.session().localStorage().clearTokens();
-                    //gets all browser pages associated with this session and navigate to login page
-                    //This works well only with single node mode, multi node mode will be provided soon
-                    Collection<BrowserPage> browserPages = BrowserPageContext.INSTANCE.getBrowserPages(documentModel.session().id()).values();
-                    for (BrowserPage browserPage : browserPages) {
-                        if (BrowserPageContext.INSTANCE.existsAndValid(browserPage)) {
-                            browserPage.setURI(NavigationURI.LOGIN.getUri(documentModel));
-                        }
-                    }
+//                    documentModel.session().localStorage().removeToken("jwtToken");
+                    //on logout all localStorage items and tokens should be cleared not just jwtToken so calling clear() method
+                    documentModel.session().localStorage().clear();
+
+                    //navigate to login page on all other opened tabs
+                    //This works well on multi node mode
+                    documentModel.browserPage().getTagRepository()
+                            .executeJsInOtherBrowserPages(
+                                    "wffAsync.setURI('%s');".formatted(NavigationURI.LOGIN.getUri(documentModel)));
+
+                    //navigate to login page
+                    documentModel.browserPage().setURI(NavigationURI.LOGIN.getUri(documentModel));
                     return null;
                 }))
                 .give(TagContent::text, "Logout");

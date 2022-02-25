@@ -66,14 +66,13 @@ public class LoginComponent extends Div {
 
                 Map<String, Object> payload = Map.of("userId", 5, "username", "test", "role", "user");
                 documentModel.session().localStorage().setToken("jwtToken", TokenUtil.createJWT(payload));
+                //navigate to user account page on all other opened tabs
+                //This works well on multi node mode
+                documentModel.browserPage().getTagRepository()
+                        .executeJsInOtherBrowserPages(
+                                "wffAsync.setURI('%s');".formatted(NavigationURI.USER.getUri(documentModel)));
+                //navigate to user account page
                 documentModel.browserPage().setURI(NavigationURI.USER.getUri(documentModel));
-
-                //navigate to user account page in all the other opened tabs
-                for (BrowserPage browserPage : BrowserPageContext.INSTANCE.getBrowserPages(documentModel.session().id()).values()) {
-                    if (BrowserPageContext.INSTANCE.existsAndValid(browserPage)) {
-                        browserPage.setURI(NavigationURI.USER.getUri(documentModel));
-                    }
-                }
                 return null;
             }
 
