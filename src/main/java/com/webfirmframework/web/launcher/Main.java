@@ -115,7 +115,7 @@ public class Main {
         ctx.setResources(resources);
 
         ctx.setDisplayName("wffweb demo");
-//        ctx.addWelcomeFile("ui");
+        ctx.addWelcomeFile("ui");
         if (!ServerConstants.MULTI_NODE_MODE) {
             ctx.setSessionTimeout(ServerConstants.SESSION_TIMEOUT);
         }
