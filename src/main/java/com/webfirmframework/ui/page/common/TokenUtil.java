@@ -14,7 +14,7 @@ import java.util.Map;
 
 public final class TokenUtil {
 
-    private static final String SECRET = "dfskfjsdoidksfksdfkjjerdfi#%^@&*)@$*+-h'sdwew]s";
+    private static final byte[] SECRET = "dfskfjsdoidksfksdfkjjerdfi#%^@&*)@$*+-h'sdwew]s".getBytes(StandardCharsets.UTF_8);
 
     public static boolean isValidJWT(LocalStorage.Item token) {
         if (token != null) {
@@ -34,13 +34,17 @@ public final class TokenUtil {
     }
 
     public static JSONObject getPayloadFromJWT(LocalStorage.Item token) {
+        return getPayloadFromJWT(token.value());
+    }
+
+    public static JSONObject getPayloadFromJWT(String token) {
         if (token != null) {
             try {
                 Algorithm algorithmHS = Algorithm.HMAC256(SECRET);
                 JWTVerifier verifier = JWT.require(algorithmHS)
                         .withIssuer("wffweb")
                         .build(); //Reusable verifier instance
-                DecodedJWT jwt = verifier.verify(token.value());
+                DecodedJWT jwt = verifier.verify(token);
                 String decodedPayload = new String(Base64.getUrlDecoder().decode(jwt.getPayload()), StandardCharsets.UTF_8);
                 return new JSONObject(decodedPayload);
             } catch (JWTVerificationException e) {
