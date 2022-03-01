@@ -1,7 +1,9 @@
 package com.webfirmframework.ui.page.model;
 
 import com.webfirmframework.wffweb.server.page.BrowserPage;
-import jakarta.servlet.http.HttpSession;
+import com.webfirmframework.wffweb.server.page.BrowserPageSession;
 
-public record DocumentModel(HttpSession httpSession, BrowserPage browserPage) {
+public record DocumentModel(BrowserPageSession session, BrowserPage browserPage,
+                            String contextPath) {
+
 }

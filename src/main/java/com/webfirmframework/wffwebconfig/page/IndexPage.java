@@ -1,13 +1,14 @@
 package com.webfirmframework.wffwebconfig.page;
 
+import com.webfirmframework.wffweb.common.URIEventInitiator;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
+import com.webfirmframework.wffweb.server.page.BrowserPageSession;
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
 import com.webfirmframework.wffweb.tag.html.attribute.event.ServerMethod;
 import com.webfirmframework.wffweb.wffbm.data.WffBMObject;
 import com.webfirmframework.wffwebconfig.AppSettings;
 import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
 import com.webfirmframework.ui.page.layout.IndexPageLayout;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.logging.Logger;
 
@@ -23,11 +24,13 @@ public class IndexPage extends BrowserPage {
 
     private static final int WS_RECONNECT_TIME = 1000;
 
-    private final HttpSession httpSession;
+    private final BrowserPageSession session;
+    private final String contextPath;
 
-    public IndexPage(HttpSession httpSession, String uri) {
+    public IndexPage(String contextPath, BrowserPageSession session, String uri) {
         super.setURI(uri);
-        this.httpSession = httpSession;
+        this.session = session;
+        this.contextPath = contextPath;
     }
 
     @Override
@@ -52,7 +55,7 @@ public class IndexPage extends BrowserPage {
         // Here you can return layout template based on condition, Eg if the
         // user is logged in then return DashboardPageLayout otherwise
         // return LoginPageLayout
-        return new IndexPageLayout(this, httpSession);
+        return new IndexPageLayout(this, session, contextPath);
     }
 
     @Override
@@ -74,8 +77,8 @@ public class IndexPage extends BrowserPage {
         layout.buildMainDivTags();
     }
 
-    public HttpSession getHttpSession() {
-        return httpSession;
+    public BrowserPageSession getSession() {
+        return session;
     }
 
 }

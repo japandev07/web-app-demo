@@ -2,6 +2,7 @@ package com.webfirmframework.ui.page.template;
 
 import com.webfirmframework.ui.page.common.GlobalSTC;
 import com.webfirmframework.ui.page.css.Bootstrap5CssClass;
+import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
 import com.webfirmframework.wffweb.tag.html.H3;
 import com.webfirmframework.wffweb.tag.html.attribute.For;
@@ -21,7 +22,6 @@ import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.webfirmframework.wffweb.tag.repository.TagRepository;
 import com.webfirmframework.wffweb.wffbm.data.BMValueType;
 import com.webfirmframework.wffweb.wffbm.data.WffBMObject;
-import com.webfirmframework.ui.page.model.DocumentModel;
 
 import java.time.Clock;
 import java.time.ZonedDateTime;

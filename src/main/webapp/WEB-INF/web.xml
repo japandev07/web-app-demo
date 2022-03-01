@@ -5,7 +5,7 @@
          id="WebApp_ID" version="3.1">
     <display-name>production-sample-with-bootstrap5-css</display-name>
 
-    <!-- Note: this file is not explicitly configured in the embedded tomcat so it will be ignored. The welcome file is programmatically set in the main method. -->
+    <!-- Note: The file is programmatically set in the main method so the below welcome files will be ignored. -->
     <welcome-file-list>
         <welcome-file>ui</welcome-file>
         <welcome-file>index.jsp</welcome-file>

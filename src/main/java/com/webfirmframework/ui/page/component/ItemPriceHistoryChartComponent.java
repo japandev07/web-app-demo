@@ -28,7 +28,9 @@ public class ItemPriceHistoryChartComponent extends Div {
     private static final ScheduledExecutorService SCHEDULED_THREAD_POOL = Executors.newScheduledThreadPool(1);
 
     private final DocumentModel documentModel;
+
     private final long itemId;
+
     private volatile ScheduledFuture<?> scheduledFuture;
 
     public ItemPriceHistoryChartComponent(DocumentModel documentModel, long itemId) {
