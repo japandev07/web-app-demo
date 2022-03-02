@@ -21,7 +21,8 @@ After deployed to Heroku, set the following config vars in Heroku Settings
 ##### To run this project in your local machine, open this project with IntelliJ IDEA as a maven project and run `com.webfirmframework.web.launcher.Main.main` method.
 
 ### How to scale app with multiple nodes?
-The only thing you have to do is to deploy this app in multiple server nodes and connect it with a load balancer.
+The only thing you have to do is to deploy this app in multiple server nodes and connect it with a load balancer. 
+**No need to configure sticky sessions to the load balancer**.
 
 _(use our own domain names)_
 
