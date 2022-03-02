@@ -24,7 +24,7 @@ After deployed to Heroku, set the following config vars in Heroku Settings
 The only thing you have to do is to deploy this app in multiple server nodes and connect it with a load balancer. 
 **No need to configure sticky sessions to the load balancer**.
 
-_(use our own domain names)_
+_(use your own domain names)_
 
 **Eg**: _deploy this wffweb demo app in multiple domain nodes like node1.webfirmframework.com, node2.webfirmframework.com, node2.webfirmframework.com etc... 
 Now create a load balancer in the main domain webfirmframework.com and point it to those subdomain nodes. That's all!_
