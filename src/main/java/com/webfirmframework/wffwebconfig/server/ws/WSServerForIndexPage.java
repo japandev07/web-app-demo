@@ -182,16 +182,27 @@ public class WSServerForIndexPage extends Configurator {
      * String.
      */
     @OnMessage
-    public void onMessage(ByteBuffer message, boolean last, Session session) {
-
-        payloadProcessor.webSocketMessaged(message, last);
-
-        if (last && message.capacity() == 0) {
-            LOGGER.info("client ping message.length == 0");
-            HeartbeatManager hbm = heartbeatManager;
-            if (hbm != null) {
-                LOGGER.info("going to start httpsession hearbeat");
-                hbm.runAsync();
+    public void onMessage(ByteBuffer msgPart, boolean last, Session session) {
+        final PayloadProcessor payloadProcessor = this.payloadProcessor;
+        if (payloadProcessor != null) {
+            payloadProcessor.webSocketMessaged(msgPart, last);
+            if (last && msgPart.capacity() == 0) {
+                LOGGER.info("client ping message.length == 0");
+                HeartbeatManager hbm = heartbeatManager;
+                if (hbm != null) {
+                    LOGGER.info("going to start httpsession hearbeat");
+                    hbm.runAsync();
+                }
+            }
+        } else {
+            LOGGER.info("payloadProcessor is null so reloading the page");
+            try {
+                // or refresh the browser
+                session.getBasicRemote().sendBinary(
+                        BrowserPageAction.RELOAD.getActionByteBuffer());
+                session.close();
+            } catch (IOException e) {
+                // NOP
             }
         }
     }
