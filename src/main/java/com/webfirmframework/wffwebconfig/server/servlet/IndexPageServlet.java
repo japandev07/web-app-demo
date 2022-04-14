@@ -75,6 +75,7 @@ public class IndexPageServlet extends HttpServlet {
                             JSONObject json = TokenUtil.getPayloadFromJWT(cookie.getValue());
                             final Object id = json != null ? json.get("id") : null;
                             httpSessionId = id != null ? String.valueOf(id) : null;
+                            break;
                         }
                     }
                 }
@@ -89,6 +90,7 @@ public class IndexPageServlet extends HttpServlet {
             }
         } else {
             session = request.getSession();
+            httpSessionId = session.getId();
             session.setMaxInactiveInterval(ServerConstants.SESSION_TIMEOUT_SECONDS);
         }
 

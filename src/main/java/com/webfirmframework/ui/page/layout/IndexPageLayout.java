@@ -56,9 +56,7 @@ public class IndexPageLayout extends Html {
 
 
         new Head(this).give(head -> {
-            new TitleTag(head) {{
-                new NoTag(this, "wffweb with bootstrap 5 css example");
-            }};
+            new TitleTag(head).give(TagContent::text, "wffweb with bootstrap 5 css example");
             new Meta(head,
                     new Charset("utf-8"));
             new Meta(head,
