@@ -52,21 +52,15 @@ public class IndexPage extends BrowserPage {
 
     @Override
     public AbstractHtml render() {
-        // Here you can return layout template based on condition, Eg if the
-        // user is logged in then return DashboardPageLayout otherwise
-        // return LoginPageLayout
+        // Here you can return layout template based on condition,
+        // if you are returning conditional layouts then
+        // you also have to type check in onInitialClientPing methods
         return new IndexPageLayout(this, session, contextPath);
     }
 
     @Override
     protected void afterRender(AbstractHtml rootTag) {
-        super.addServerMethod("urlPathChanged", new ServerMethod() {
-            @Override
-            public WffBMObject invoke(Event event) {
-                IndexPage.super.setURI((String) event.data().getValue("path"));
-                return null;
-            }
-        });
+        //Here you can add custom server methods (super.addServerMethod) etc...
     }
 
     // this is new since 3.0.18
