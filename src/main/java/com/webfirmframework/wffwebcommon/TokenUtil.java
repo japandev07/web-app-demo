@@ -1,4 +1,4 @@
-package com.webfirmframework.ui.page.common;
+package com.webfirmframework.wffwebcommon;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

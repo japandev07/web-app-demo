@@ -4,6 +4,7 @@ import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.InvalidValueException;
 import com.webfirmframework.wffweb.server.page.LocalStorage;
 import com.webfirmframework.wffweb.util.URIUtil;
+import com.webfirmframework.wffwebcommon.TokenUtil;
 
 import java.util.Map;
 import java.util.function.Predicate;

@@ -2,7 +2,6 @@ package com.webfirmframework.ui.page.component;
 
 import com.webfirmframework.ui.page.common.GlobalSTC;
 import com.webfirmframework.ui.page.common.NavigationURI;
-import com.webfirmframework.ui.page.common.TokenUtil;
 import com.webfirmframework.ui.page.css.Bootstrap5CssClass;
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.ui.page.template.SampleTemplate1;
@@ -17,6 +16,8 @@ import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
 import com.webfirmframework.wffweb.util.URIUtil;
+import com.webfirmframework.wffwebcommon.TokenUtil;
+
 import org.json.JSONObject;
 
 import java.time.Clock;

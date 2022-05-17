@@ -1,8 +1,8 @@
 package com.webfirmframework.wffwebconfig.server.servlet;
 
-import com.webfirmframework.ui.page.common.TokenUtil;
 import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.server.page.BrowserPageSession;
+import com.webfirmframework.wffwebcommon.TokenUtil;
 import com.webfirmframework.wffwebconfig.page.IndexPage;
 import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
 import jakarta.servlet.ServletException;

@@ -2,7 +2,6 @@ package com.webfirmframework.ui.page.component;
 
 import com.webfirmframework.ui.page.common.GlobalSTC;
 import com.webfirmframework.ui.page.common.NavigationURI;
-import com.webfirmframework.ui.page.common.TokenUtil;
 import com.webfirmframework.ui.page.css.Bootstrap5CssClass;
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
@@ -20,6 +19,7 @@ import com.webfirmframework.wffweb.tag.html.html5.attribute.Placeholder;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
 import com.webfirmframework.wffweb.wffbm.data.WffBMByteArray;
+import com.webfirmframework.wffwebcommon.TokenUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;

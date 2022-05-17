@@ -1,7 +1,6 @@
 package com.webfirmframework.ui.page.layout;
 
 import com.webfirmframework.ui.page.common.NavigationURI;
-import com.webfirmframework.ui.page.common.TokenUtil;
 import com.webfirmframework.ui.page.component.LoginComponent;
 import com.webfirmframework.ui.page.component.RealtimeServerLogComponent;
 import com.webfirmframework.ui.page.component.UserAccountComponent;
@@ -24,6 +23,7 @@ import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Span;
 import com.webfirmframework.wffweb.tag.htmlwff.NoTag;
 import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
+import com.webfirmframework.wffwebcommon.TokenUtil;
 
 import java.util.logging.Logger;
 
