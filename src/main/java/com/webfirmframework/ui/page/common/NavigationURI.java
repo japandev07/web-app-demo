@@ -2,6 +2,7 @@ package com.webfirmframework.ui.page.common;
 
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.InvalidValueException;
+import com.webfirmframework.wffweb.common.URIEvent;
 import com.webfirmframework.wffweb.server.page.LocalStorage;
 import com.webfirmframework.wffweb.util.URIUtil;
 import com.webfirmframework.wffwebcommon.TokenUtil;
@@ -45,18 +46,18 @@ public enum NavigationURI {
     }
 
 
-    public Predicate<String> getPredicate(DocumentModel documentModel) {
+    public Predicate<URIEvent> getPredicate(DocumentModel documentModel) {
 
         LocalStorage localStorage = documentModel.session().localStorage();
         String contextPath = documentModel.contextPath();
         if (NavigationURI.LOGIN.equals(this)) {
-            return uri -> !TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && contextPath.concat(this.uri).equals(uri);
+            return uriEvent -> !TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && contextPath.concat(this.uri).equals(uriEvent.uriAfter());
         }
         if (!loginRequired && !parentPath) {
             if (patternType) {
-                return uri -> {
+                return uriEvent -> {
                     try {
-                        Map<String, String> pathParamValues = URIUtil.parseValues(this.uri, uri);
+                        Map<String, String> pathParamValues = URIUtil.parseValues(this.uri, uriEvent.uriAfter());
                         return pathParamValues.size() > 0;
                     } catch (InvalidValueException e) {
                         //NOP
@@ -64,20 +65,20 @@ public enum NavigationURI {
                     return false;
                 };
             } else {
-                return uri -> contextPath.concat(this.uri).equals(uri);
+                return uriEvent -> contextPath.concat(this.uri).equals(uriEvent.uriAfter());
             }
         }
         if (loginRequired && parentPath) {
             if (patternType) {
-                return uri -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && URIUtil.patternMatchesBase(this.uri, uri);
+                return uriEvent -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && URIUtil.patternMatchesBase(this.uri, uriEvent.uriAfter());
             }
-            return uri -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && uri.startsWith(contextPath.concat(this.uri));
+            return uriEvent -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && uriEvent.uriAfter().startsWith(contextPath.concat(this.uri));
         } else if (loginRequired) {
             if (patternType) {
-                return uri -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && URIUtil.patternMatches(this.uri, uri);
+                return uriEvent -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && URIUtil.patternMatches(this.uri, uriEvent.uriAfter());
             }
         }
-        return uri -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && uri.equals(contextPath.concat(this.uri));
+        return uriEvent -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && uriEvent.uriAfter().equals(contextPath.concat(this.uri));
     }
 
     public String getUri(DocumentModel documentModel) {
