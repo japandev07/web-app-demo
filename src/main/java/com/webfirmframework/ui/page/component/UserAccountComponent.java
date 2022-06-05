@@ -64,10 +64,11 @@ public class UserAccountComponent extends Div {
                     return null;
                 }))
                 .give(TagContent::text, "Logout");
-
+        
 
         new Br(this);
         new Br(this);
+
 
         final String realtimeLogURI = NavigationURI.REALTIME_SERVER_LOG.getUri(documentModel);
         //navigation using server side setURI method
@@ -91,6 +92,15 @@ public class UserAccountComponent extends Div {
         new Br(this);
         new Br(this);
 
+        new A(this,
+                Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
+                new Href(itemsURI),
+                new OnClick("event.preventDefault(); wffAsync.setURI('" + itemsURI + "', null, null, true);"))
+                .give(TagContent::text, "View Items with replace true");
+
+        new Br(this);
+        new Br(this);
+
         final String addItemURI = NavigationURI.ADD_ITEM.getUri(documentModel);
         //navigation using server side setURI method
         new A(this,
@@ -104,6 +114,22 @@ public class UserAccountComponent extends Div {
                     return null;
                 }, null, "loadingIcon.hidden = true;"))
                 .give(TagContent::text, "Add Item");
+
+
+        new Br(this);
+        new Br(this);
+
+        new A(this,
+                Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
+                new Href(addItemURI),
+                new OnClick("""
+                        event.preventDefault();
+                        loadingIcon.hidden = false;
+                        return true;""", event -> {
+                    documentModel.browserPage().setURI(NavigationURI.ADD_ITEM.getUri(documentModel), true);
+                    return null;
+                }, null, "loadingIcon.hidden = true;"))
+                .give(TagContent::text, "Add Item with replace true");
 
 
         new Br(this);
