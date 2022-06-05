@@ -1,16 +1,13 @@
 package com.webfirmframework.wffwebconfig.page;
 
-import com.webfirmframework.wffweb.common.URIEventInitiator;
+import java.util.logging.Logger;
+
+import com.webfirmframework.ui.page.layout.IndexPageLayout;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageSession;
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
-import com.webfirmframework.wffweb.tag.html.attribute.event.ServerMethod;
-import com.webfirmframework.wffweb.wffbm.data.WffBMObject;
 import com.webfirmframework.wffwebconfig.AppSettings;
 import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
-import com.webfirmframework.ui.page.layout.IndexPageLayout;
-
-import java.util.logging.Logger;
 
 public class IndexPage extends BrowserPage {
 
