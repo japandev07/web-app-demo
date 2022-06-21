@@ -79,7 +79,7 @@ public class ItemPriceHistoryChartComponent extends Div {
                                 chart.draw(data, options);
                             }
                         };
-                        """);
+                        """.stripIndent());
 
         LocalDate localDate = LocalDate.now().minusYears(2);
         AtomicInteger atomicInteger = new AtomicInteger();

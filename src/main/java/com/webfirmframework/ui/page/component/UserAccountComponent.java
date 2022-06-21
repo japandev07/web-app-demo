@@ -169,14 +169,31 @@ public class UserAccountComponent extends Div {
         new Br(this);
         new Br(this);
 
+        final String sampleFilesUploadUri = NavigationURI.SAMPLE_FILES_UPLOAD.getUri(documentModel);
+        //navigation using server side setURI method
+        new A(this,
+                Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
+                new Href(sampleFilesUploadUri),
+                new OnClick("""
+                        event.preventDefault();
+                        loadingIcon.hidden = false;
+                        return true;""", event -> {
+                    documentModel.browserPage().setURI(sampleFilesUploadUri);
+                    return null;
+                }, null, "loadingIcon.hidden = true;"))
+                .give(TagContent::text, "Sample Files Upload");
+
+        new Br(this);
+        new Br(this);
+
 
         URIStateSwitch widgetDiv = new Div(this);
 
         widgetDiv.whenURI(NavigationURI.VIEW_ITEMS.getPredicate(documentModel),
                 () -> {
-                    documentModel.browserPage().getTagRepository().findTitleTag().give(
-                            TagContent::text, "View Items | User Account | wffweb demo");
                     if (!(widgetDivCurrentChild instanceof ViewItemsComponent)) {
+                        documentModel.browserPage().getTagRepository().findTitleTag().give(
+                                TagContent::text, "View Items | User Account | wffweb demo");
                         widgetDivCurrentChild = new ViewItemsComponent();
                     }
                     return new AbstractHtml[]{widgetDivCurrentChild};
@@ -184,9 +201,9 @@ public class UserAccountComponent extends Div {
 
         widgetDiv.whenURI(NavigationURI.ADD_ITEM.getPredicate(documentModel),
                 () -> {
-                    documentModel.browserPage().getTagRepository().findTitleTag().give(
-                            TagContent::text, "Add Item | User Account | wffweb demo");
                     if (!(widgetDivCurrentChild instanceof AddItemComponent)) {
+                        documentModel.browserPage().getTagRepository().findTitleTag().give(
+                                TagContent::text, "Add Item | User Account | wffweb demo");
                         widgetDivCurrentChild = new AddItemComponent();
                     }
                     return new AbstractHtml[]{widgetDivCurrentChild};
@@ -216,9 +233,10 @@ public class UserAccountComponent extends Div {
 
         widgetDiv.whenURI(NavigationURI.SAMPLE_TEMPLATE1.getPredicate(documentModel),
                 () -> {
-                    documentModel.browserPage().getTagRepository().findTitleTag().give(
-                            TagContent::text, "SampleTemplate1 | User Account | wffweb demo");
+
                     if (!(widgetDivCurrentChild instanceof SampleTemplate1)) {
+                        documentModel.browserPage().getTagRepository().findTitleTag().give(
+                                TagContent::text, "SampleTemplate1 | User Account | wffweb demo");
                         widgetDivCurrentChild = new SampleTemplate1(documentModel);
                     }
                     return new AbstractHtml[]{widgetDivCurrentChild};
@@ -226,9 +244,9 @@ public class UserAccountComponent extends Div {
 
         widgetDiv.whenURI(NavigationURI.SAMPLE_TEMPLATE2.getPredicate(documentModel),
                 () -> {
-                    documentModel.browserPage().getTagRepository().findTitleTag().give(
-                            TagContent::text, "SampleTemplate2 | User Account | wffweb demo");
                     if (!(widgetDivCurrentChild instanceof SampleTemplate2)) {
+                        documentModel.browserPage().getTagRepository().findTitleTag().give(
+                                TagContent::text, "SampleTemplate2 | User Account | wffweb demo");
                         widgetDivCurrentChild = new SampleTemplate2(documentModel);
                     }
                     return new AbstractHtml[]{widgetDivCurrentChild};
@@ -236,10 +254,21 @@ public class UserAccountComponent extends Div {
 
         widgetDiv.whenURI(NavigationURI.REALTIME_CLOCK.getPredicate(documentModel),
                 () -> {
-                    documentModel.browserPage().getTagRepository().findTitleTag().give(
-                            TagContent::text, "RealtimeClock | User Account | wffweb demo");
                     if (!(widgetDivCurrentChild instanceof RealtimeClock)) {
+                        documentModel.browserPage().getTagRepository().findTitleTag().give(
+                                TagContent::text, "RealtimeClock | User Account | wffweb demo");
                         widgetDivCurrentChild = new RealtimeClock(documentModel);
+                    }
+                    return new AbstractHtml[]{widgetDivCurrentChild};
+                });
+
+        widgetDiv.whenURI(NavigationURI.SAMPLE_FILES_UPLOAD.getPredicate(documentModel),
+                () -> {
+
+                    if (!(widgetDivCurrentChild instanceof SampleFilesUploadComponent)) {
+                        documentModel.browserPage().getTagRepository().findTitleTag().give(
+                                TagContent::text, "SampleFilesUploadComponent | User Account | wffweb demo");
+                        widgetDivCurrentChild = new SampleFilesUploadComponent(documentModel);
                     }
                     return new AbstractHtml[]{widgetDivCurrentChild};
                 });

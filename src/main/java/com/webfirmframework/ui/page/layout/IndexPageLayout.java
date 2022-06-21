@@ -72,6 +72,10 @@ public class IndexPageLayout extends Html {
                     new Rel(Rel.STYLESHEET),
                     new Href(contextPath + "/assets/css/app.css"));
 
+            new Script(head,
+                    new Src("https://code.jquery.com/jquery-3.6.0.min.js"),
+                    new CustomAttribute("integrity", "sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="),
+                    new CustomAttribute("crossorigin", "anonymous"));
 
             new Script(head,
                     new Defer(),
