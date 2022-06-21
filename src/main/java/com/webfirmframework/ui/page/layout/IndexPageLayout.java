@@ -3,6 +3,7 @@ package com.webfirmframework.ui.page.layout;
 import com.webfirmframework.ui.page.common.NavigationURI;
 import com.webfirmframework.ui.page.component.LoginComponent;
 import com.webfirmframework.ui.page.component.RealtimeServerLogComponent;
+import com.webfirmframework.ui.page.component.SampleFilesUploadComponent;
 import com.webfirmframework.ui.page.component.UserAccountComponent;
 import com.webfirmframework.ui.page.model.DocumentModel;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
@@ -110,23 +111,27 @@ public class IndexPageLayout extends Html {
             new Span(tag, new ClassAttribute("visually-hidden")).give(TagContent::text, "Loading...");
         });
 
+        //To remove serverMethod added by SampleFilesUploadComponent if the uri is not NavigationURI.SAMPLE_FILES_UPLOAD
+        new NoTag(mainDiv).whenURI(uriEvent -> !NavigationURI.SAMPLE_FILES_UPLOAD.getUri(documentModel).equals(uriEvent.uriAfter()),
+                tagEvent -> documentModel.browserPage().removeServerMethod(SampleFilesUploadComponent.FILE_UPLOAD_SERVER_METHOD));
+
         URIStateSwitch componentDiv = new Div(mainDiv);
 
         componentDiv.whenURI(NavigationURI.LOGIN.getPredicate(documentModel),
                 () -> {
                     if (!(componentDivCurrentChild instanceof LoginComponent)) {
+                        documentModel.browserPage().getTagRepository().findTitleTag().give(
+                                TagContent::text, "Login | wffweb demo");
                         componentDivCurrentChild = new LoginComponent(documentModel);
                     }
-                    documentModel.browserPage().getTagRepository().findTitleTag().give(
-                            TagContent::text, "Login | wffweb demo");
                     return new AbstractHtml[]{componentDivCurrentChild};
                 });
 
         componentDiv.whenURI(NavigationURI.REALTIME_SERVER_LOG.getPredicate(documentModel),
                 () -> {
-                    documentModel.browserPage().getTagRepository().findTitleTag().give(
-                            TagContent::text, "Server Log | User Account | wffweb demo");
                     if (!(componentDivCurrentChild instanceof RealtimeServerLogComponent)) {
+                        documentModel.browserPage().getTagRepository().findTitleTag().give(
+                                TagContent::text, "Server Log | User Account | wffweb demo");
                         componentDivCurrentChild = new RealtimeServerLogComponent();
                     }
                     return new AbstractHtml[]{componentDivCurrentChild};
@@ -134,8 +139,6 @@ public class IndexPageLayout extends Html {
 
         componentDiv.whenURI(NavigationURI.USER.getPredicate(documentModel),
                 () -> {
-                    documentModel.browserPage().getTagRepository().findTitleTag().give(
-                            TagContent::text, "User Account | wffweb demo");
                     if (!(componentDivCurrentChild instanceof UserAccountComponent)) {
                         componentDivCurrentChild = new UserAccountComponent(documentModel);
                     }

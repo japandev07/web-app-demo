@@ -31,6 +31,8 @@ import java.util.UUID;
 
 public class SampleFilesUploadComponent extends Div {
 
+    public static final String FILE_UPLOAD_SERVER_METHOD = "fileUploadServerMethod";
+
     private final DocumentModel documentModel;
 
     public SampleFilesUploadComponent(DocumentModel documentModel) {
@@ -51,9 +53,9 @@ public class SampleFilesUploadComponent extends Div {
         new Br(this);
         Div displayMsgDiv = new Div(null);
 
-        final String fileUploadServerMethod = "fileUploadServerMethod";
 
-        documentModel.browserPage().addServerMethod(fileUploadServerMethod, event -> {
+
+        documentModel.browserPage().addServerMethod(FILE_UPLOAD_SERVER_METHOD, event -> {
 
             displayMsgDiv.removeAllChildren();
 
@@ -140,7 +142,7 @@ public class SampleFilesUploadComponent extends Div {
                   }
                 });
                 return false;
-                """.formatted(documentModel.session().id(), documentModel.browserPage().getInstanceId(), fileUploadServerMethod, fileSecretKey).stripIndent(),
+                """.formatted(documentModel.session().id(), documentModel.browserPage().getInstanceId(), FILE_UPLOAD_SERVER_METHOD, fileSecretKey).stripIndent(),
                 event -> {
 
 
