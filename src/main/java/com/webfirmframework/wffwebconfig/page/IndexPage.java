@@ -6,6 +6,7 @@ import com.webfirmframework.ui.page.layout.IndexPageLayout;
 import com.webfirmframework.wffweb.server.page.BrowserPage;
 import com.webfirmframework.wffweb.server.page.BrowserPageSession;
 import com.webfirmframework.wffweb.tag.html.AbstractHtml;
+import com.webfirmframework.wffweb.tag.html.attribute.event.ServerMethod;
 import com.webfirmframework.wffwebconfig.AppSettings;
 import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
 
@@ -13,7 +14,6 @@ public class IndexPage extends BrowserPage {
 
     private static final long serialVersionUID = 1L;
 
-    @SuppressWarnings("unused")
     private static final Logger LOGGER = Logger.getLogger(IndexPage.class.getName());
 
     // this is a standard interval
@@ -25,7 +25,7 @@ public class IndexPage extends BrowserPage {
     private final String contextPath;
 
     public IndexPage(String contextPath, BrowserPageSession session, String uri) {
-        super.setURI(uri);
+        super.setURI(contextPath + uri);
         this.session = session;
         this.contextPath = contextPath;
     }
@@ -57,7 +57,12 @@ public class IndexPage extends BrowserPage {
 
     @Override
     protected void afterRender(AbstractHtml rootTag) {
-        //Here you can add custom server methods (super.addServerMethod) etc...
+        // Here you can add custom server methods (super.addServerMethod) etc...
+        addServerMethod("customServerMethod1", (ServerMethod) event -> {
+            LOGGER.info("customServerMethod1 invoked with data = " + event.data());
+            return null;
+        });
+        // ServerMethod can be added from anywhere using browserPage.addServerMethod
     }
 
     // this is new since 3.0.18
