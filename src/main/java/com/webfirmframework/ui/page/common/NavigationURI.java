@@ -28,6 +28,8 @@ public enum NavigationURI {
 
     REALTIME_CLOCK("/ui/user/realtimeclock", false, false, true),
 
+    SAMPLE_FILES_UPLOAD("/ui/user/samplefilesupload", false, false, true),
+
     REALTIME_SERVER_LOG("/ui/realtime-server-log", false, false, true);
 
     private final String uri;
