@@ -106,6 +106,8 @@ public class IndexPageLayout extends Html {
 
     public void buildMainDivTags() {
 
+        documentModel.browserPage().addServerMethod("customServerMethod1", new CustomServerMethod());
+
         mainDiv.removeAllChildren();
         //common progress icon
         new Div(mainDiv, new Hidden(), new Id("loadingIcon"), new ClassAttribute("spinner-border text-primary"), new Role(Role.STATUS)).give(tag -> {

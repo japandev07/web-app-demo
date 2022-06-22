@@ -186,6 +186,15 @@ public class UserAccountComponent extends Div {
         new Br(this);
         new Br(this);
 
+        //calling custom Server Method
+        new A(this,
+                Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
+                new OnClick("event.preventDefault(); invokeServerMethod();"))
+                .give(TagContent::text, "Call custom ServerMethod");
+
+        new Br(this);
+        new Br(this);
+
 
         URIStateSwitch widgetDiv = new Div(this);
 

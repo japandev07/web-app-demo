@@ -58,11 +58,13 @@ public class IndexPage extends BrowserPage {
     @Override
     protected void afterRender(AbstractHtml rootTag) {
         // Here you can add custom server methods (super.addServerMethod) etc...
-        addServerMethod("customServerMethod1", (ServerMethod) event -> {
-            LOGGER.info("customServerMethod1 invoked with data = " + event.data());
+        addServerMethod("customServerMethodSample1", (ServerMethod) event -> {
+            LOGGER.info("customServerMethodSample1 invoked with data = " + event.data());
             return null;
         });
         // ServerMethod can be added from anywhere using browserPage.addServerMethod
+        // better place is to write it inside IndexPageLayout.buildMainDivTags method as it will invoke only after browse page is loaded.
+        // sample for customServerMethod1 is included in IndexPageLayout.buildMainDivTags method.
     }
 
     // this is new since 3.0.18
