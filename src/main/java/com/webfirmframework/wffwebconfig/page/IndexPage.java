@@ -25,7 +25,7 @@ public class IndexPage extends BrowserPage {
     private final String contextPath;
 
     public IndexPage(String contextPath, BrowserPageSession session, String uri) {
-        super.setURI(contextPath + uri);
+        super.setURI(uri);
         this.session = session;
         this.contextPath = contextPath;
     }

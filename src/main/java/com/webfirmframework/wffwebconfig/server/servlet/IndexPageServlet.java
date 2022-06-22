@@ -64,6 +64,8 @@ public class IndexPageServlet extends HttpServlet {
         //NB: it is required to work "Reopen Closed Tab"
         response.setHeader("Cache-Control", "no-store");
 
+        final String contextPath = request.getServletContext().getContextPath();
+
         String httpSessionId = null;
         HttpSession session = null;
         if (ServerConstants.MULTI_NODE_MODE) {
@@ -83,7 +85,7 @@ public class IndexPageServlet extends HttpServlet {
             if (httpSessionId == null) {
                 httpSessionId = UUID.randomUUID().toString();
                 Cookie cookie = new Cookie(ServerConstants.WFFWEB_TOKEN_COOKIE, TokenUtil.createJWT(Map.of("id", httpSessionId)));
-                cookie.setPath("/ui");
+                cookie.setPath(contextPath + "/ui");
                 cookie.setMaxAge(-1);
                 cookie.setHttpOnly(true);
                 response.addCookie(cookie);
@@ -99,7 +101,7 @@ public class IndexPageServlet extends HttpServlet {
             bpSession.setWeakProperty("httpSession", session);
         }
 
-        IndexPage indexPage = new IndexPage(request.getServletContext().getContextPath(), bpSession, request.getRequestURI());
+        IndexPage indexPage = new IndexPage(contextPath, bpSession, contextPath + request.getRequestURI());
 
         BrowserPageContext.INSTANCE.addBrowserPage(httpSessionId,
                 indexPage);
