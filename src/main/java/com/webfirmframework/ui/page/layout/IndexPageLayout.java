@@ -81,11 +81,11 @@ public class IndexPageLayout extends Html {
 
             new Link(head,
                     new Rel(Rel.STYLESHEET),
-                    new Href(contextPath + "/assets/css/app.css"));
+                    new Href(contextPath + "/assets/css/app.css?v=1"));
 
             new Script(head,
                     new Defer(),
-                    new Src(contextPath + "/assets/js/app.js"));
+                    new Src(contextPath + "/assets/js/app.js?v=1"));
 
         });
 
