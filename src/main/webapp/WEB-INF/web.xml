@@ -8,7 +8,7 @@
     <!-- Note: The file is programmatically set in the main method so the below welcome files will be ignored. -->
     <welcome-file-list>
         <welcome-file>demo/ui</welcome-file>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>demo/index.jsp</welcome-file>
     </welcome-file-list>
 
     <session-config>
