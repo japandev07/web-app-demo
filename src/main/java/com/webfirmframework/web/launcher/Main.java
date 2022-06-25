@@ -83,7 +83,7 @@ public class Main {
         if (!webContentFolder.exists()) {
             webContentFolder = Files.createTempDirectory("default-doc-base").toFile();
         }
-        StandardContext ctx = (StandardContext) tomcat.addWebapp(contextPath, webContentFolder.getAbsolutePath());
+        StandardContext ctx = (StandardContext) tomcat.addWebapp("", webContentFolder.getAbsolutePath());
         //Set execution independent of current thread context classloader (compatibility with exec:java mojo)
         ctx.setParentClassLoader(Main.class.getClassLoader());
 
