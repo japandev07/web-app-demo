@@ -51,12 +51,6 @@ public class Main {
         //Look for that variable and default to 8080 if it isn't there.
         String webPort = ServerConstants.LOCAL_MACHINE_PORT;
 
-        //should not start with /
-        String contextPath = System.getenv("CUSTOM_CONTEXT_PATH");
-        if (contextPath == null) {
-            contextPath = "";
-        }
-
         int port = Integer.parseInt(webPort);
         final Properties systemProperties = System.getProperties();
 
@@ -89,7 +83,7 @@ public class Main {
         if (!webContentFolder.exists()) {
             webContentFolder = Files.createTempDirectory("default-doc-base").toFile();
         }
-        StandardContext ctx = (StandardContext) tomcat.addWebapp(contextPath, webContentFolder.getAbsolutePath());
+        StandardContext ctx = (StandardContext) tomcat.addWebapp("", webContentFolder.getAbsolutePath());
         //Set execution independent of current thread context classloader (compatibility with exec:java mojo)
         ctx.setParentClassLoader(Main.class.getClassLoader());
 
