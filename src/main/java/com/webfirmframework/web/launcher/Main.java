@@ -51,12 +51,6 @@ public class Main {
         //Look for that variable and default to 8080 if it isn't there.
         String webPort = ServerConstants.LOCAL_MACHINE_PORT;
 
-        //should not start with /
-        String contextPath = System.getenv("CUSTOM_CONTEXT_PATH");
-        if (contextPath == null) {
-            contextPath = "";
-        }
-
         int port = Integer.parseInt(webPort);
         final Properties systemProperties = System.getProperties();
 
