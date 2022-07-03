@@ -17,6 +17,7 @@ import com.webfirmframework.wffweb.tag.html.stylesandsemantics.Div;
 import com.webfirmframework.wffweb.tag.htmlwff.TagContent;
 import com.webfirmframework.wffwebcommon.FileUtil;
 import com.webfirmframework.wffwebcommon.UploadedFilesData;
+import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
 import jakarta.servlet.http.Part;
 
 import java.io.ByteArrayOutputStream;
@@ -114,6 +115,7 @@ public class SampleFilesUploadComponent extends Div {
             return null;
         });
 
+        final String fileUploadURL = ServerConstants.DOMAIN_URL + documentModel.contextPath() + ServerConstants.FILE_UPLOAD_URI;
         new Form(this, new Id("fileUploadForm"), new OnSubmit(true, """
                 loadingIcon.hidden = false;
                 fileUploadSubmitBtn.setAttribute('disabled', 'disabled');
@@ -126,7 +128,7 @@ public class SampleFilesUploadComponent extends Div {
                 formData.append('serverMethod', '%s');
                 formData.append('fileSecretKey', '%s');
                 $.ajax({
-                  url: "/ui/file-upload",
+                  url: "%s",
                   type: 'post',
                   data: formData,
                   contentType: false,
@@ -142,7 +144,11 @@ public class SampleFilesUploadComponent extends Div {
                   }
                 });
                 return false;
-                """.formatted(documentModel.session().id(), documentModel.browserPage().getInstanceId(), FILE_UPLOAD_SERVER_METHOD, fileSecretKey).stripIndent(),
+                """.formatted(documentModel.session().id(),
+                documentModel.browserPage().getInstanceId(),
+                FILE_UPLOAD_SERVER_METHOD,
+                fileSecretKey,
+                fileUploadURL).stripIndent(),
                 event -> {
 
 

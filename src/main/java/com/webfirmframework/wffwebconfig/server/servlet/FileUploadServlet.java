@@ -5,6 +5,7 @@ import com.webfirmframework.wffweb.server.page.BrowserPageContext;
 import com.webfirmframework.wffweb.server.page.BrowserPageSession;
 import com.webfirmframework.wffwebcommon.FileUtil;
 import com.webfirmframework.wffwebcommon.UploadedFilesData;
+import com.webfirmframework.wffwebconfig.server.constants.ServerConstants;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,7 +22,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "FileUploadServlet", urlPatterns = {"/ui/file-upload"})
+@WebServlet(name = "FileUploadServlet", urlPatterns = {ServerConstants.FILE_UPLOAD_URI})
 @MultipartConfig
 public class FileUploadServlet extends HttpServlet {
 
