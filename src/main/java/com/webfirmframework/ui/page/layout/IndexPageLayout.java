@@ -39,10 +39,6 @@ public class IndexPageLayout extends Html {
 
     private Div mainDiv;
 
-    // no need use volatile modifier, the framework internally handles it unless
-    // the value is assigned via a custom thread.
-    private AbstractHtml componentDivCurrentChild;
-
     public IndexPageLayout(BrowserPage browserPage, BrowserPageSession session, String contextPath) {
         super(null);
         super.setPrependDocType(true);
@@ -120,33 +116,22 @@ public class IndexPageLayout extends Html {
 
         URIStateSwitch componentDiv = new Div(mainDiv);
 
-        componentDiv.whenURI(NavigationURI.LOGIN.getPredicate(documentModel),
+        componentDiv.whenURI(NavigationURI.LOGIN.getPredicate(documentModel, componentDiv),
                 () -> {
-                    if (!(componentDivCurrentChild instanceof LoginComponent)) {
-                        documentModel.browserPage().getTagRepository().findTitleTag().give(
-                                TagContent::text, "Login | wffweb demo");
-                        componentDivCurrentChild = new LoginComponent(documentModel);
-                    }
-                    return new AbstractHtml[]{componentDivCurrentChild};
+                    documentModel.browserPage().getTagRepository().findTitleTag().give(
+                            TagContent::text, "Login | wffweb demo");
+                    return new AbstractHtml[]{new LoginComponent(documentModel)};
                 });
 
-        componentDiv.whenURI(NavigationURI.REALTIME_SERVER_LOG.getPredicate(documentModel),
+        componentDiv.whenURI(NavigationURI.REALTIME_SERVER_LOG.getPredicate(documentModel, componentDiv),
                 () -> {
-                    if (!(componentDivCurrentChild instanceof RealtimeServerLogComponent)) {
-                        documentModel.browserPage().getTagRepository().findTitleTag().give(
-                                TagContent::text, "Server Log | User Account | wffweb demo");
-                        componentDivCurrentChild = new RealtimeServerLogComponent();
-                    }
-                    return new AbstractHtml[]{componentDivCurrentChild};
+                    documentModel.browserPage().getTagRepository().findTitleTag().give(
+                            TagContent::text, "Server Log | User Account | wffweb demo");
+                    return new AbstractHtml[]{new RealtimeServerLogComponent()};
                 });
 
-        componentDiv.whenURI(NavigationURI.USER.getPredicate(documentModel),
-                () -> {
-                    if (!(componentDivCurrentChild instanceof UserAccountComponent)) {
-                        componentDivCurrentChild = new UserAccountComponent(documentModel);
-                    }
-                    return new AbstractHtml[]{componentDivCurrentChild};
-                },
+        componentDiv.whenURI(NavigationURI.USER.getPredicate(documentModel, componentDiv),
+                () -> new AbstractHtml[]{new UserAccountComponent(documentModel)},
                 event -> {
 
                     LocalStorage.Item token = documentModel.session().localStorage().getToken("jwtToken");

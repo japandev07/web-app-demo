@@ -26,6 +26,8 @@ public final class ServerConstants {
 
     public static final String INDEX_PAGE_WS_URI = "/ws-for-index-page";
 
+    public static final String FILE_UPLOAD_URI = "/ui/file-upload";
+
     /**
      * must be null initially
      */
