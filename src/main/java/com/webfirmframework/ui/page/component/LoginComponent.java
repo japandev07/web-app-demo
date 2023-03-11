@@ -70,7 +70,7 @@ public class LoginComponent extends Div {
                 //This works well on multi node mode
                 documentModel.browserPage().getTagRepository()
                         .executeJsInOtherBrowserPages(
-                                "wffAsync.setURI('%s');".formatted(NavigationURI.USER.getUri(documentModel)));
+                                "window.setURI('%s');".formatted(NavigationURI.USER.getUri(documentModel)));
                 //navigate to user account page
                 documentModel.browserPage().setURI(NavigationURI.USER.getUri(documentModel));
                 return null;
