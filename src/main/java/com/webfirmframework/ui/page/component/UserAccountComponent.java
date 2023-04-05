@@ -96,6 +96,52 @@ public class UserAccountComponent extends Div {
         new Br(this);
         new Br(this);
 
+        final String viewItemURI = NavigationURI.VIEW_ITEM.getUri(documentModel) + "?itemId=55555";
+        //navigation using server side setURI method
+        new A(this,
+                Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
+                new Href(itemsURI),
+                new OnClick("event.preventDefault(); window.setURI('" + viewItemURI + "');"))
+                .give(TagContent::text, "View Item 55555 by query string param");
+
+        new Br(this);
+        new Br(this);
+
+        final String viewItemURI2 = NavigationURI.VIEW_ITEM.getUri(documentModel) + "?itemId=14";
+        //navigation using server side setURI method
+        new A(this,
+                Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
+                new Href(itemsURI),
+                new OnClick("event.preventDefault(); window.setURI('" + viewItemURI2 + "');"))
+                .give(TagContent::text, "View Item 14 by query string param");
+
+        new Br(this);
+        new Br(this);
+
+
+        final String viewItemURI3 = NavigationURI.VIEW_ITEM.getUri(documentModel) + "?itemId=14#hash1";
+        //navigation using server side setURI method
+        new A(this,
+                Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
+                new Href(viewItemURI3),
+                new OnClick("event.preventDefault(); window.setURI('" + viewItemURI3 + "');"))
+                .give(TagContent::text, "View Item 14 by query string param hash1");
+
+        new Br(this);
+        new Br(this);
+
+        final String viewItemURI4 = NavigationURI.VIEW_ITEM.getUri(documentModel) + "?itemId=14#hash2";
+        //navigation using server side setURI method
+        new A(this,
+                Bootstrap5CssClass.BTN_PRIMARY.getAttribute(),
+                new Href(viewItemURI4),
+                new OnClick("event.preventDefault(); window.setURI('" + viewItemURI4 + "');"))
+                .give(TagContent::text, "View Item 14 by query string param hash2");
+
+        new Br(this);
+        new Br(this);
+
+
         final String addItemURI = NavigationURI.ADD_ITEM.getUri(documentModel);
         //navigation using server side setURI method
         new A(this,
@@ -238,6 +284,14 @@ public class UserAccountComponent extends Div {
                     }
                     return new AbstractHtml[]{new ItemPriceHistoryChartComponent(documentModel, itemId)};
                 });
+
+        widgetDiv.whenURI(NavigationURI.VIEW_ITEM.getPredicate(documentModel, widgetDiv),
+                () -> {
+                    documentModel.browserPage().getTagRepository().findTitleTag().give(
+                            TagContent::text, "View Item | User Account | wffweb demo");
+                    return new AbstractHtml[]{new ViewItem(documentModel)};
+                });
+
 
         widgetDiv.whenURI(NavigationURI.SAMPLE_TEMPLATE1.getPredicate(documentModel, widgetDiv),
                 () -> {

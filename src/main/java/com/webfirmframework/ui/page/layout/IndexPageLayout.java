@@ -81,7 +81,7 @@ public class IndexPageLayout extends Html {
 
             new Script(head,
                     new Defer(),
-                    new Src(contextPath + "/assets/js/app.js?v=2"));
+                    new Src(contextPath + "/assets/js/app.js?v=3"));
 
         });
 
