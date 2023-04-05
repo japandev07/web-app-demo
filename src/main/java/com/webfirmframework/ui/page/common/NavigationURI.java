@@ -19,6 +19,8 @@ public enum NavigationURI {
 
     VIEW_ITEMS("/ui/user/items/view", false, false, true),
 
+    VIEW_ITEM("/ui/user/item/view", false, true, true),
+
     ADD_ITEM("/ui/user/items/add", false, false, true),
 
     ITEM_PRICE_HISTORY_CHART("/ui/user/items/pricehistory/{itemId}", false, true, true),
@@ -37,20 +39,20 @@ public enum NavigationURI {
 
     private final boolean parentPath;
 
-    private final boolean patternType;
+    private final boolean patternOrQueryParamType;
 
     private final boolean loginRequired;
 
     /**
      * @param uri
      * @param parentPath
-     * @param patternType   true if the uri contains path params
+     * @param patternOrQueryParamType   true if the uri contains path params
      * @param loginRequired
      */
-    NavigationURI(String uri, boolean parentPath, boolean patternType, boolean loginRequired) {
+    NavigationURI(String uri, boolean parentPath, boolean patternOrQueryParamType, boolean loginRequired) {
         this.uri = uri;
         this.parentPath = parentPath;
-        this.patternType = patternType;
+        this.patternOrQueryParamType = patternOrQueryParamType;
         this.loginRequired = loginRequired;
     }
 
@@ -59,67 +61,52 @@ public enum NavigationURI {
     }
 
     public Predicate<URIEvent> getPredicate(DocumentModel documentModel, URIStateSwitch forTag) {
+        if (forTag == null) {
+            throw new IllegalArgumentException("tag is null");
+        }
 
         LocalStorage localStorage = documentModel.session().localStorage();
         String contextPath = documentModel.contextPath();
         if (NavigationURI.LOGIN.equals(this)) {
             return uriEvent -> {
-                if (forTag != null) {
-                    forTag.getCurrentWhenURIProperties().setPreventDuplicateSuccess(true);
-                    forTag.getCurrentWhenURIProperties().setPreventDuplicateFail(true);
-                }
+                forTag.getCurrentWhenURIProperties().setPreventDuplicateSuccess(true);
+                forTag.getCurrentWhenURIProperties().setPreventDuplicateFail(true);
                 return !TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && contextPath.concat(this.uri).equals(uriEvent.uriAfter());
             };
         }
         if (!loginRequired && !parentPath) {
-            if (patternType) {
+            if (patternOrQueryParamType) {
                 //no need to set setPreventDuplicateSuccess(true) and setPreventDuplicateFail(true) for
                 // patternType uri i.e. which contains path params
-                return uriEvent -> {
-                    try {
-                        Map<String, String> pathParamValues = URIUtil.parseValues(this.uri, uriEvent.uriAfter());
-                        return pathParamValues.size() > 0;
-                    } catch (InvalidValueException e) {
-                        //NOP
-                    }
-                    return false;
-                };
+                return uriEvent -> contextPath.concat(this.uri).equals(URIUtil.parse(uriEvent.uriAfter()).pathname());
             } else {
                 return uriEvent -> {
-                    if (forTag != null) {
-                        forTag.getCurrentWhenURIProperties().setPreventDuplicateSuccess(true);
-                        forTag.getCurrentWhenURIProperties().setPreventDuplicateFail(true);
-                    }
-                    return contextPath.concat(this.uri).equals(uriEvent.uriAfter());
+                    forTag.getCurrentWhenURIProperties().setPreventDuplicateSuccess(true);
+                    forTag.getCurrentWhenURIProperties().setPreventDuplicateFail(true);
+                    return contextPath.concat(this.uri).equals(URIUtil.parse(uriEvent.uriAfter()).pathname());
                 };
             }
         }
         if (loginRequired && parentPath) {
-            if (patternType) {
-                //no need to set setPreventDuplicateSuccess(true) and setPreventDuplicateFail(true) for
-                // patternType uri i.e. which contains path params
+            if (patternOrQueryParamType) {
                 return uriEvent -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && URIUtil.patternMatchesBase(this.uri, uriEvent.uriAfter());
             }
             return uriEvent -> {
-                if (forTag != null) {
-                    forTag.getCurrentWhenURIProperties().setPreventDuplicateSuccess(true);
-                    forTag.getCurrentWhenURIProperties().setPreventDuplicateFail(true);
-                }
+                forTag.getCurrentWhenURIProperties().setPreventDuplicateSuccess(true);
+                forTag.getCurrentWhenURIProperties().setPreventDuplicateFail(true);
                 return TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && uriEvent.uriAfter().startsWith(contextPath.concat(this.uri));
             };
         } else if (loginRequired) {
-            if (patternType) {
-                //no need to set setPreventDuplicateSuccess(true) and setPreventDuplicateFail(true) for
-                // patternType uri i.e. which contains path params
+            if (patternOrQueryParamType) {
                 return uriEvent -> TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && URIUtil.patternMatches(this.uri, uriEvent.uriAfter());
             }
         }
         return uriEvent -> {
-            if (forTag != null) {
+            if (!patternOrQueryParamType) {
                 forTag.getCurrentWhenURIProperties().setPreventDuplicateSuccess(true);
                 forTag.getCurrentWhenURIProperties().setPreventDuplicateFail(true);
             }
-            return TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && uriEvent.uriAfter().equals(contextPath.concat(this.uri));
+            return TokenUtil.isValidJWT(localStorage.getToken("jwtToken")) && contextPath.concat(this.uri).equals(URIUtil.parse(uriEvent.uriAfter()).pathname());
         };
     }
 
