@@ -1,4 +1,4 @@
-# wffweb demo app with wffweb-12.0.0-beta.8
+# wffweb demo app with wffweb-12.0.0-beta.9
 #### It contains sample code for url rewriting/routing, JWT token based authentication/authorization and configuration for multi node support for scaling.
 
 [Fork](https://github.com/webfirmframework/wffweb-demo-deployment/fork) and [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
